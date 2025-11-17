@@ -201,6 +201,8 @@ onCompanyChange(event: Event) {
         this.controls['ticket_status'].patchValue(customerData.ticket_status)
         this.controls['assigned_to'].patchValue(customerData.assigned_to)
        this.controls['remarks'].patchValue(customerData.ticketStatusHistory[0].remarks)
+       this.getAllServiceListWma(customerData.customer_id);
+        this.getAllCategoryListWma();
       }
     })
   }

@@ -18,7 +18,7 @@
         <div class="card-body">
           <form [formGroup]="TicketForm">
             <div class="row">
-                 <div class="col-md-4">
+               <div class="col-md-4">
                 <label class="mb-2"
                   >Company <span class="text-danger">*</span></label
                 >
@@ -37,10 +37,10 @@
                     Select Company
                   </option>
                   <option
-                    *ngFor="let item of allCompanyList"
-                    [value]="item.user_id"
+                    *ngFor="let item of allTicketEmployeeStatusList"
+                    [value]="item.customer_id"
                   >
-                    {{ item.user_name | titlecase }}
+                    {{ item.company_name | titlecase }}
                   </option>
                 </select>
                  <div
@@ -86,7 +86,7 @@
                     *ngFor="let source of filteredServiceList"
                     [value]="source.service_id"
                   >
-                    {{ source.name | titlecase }}
+                    {{ source.service_name | titlecase }}
                   </mat-option>
                 </mat-select>
                 <div
