@@ -200,12 +200,14 @@ onCompanyChange(event: Event) {
         const customerData = result.data;
         this.controls['customer_id'].patchValue(customerData.customer_id)
         this.controls['service_id'].patchValue(customerData.service_id)
-        this.controls['ticket_category_id'].patchValue(customerData.ticket_category_id)
         this.controls['department_id'].patchValue(customerData.department_id)
+        this.controls['ticket_category_id'].patchValue(customerData.ticket_category_id)
         this.controls['priority_id'].patchValue(customerData.priority_id)
         this.controls['subject'].patchValue(customerData.subject)
         this.controls['message'].patchValue(customerData.description)
         this.controls['ticket_status'].patchValue(customerData.ticket_status)
+        this.getAllServiceListWma(customerData.customer_id);
+        this.getAllCategoryListWma(customerData.department_id);
          if (customerData.ticket_status?.trim().toLowerCase() === 'open') {
         this.controls['assigned_to'].patchValue(this.userId);
       } else {
