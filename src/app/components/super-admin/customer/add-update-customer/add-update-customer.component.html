@@ -1,0 +1,302 @@
+<div class="container-fluid">
+  <div class="row justify-content-center">
+    <div class="col-md-12 m-3">
+      <div class="card p-3">
+        <div class="card-header d-flex justify-content-between p-3">
+          <strong class="text-dark"
+            >{{ isEdit ? " Edit" : "Add " }} Customer</strong
+          >
+        </div>
+        <div class="card-body">
+          <form [formGroup]="UserForm">
+  <div class="row">
+    <!-- Customer Name -->
+    <div class="mb-3 col-md-4">
+      <label for="user_name" class="mb-1">
+        Customer Name <span class="text-danger">*</span>
+      </label>
+      <input
+        class="form-control mb-1"
+        id="user_name"
+        placeholder="Customer Name"
+        type="text"
+        formControlName="user_name"
+        [ngClass]="{
+          'is-invalid':
+            controls['user_name'].invalid &&
+            (controls['user_name'].dirty || controls['user_name'].touched)
+        }"
+      />
+      <div
+        class="text-danger"
+        *ngIf="
+          controls['user_name'].invalid &&
+          (controls['user_name'].dirty || controls['user_name'].touched)
+        "
+      >
+        <small>Customer Name is Required</small>
+      </div>
+    </div>
+
+    <!-- Email -->
+    <div class="col-md-4 mb-3">
+      <label class="mb-2">Email <span class="text-danger">*</span></label>
+      <input
+        type="email"
+        class="form-control"
+        formControlName="email_id"
+        placeholder="Email"
+        [ngClass]="{
+          'is-invalid':
+            controls['email_id'].invalid &&
+            (controls['email_id'].dirty || controls['email_id'].touched)
+        }"
+      />
+      <div
+        class="text-danger"
+        *ngIf="
+          controls['email_id'].invalid &&
+          (controls['email_id'].dirty || controls['email_id'].touched)
+        "
+      >
+        <small *ngIf="controls['email_id'].errors?.['pattern']">
+          Invalid email format.
+        </small>
+      </div>
+    </div>
+
+    <!-- Phone Number -->
+    <div class="mb-3 col-md-4">
+      <label for="phone_number" class="mb-1">
+        Mobile Number <span class="text-danger">*</span>
+      </label>
+      <input
+        type="text"
+        class="form-control"
+        formControlName="phone_number"
+        placeholder="Mobile Number"
+        maxlength="10"
+        (keypress)="allowOnlyDigits($event)"
+        [ngClass]="{
+          'is-invalid':
+            controls['phone_number'].invalid &&
+            (controls['phone_number'].dirty || controls['phone_number'].touched)
+        }"
+      />
+      <div
+        class="text-danger"
+        *ngIf="
+          controls['phone_number'].invalid &&
+          (controls['phone_number'].dirty || controls['phone_number'].touched)
+        "
+      >
+        <small *ngIf="controls['phone_number'].errors?.['required']">
+          Mobile Number is Required
+        </small>
+        <small *ngIf="controls['phone_number'].errors?.['pattern']">
+          Must be 10 digits
+        </small>
+      </div>
+    </div>
+  </div>
+
+  <!-- Company Info -->
+  <div class="row">
+    <div class="col-md-4 mb-3">
+      <label>Company Name <span class="text-danger">*</span></label>
+      <input
+        type="text"
+        class="form-control"
+        formControlName="company_name"
+        placeholder="Company Name"
+      />
+    </div>
+
+    <div class="col-md-4 mb-3">
+      <label>Address <span class="text-danger">*</span></label>
+      <input
+        type="text"
+        class="form-control"
+        formControlName="address"
+        placeholder="Address"
+      />
+    </div>
+
+    <div class="col-md-4 mb-3">
+      <label>Domain <span class="text-danger">*</span></label>
+      <input
+        type="text"
+        class="form-control"
+        formControlName="domain"
+        placeholder="Domain"
+      />
+    </div>
+  </div>
+
+  <!-- Department, Role, Service & Site -->
+  <div class="row">
+<!-- Department -->
+<div class="col-md-3 mb-3">
+  <label>Department <span class="text-danger">*</span></label>
+  <mat-select
+    placeholder="Select Department"
+    formControlName="department_id"
+    class="form-control"
+    (selectionChange)="onDepartmentChange($event.value)"
+  >
+    <mat-option
+      *ngFor="let item of customerDepartmentList"
+      [value]="item.department_id"
+    >
+      {{ item.department_name | titlecase }}
+    </mat-option>
+  </mat-select>
+</div>
+
+<!-- Role -->
+<div class="col-md-3 mb-3">
+  <label>Role <span class="text-danger">*</span></label>
+  <mat-select
+    placeholder="Select Role"
+    formControlName="role_id"
+    class="form-control"
+  >
+    <mat-option
+      *ngFor="let item of filteredRoleList"
+      [value]="item.role_id"
+    >
+      {{ item.role_name | titlecase }}
+    </mat-option>
+  </mat-select>
+</div>
+
+
+    <!-- Service -->
+<div class="col-md-3 mb-3">
+  <label>Service <span class="text-danger">*</span></label>
+  <ng-multiselect-dropdown
+    [placeholder]="'Select Service'"
+    formControlName="serviceData"
+    [data]="allServiceList"
+    [settings]="dropdownSettings"
+  >
+  </ng-multiselect-dropdown>
+</div>
+
+
+    <!-- Site -->
+    <div class="col-md-3 mb-3">
+      <label>Is Site? <span class="text-danger">*</span></label>
+      <mat-select formControlName="isSite" placeholder="Select Option"  class="form-control">
+        <mat-option [value]="'On-Site'">On-Site</mat-option>
+        <mat-option [value]="'Off-Site'">Off-Site</mat-option>
+      </mat-select>
+    </div>
+  </div>
+
+  <hr *ngIf="UserForm.get('department_id')?.value == 3" />
+
+  <!-- Customer Agent Section -->
+  <div class="card p-3" *ngIf="UserForm.get('department_id')?.value == 3">
+    <div class="row">
+      <div class="col-12">
+        <div class="card-header">
+          <b>Customer Agent</b>
+        </div>
+        <div class="card-body scrollable-body">
+   <div formArrayName="customerAgent">
+  <div
+    *ngFor="let group of customerAgentArray.controls; let i = index"
+    [formGroupName]="i"
+    class="row align-items-end mb-3"
+  >
+    <!-- Department -->
+    <div class="col-md-3">
+      <label>Department <span class="text-danger">*</span></label>
+      <mat-select
+        placeholder="Select Department"
+        formControlName="department_id"
+        class="form-control"
+        (selectionChange)="onDepartmentAgentChange($event.value, i)"
+      >
+        <mat-option
+          *ngFor="let item of agentDepartmentList"
+          [value]="item.department_id"
+        >
+          {{ item.department_name | titlecase }}
+        </mat-option>
+      </mat-select>
+    </div>
+
+    <!-- Customer Agent -->
+    <div class="col-md-3">
+      <label>Customer Agent <span class="text-danger">*</span></label>
+      <mat-select
+        placeholder="Select Agent"
+        formControlName="user_id"
+        class="form-control"
+      >
+        <mat-option
+          *ngFor="let item of userAgentLists[i] || []"
+          [value]="item.user_id"
+          [disabled]="isAgentAlreadySelected(item.user_id, i)"
+        >
+          {{ item.user_name | titlecase }}
+        </mat-option>
+      </mat-select>
+    </div>
+
+    <!-- Add / Remove -->
+    <div class="col-md-3 d-flex align-items-center mt-4">
+      <button
+        *ngIf="i === customerAgentArray.length - 1"
+        class="btn btn-primary btn-sm me-2"
+        (click)="addCustomerAssigned()"
+        type="button"
+      >
+        Add
+      </button>
+
+      <button
+        class="btn btn-danger btn-sm"
+        (click)="deleteMeetingAssigned(i, group.get('agents_id')?.value)"
+        type="button"
+        [disabled]="customerAgentArray.length === 1"
+      >
+        Remove
+      </button>
+    </div>
+  </div>
+</div>
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Buttons -->
+  <hr />
+  <div>
+    <button
+      type="submit"
+      class="btn btn-primary px-4 btn-sm fw-bold"
+      (click)="submit()"
+    >
+      {{ isEdit ? "Update" : "Submit" }}
+    </button>
+    <button
+      type="button"
+      class="btn btn-secondary ms-3 px-4 btn-sm fw-bold"
+      (click)="goToback()"
+    >
+      Cancel
+    </button>
+  </div>
+</form>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

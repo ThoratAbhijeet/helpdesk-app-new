@@ -1,0 +1,230 @@
+<div class="container-fuild">
+  <div class="row h-100 m-0">
+    <div class="side-bar">
+      <div class="logo p-3 text-center cursor-pointer">
+        <img
+          src="assets/image/Tecstaq-new-logo-transeparent.png"
+          alt="tecstaq-crm"
+          [routerLink]="[
+            '/super',
+            { outlets: { super_menu: ['super-admin-dashboard'] } }
+          ]"
+        />
+      </div>
+      <div class="menu">
+        <ul class="nav">
+          <li
+            class="nav-item"
+            routerLinkActive="active"
+            [routerLink]="[
+              '/super',
+              { outlets: { super_menu: ['super-admin-dashboard'] } }
+            ]"
+          >
+            <span
+              ><i
+                class="fa fas Dashboard-icon fa-tachometer-alt me-2"
+              ></i></span
+            >Dashboard
+          </li>
+          <!-- tickets -->
+          <li
+            class="nav-item"
+            routerLinkActive="active"
+            [routerLink]="['/super', { outlets: { super_menu: 'tickets' } }]"
+          >
+            <span><i class="fa fas fa-ticket me-2"></i></span> Tickets
+          </li>
+          <!-- Masters -->
+          <li
+            class="nav-item"
+            routerLinkActive="active"
+            [routerLink]="['/super', { outlets: { super_menu: 'master' } }]"
+          >
+            <span><i class="fa fas fa-layer-group me-2"></i></span> Masters
+          </li>
+          <!-- Customers -->
+          <li
+            class="nav-item"
+            routerLinkActive="active"
+            [routerLink]="['/super', { outlets: { super_menu: 'customer' } }]"
+          >
+            <span><i class="fa fas fa-users me-2"></i></span> Customer
+          </li>
+          <!--    <li class="nav-item accordion-header" id="headingOne">
+            <span>
+              <i class="fa fas fa-layer-group me-2" aria-hidden="true"></i>
+            </span>
+            <button
+              class="accordion-button"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#collapseOne"
+              aria-expanded="false"
+              aria-controls="collapseOne"
+              (click)="handleMasterAccordionClick()"
+            >
+              Masters
+            </button>
+          </li>
+       <ul id="collapseOne" class="accordion-collapse collapse sub-menu">
+            <li
+              class="nav-item sub-nav-item"
+              routerLinkActive="active"
+              [routerLink]="['/super', { outlets: { super_menu: 'module' } }]"
+            >
+              Modules
+            </li>
+            <li
+              class="nav-item sub-nav-item"
+              routerLinkActive="active"
+              [routerLink]="[
+                '/super',
+                { outlets: { super_menu: 'sub-module' } }
+              ]"
+            >
+              Sub-Modules
+            </li>
+            <li
+              class="nav-item sub-nav-item"
+              routerLinkActive="active"
+              [routerLink]="[
+                '/super',
+                { outlets: { super_menu: 'department' } }
+              ]"
+            >
+              Department
+            </li>
+            <li
+              class="nav-item sub-nav-item"
+              routerLinkActive="active"
+              [routerLink]="['/super', { outlets: { super_menu: 'product' } }]"
+            >
+              Product
+            </li>
+              <li
+              class="nav-item sub-nav-item"
+              routerLinkActive="active"
+              [routerLink]="['/super', { outlets: { super_menu: 'lead-status' } }]"
+            >
+              Lead Status
+            </li>
+               <li
+              class="nav-item sub-nav-item"
+              routerLinkActive="active"
+              [routerLink]="['/super', { outlets: { super_menu: 'lead-source' } }]"
+            >
+              Lead Source
+            </li>
+                 <li
+              class="nav-item sub-nav-item"
+              routerLinkActive="active"
+              [routerLink]="['/super', { outlets: { super_menu: 'designation' } }]"
+            >
+              Designation
+            </li>
+                  <li
+              class="nav-item sub-nav-item"
+              routerLinkActive="active"
+              [routerLink]="['/super', { outlets: { super_menu: 'priority' } }]"
+            >
+              Priority
+            </li>
+          </ul>
+          <li
+            class="nav-item"
+            routerLinkActive="active"
+            [routerLink]="['/super', { outlets: { super_menu: ['users'] } }]"
+          >
+            <span><i class="fa fas fa-users me-2"></i></span>Users
+          </li>
+          <li class="nav-item accordion-header" id="headingOne">
+            <span>
+              <i class="fa fas fa-video me-2" aria-hidden="true"></i>
+            </span>
+            <button
+              class="accordion-button"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#collapseTwo"
+              aria-expanded="false"
+              aria-controls="collapseTwo"
+              (click)="handleMeetingAccordionClick()"
+            >
+              Meeting
+            </button>
+          </li>
+       <ul id="collapseTwo" class="accordion-collapse collapse sub-menu">
+          <li
+              class="nav-item sub-nav-item"
+              routerLinkActive="active"
+              [routerLink]="[
+                '/super',
+                { outlets: { super_menu: 'calendar' } }
+              ]"
+            >
+              Meeting Calendar
+            </li>
+            <li
+              class="nav-item sub-nav-item"
+              routerLinkActive="active"
+              [routerLink]="['/super', { outlets: { super_menu: 'meeting-source' } }]"
+            >
+              Meeting Source
+            </li>
+            <li
+              class="nav-item sub-nav-item"
+              routerLinkActive="active"
+              [routerLink]="[
+                '/super',
+                { outlets: { super_menu: 'meeting-type' } }
+              ]"
+            >
+            Meeting Type
+            </li>
+            <li
+              class="nav-item sub-nav-item"
+              routerLinkActive="active"
+              [routerLink]="[
+                '/super',
+                { outlets: { super_menu: 'meeting-status' } }
+              ]"
+            >
+              Meeting Status
+            </li>
+          </ul>
+        <li class="nav-item "  (click)="openChangePasswordDialog()">
+                    <span>
+                      <i class="fas fa-key me-2" ></i> <span style="position: absolute">Change Password</span>
+                    </span>
+                  </li> -->
+          <!-- Reports -->
+          <li
+            class="nav-item"
+            routerLinkActive="active"
+            [routerLink]="[
+              '/super',
+              { outlets: { super_menu: 'report' } }
+            ]"
+          >
+            <span><i class="fa fas fa-file-lines me-2"></i></span> Reports
+          </li>
+          <!-- Change Password -->
+          <li class="nav-item" (click)="openChangePasswordDialog()">
+            <span>
+              <i class="fas fa-key me-2"></i>
+              <span style="position: absolute">Change Password</span>
+            </span>
+          </li>
+
+          <li class="nav-item" (click)="logout()">
+            <span> <i class="fa fas fa-sign-out-alt me-2"></i></span>Logout
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="body">
+      <router-outlet name="super_menu"></router-outlet>
+    </div>
+  </div>
+</div>

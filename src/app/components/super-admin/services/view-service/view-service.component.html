@@ -1,0 +1,36 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card p-3 m-3">
+                <div class="card-header d-flex justify-content-between p-3">
+                    <strong class="text-dark">View Service </strong>
+                </div>
+                <div class="card-body">
+                    <form>
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <b><label for="department_name">Name : </label> </b>
+                                    {{(service_details.service_name | titlecase )||'--'}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-8">
+                            <div class="form-group">
+                               <b> <label for="description" class="mb-1">Description : </label></b> 
+                               {{(service_details.description | titlecase)||'--'}}
+                            </div>
+                        </div>
+                        <hr />
+                        <div>
+                            <button type="submit" class="btn btn-secondary px-4 btn-sm fw-bold"
+                                (click)="goToback()">
+                                Cancel
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

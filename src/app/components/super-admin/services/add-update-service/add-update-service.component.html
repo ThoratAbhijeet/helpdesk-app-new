@@ -1,0 +1,91 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card p-3 m-3">
+        <div class="card-header d-flex justify-content-between p-3">
+          <strong class="text-dark"
+            >{{ isEdit ? " Edit" : "Add " }} Service</strong
+          >
+        </div>
+        <div class="card-body">
+          <form [formGroup]="form">
+            <div class="row">
+              <div class="col-6">
+                <div class="form-group">
+                  <label for="service_name"
+                    >Name
+                    <span
+                      class="text-danger"
+                      *ngIf="!control['service_name'].value"
+                      >*</span
+                    >
+                  </label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="exampleInputname1"
+                    autocomplete="off"
+                    formControlName="service_name"
+                    placeholder="service Name"
+                    [ngClass]="{
+                      'is-invalid':
+                        control['service_name'].invalid &&
+                        (control['service_name'].dirty ||
+                          control['service_name'].touched)
+                    }"
+                  />
+                  <div class="error-message">
+                    <span
+                      *ngIf="
+                        control['service_name'].invalid &&
+                        (control['service_name'].dirty ||
+                          control['service_name'].touched)
+                      "
+                    >
+                      <small
+                        class="text-danger p-2 w-100 d-flex justify-content-start"
+                      >
+                        <span class="error-icon"></span> Department is required.
+                      </small>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-8">
+              <div class="form-group">
+                <label for="description" class="mb-1">Description </label>
+                <textarea
+                  type="text"
+                  class="form-control"
+                  id="exampleInputname1"
+                  formControlName="description"
+                  placeholder="Description"
+                  aria-describedby="emailHelp"
+                ></textarea>
+              </div>
+            </div>
+            <hr />
+            <div>
+              <button
+                type="submit"
+                class="btn btn-primary px-4 btn-sm fw-bold"
+                (click)="submit()"
+              >
+                {{ isEdit ? "Update" : "Submit" }}
+              </button>
+              <button
+                type="submit"
+                class="btn btn-secondary ms-3 px-4 btn-sm fw-bold"
+                (click)="goToback()"
+              >
+                Cancel
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

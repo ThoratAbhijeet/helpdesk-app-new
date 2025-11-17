@@ -1,0 +1,21 @@
+.custom-header-color {
+  color: #4B0082; /* or any HEX/RGB/Named color */
+}
+/* In your component stylesheet or global styles.css */
+.custom-bordered,
+.custom-bordered th,
+.custom-bordered td {
+  border-width: 2px !important;
+  border-color: #000 !important; /* Optional: make it darker */
+}.status-label {
+  display: inline-block;
+  min-width: 73px;
+  max-width: 73px;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding: 3px 3px;
+  border-radius: 4px;
+  font-size: 12px;
+}

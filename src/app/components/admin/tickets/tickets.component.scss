@@ -1,0 +1,58 @@
+
+.custom-header-color {
+  color: #4b0082; /* or any HEX/RGB/Named color */
+}
+.status-label {
+  display: inline-block;
+  min-width: 73px;
+  max-width: 73px;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding: 3px 3px;
+  border-radius: 4px;
+  font-size: 12px;
+}
+/* In your component stylesheet or global styles.css */
+.custom-bordered,
+.custom-bordered th,
+.custom-bordered td {
+  border-width: 2px !important;
+  border-color: #000 !important; /* Optional: make it darker */
+}
+//tab css
+:host::ng-deep
+  .mat-mdc-tab:not(.mat-mdc-tab-disabled).mdc-tab--active
+  .mdc-tab__text-label,
+:host::ng-deep
+  .mat-mdc-tab-link:not(.mat-mdc-tab-disabled).mdc-tab--active
+  .mdc-tab__text-label {
+  color: #fff;
+  font-family: "Montserrat", sans-serif;
+  background-color: #363062;
+  padding: 12px 25px !important; /* reduced padding */
+  border-radius: 5px;
+  font-size: 14px; /* optional: smaller text */
+  line-height: 1; /* to minimize vertical height */
+}
+
+:host::ng-deep
+  .mat-mdc-tab-group.mat-mdc-tab-group-stretch-tabs
+  > .mat-mdc-tab-header
+  .mat-mdc-tab {
+  flex-grow: 0 !important;
+  padding: 0px !important;
+  background-color: #98e5ef;
+  border-radius: 5px;
+  margin: 6px;
+  min-height: 32px !important; /* reduced height */
+  height: 32px !important; /* ensure fixed height */
+}
+
+:host::ng-deep .mat-mdc-tab .mdc-tab__text-label {
+  padding: 0 10px; /* reduce label padding */
+  line-height: 1.2;
+  font-weight: bold;
+  color: #000;
+}

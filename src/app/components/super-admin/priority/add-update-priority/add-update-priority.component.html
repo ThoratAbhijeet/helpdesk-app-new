@@ -1,0 +1,181 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card p-3 m-3">
+        <div class="card-header d-flex justify-content-between p-3">
+          <strong class="text-dark"
+            >{{ isEdit ? " Edit" : "Add " }} Priority</strong
+          >
+        </div>
+        <div class="card-body">
+          <form [formGroup]="form">
+            <div class="row">
+              <div class="col-4">
+                <div class="form-group">
+                  <label for="priority_name"
+                    >Name
+                    <span
+                      class="text-danger"
+                      *ngIf="!control['priority_name'].value"
+                      >*</span
+                    >
+                  </label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="exampleInputname1"
+                    autocomplete="off"
+                    formControlName="priority_name"
+                    placeholder="priority Name"
+                    [ngClass]="{
+                      'is-invalid':
+                        control['priority_name'].invalid &&
+                        (control['priority_name'].dirty ||
+                          control['priority_name'].touched)
+                    }"
+                  />
+                  <div class="error-message">
+                    <span
+                      *ngIf="
+                        control['priority_name'].invalid &&
+                        (control['priority_name'].dirty ||
+                          control['priority_name'].touched)
+                      "
+                    >
+                      <small
+                        class="text-danger p-2 w-100 d-flex justify-content-start"
+                      >
+                        <span class="error-icon"></span> priority is required.
+                      </small>
+                    </span>
+                  </div>
+                </div>
+              </div>
+                <div class="col-4">
+                <div class="form-group">
+                  <label for="response_time_hrs"
+                    >Response Time
+                    <span
+                      class="text-danger"
+                      *ngIf="!control['response_time_hrs'].value"
+                      >*</span
+                    >
+                  </label>
+                  <div class="input-group">
+<input
+                    type="text"
+                    class="form-control"
+                    id="exampleInputname1"
+                    autocomplete="off"
+                    formControlName="response_time_hrs"
+                    placeholder="Response Time Hrs"
+                    [ngClass]="{
+                      'is-invalid':
+                        control['response_time_hrs'].invalid &&
+                        (control['response_time_hrs'].dirty ||
+                          control['response_time_hrs'].touched)
+                    }"
+                  />
+                   <span class="input-group-text bg-light text-muted">Hr</span>
+                  </div>
+                  
+                  <div class="error-message">
+                    <span
+                      *ngIf="
+                        control['response_time_hrs'].invalid &&
+                        (control['response_time_hrs'].dirty ||
+                          control['response_time_hrs'].touched)
+                      "
+                    >
+                      <small
+                        class="text-danger p-2 w-100 d-flex justify-content-start"
+                      >
+                        <span class="error-icon"></span> Response Time is required.
+                      </small>
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-4">
+                <div class="form-group">
+                  <label for="response_time_hrs"
+                    >Resolution Time
+                    <span
+                      class="text-danger"
+                      *ngIf="!control['resolution_time_hrs'].value"
+                      >*</span
+                    >
+                  </label>
+                     <div class="input-group">
+      <input
+        type="text"
+        class="form-control"
+        id="exampleInputname1"
+        autocomplete="off"
+        formControlName="resolution_time_hrs"
+        placeholder="Resolution Time Hrs"
+        [ngClass]="{
+          'is-invalid':
+            control['resolution_time_hrs'].invalid &&
+            (control['resolution_time_hrs'].dirty ||
+              control['resolution_time_hrs'].touched)
+        }"
+      />
+      <span class="input-group-text bg-light text-muted">Hr</span>
+    </div>
+
+                  <div class="error-message">
+                    <span
+                      *ngIf="
+                        control['resolution_time_hrs'].invalid &&
+                        (control['resolution_time_hrs'].dirty ||
+                          control['resolution_time_hrs'].touched)
+                      "
+                    >
+                      <small
+                        class="text-danger p-2 w-100 d-flex justify-content-start"
+                      >
+                        <span class="error-icon"></span> Resolution Time is required.
+                      </small>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-8">
+              <div class="form-group">
+                <label for="description" class="mb-1">Description </label>
+                <textarea
+                  type="text"
+                  class="form-control"
+                  id="exampleInputname1"
+                  formControlName="description"
+                  placeholder="Description"
+                  aria-describedby="emailHelp"
+                ></textarea>
+              </div>
+            </div>
+            <hr />
+            <div>
+              <button
+                type="submit"
+                class="btn btn-primary px-4 btn-sm fw-bold"
+                (click)="submit()"
+              >
+                {{ isEdit ? "Update" : "Submit" }}
+              </button>
+              <button
+                type="submit"
+                class="btn btn-secondary ms-3 px-4 btn-sm fw-bold"
+                (click)="goToback()"
+              >
+                Cancel
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

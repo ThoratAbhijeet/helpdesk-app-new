@@ -1,0 +1,327 @@
+<div class="container-fluid">
+  <div class="row justify-content-center">
+    <div class="col-md-12 m-3">
+      <div class="card p-3">
+        <div class="card-header d-flex justify-content-between p-3">
+          <strong class="text-dark"
+            >{{ isEdit ? " Edit" : "Add " }} Employee</strong
+          >
+        </div>
+        <div class="card-body">
+          <form [formGroup]="UserForm">
+            <div class="row">
+              <div class="mb-3 col-md-4">
+                <label for="user_name" class="mb-1"
+                  >Employee Name <span class="text-danger">*</span>
+                </label>
+                <input
+                  class="form-control mb-1"
+                  id="user_name"
+                  placeholder="Employee Name"
+                  type="text"
+                  formControlName="user_name"
+                  [ngClass]="{
+                    'is-invalid':
+                      controls['user_name'].invalid &&
+                      (controls['user_name'].dirty ||
+                        controls['user_name'].touched)
+                  }"
+                />
+                <div
+                  class="text-danger"
+                  *ngIf="
+                    controls['user_name'].invalid &&
+                    (controls['user_name'].dirty ||
+                      controls['user_name'].touched)
+                  "
+                >
+                  <div *ngIf="controls['user_name'].errors?.['required']">
+                    <small>Employee Name is Required</small>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-3 mb-3">
+                <label
+                  class="mb-2 d-flex justify-content-between align-items-center"
+                >
+                  <span>Email <span class="text-danger">*</span></span>
+                </label>
+
+                <input
+                  type="email"
+                  class="form-control"
+                  formControlName="email_id"
+                  placeholder="Email"
+                  [ngClass]="{
+                    'is-invalid':
+                      controls['email_id'].invalid &&
+                      (controls['email_id'].dirty ||
+                        controls['email_id'].touched)
+                  }"
+                />
+                <div
+                  class="text-danger"
+                  *ngIf="
+                    controls['email_id'].invalid &&
+                    (controls['email_id'].dirty || controls['email_id'].touched)
+                  "
+                >
+                  <small *ngIf="controls['email_id'].errors?.['pattern']"
+                    >Invalid email format.</small
+                  >
+                </div>
+              </div>
+              <div class="mb-3 col-md-4">
+                <label for="phone_number" class="mb-1">
+                  Mobile Number
+                  <span class="text-danger">*</span>
+                </label>
+
+                <div class="input-group">
+                  <input
+                    type="text"
+                    class="form-control"
+                    formControlName="phone_number"
+                    #searchInput
+                    (input)="onPhoneInput(searchInput.value)"
+                    placeholder="Mobile Number"
+                    maxlength="10"
+                    pattern="[0-9]*"
+                    inputmode="numeric"
+                    (keypress)="allowOnlyDigits($event)"
+                    [ngClass]="{
+                      'is-invalid':
+                        controls['phone_number'].invalid &&
+                        (controls['phone_number'].dirty ||
+                          controls['phone_number'].touched)
+                    }"
+                  />
+                </div>
+
+                <div
+                  class="text-danger"
+                  *ngIf="
+                    controls['phone_number'].invalid &&
+                    (controls['phone_number'].dirty ||
+                      controls['phone_number'].touched)
+                  "
+                >
+                  <div *ngIf="controls['phone_number'].errors?.['required']">
+                    <small>Mobile Number is Required</small>
+                  </div>
+                  <div *ngIf="controls['phone_number'].errors?.['pattern']">
+                    <small>Mobile Number only 10 digit</small>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-3 mb-3">
+                <label class="mb-2"
+                  >Department <span class="text-danger">*</span></label
+                >
+                <mat-select
+                  placeholder="Select Department"
+                  formControlName="department_id"
+                  class="form-control"
+                  [ngClass]="{
+                    'is-invalid':
+                      controls['department_id'].invalid &&
+                      (controls['department_id'].dirty ||
+                        controls['department_id'].touched)
+                  }"
+                >
+                  <mat-option
+                    *ngFor="let item of agentDepartmentList"
+                    [value]="item.department_id"
+                  >
+                    {{ item.department_name | titlecase }}
+                  </mat-option>
+                </mat-select>
+                <div
+                  class="text-danger"
+                  *ngIf="
+                    controls['department_id'].invalid &&
+                    (controls['department_id'].touched ||
+                      controls['department_id'].dirty)
+                  "
+                >
+                  <small>Please select a Department.</small>
+                </div>
+              </div>
+              <div class="col-md-3 mb-3">
+                <label class="mb-2"
+                  >Role <span class="text-danger">*</span></label
+                >
+                <mat-select
+                  placeholder="Select Role"
+                  formControlName="role_id"
+                  class="form-control"
+                  [ngClass]="{
+                    'is-invalid':
+                      controls['role_id'].invalid &&
+                      (controls['role_id'].dirty || controls['role_id'].touched)
+                  }"
+                >
+                  <mat-option
+                    *ngFor="let item of agentRoleList"
+                    [value]="item.role_id"
+                  >
+                    {{ item.role_name | titlecase }}
+                  </mat-option>
+                </mat-select>
+                <div
+                  class="text-danger"
+                  *ngIf="
+                    controls['role_id'].invalid &&
+                    (controls['role_id'].touched || controls['role_id'].dirty)
+                  "
+                >
+                  <small>Please select a Role.</small>
+                </div>
+              </div>
+            </div>
+
+            <!-- <hr *ngIf="UserForm.get('department_id')?.value == 3" /> -->
+            <!-- agent Assigned (Multiple) -->
+            <!-- <div class="card p-3" *ngIf="UserForm.get('department_id')?.value == 3">
+              <div class="row">
+                <div class="col-12">
+                  <div
+                    class="card-header d-flex justify-content-between align-items-center"
+                  >
+                    <b>Customer Agent</b>
+                  </div>
+
+                  <div class="card-body scrollable-body">
+                    <div formArrayName="customerAgent">
+                      <div
+                        *ngFor="
+                          let group of customerAgentArray.controls;
+                          let i = index
+                        "
+                        [formGroupName]="i"
+                        class="row align-items-end mb-3"
+                      >
+                        <div class="col-md-2 d-flex align-items-center mt-4">
+                          <button
+                            *ngIf="i === customerAgentArray.length - 1"
+                            class="btn btn-primary btn-sm me-2"
+                            (click)="addCustomerAssigned()"
+                            [disabled]="isEdit && !isCustomerEditable"
+                            [style.cursor]="
+                              isEdit && !isCustomerEditable
+                                ? 'not-allowed'
+                                : 'pointer'
+                            "
+                            [style.opacity]="
+                              isEdit && !isCustomerEditable ? '0.6' : '1'
+                            "
+                            type="button"
+                          >
+                            Add
+                          </button>
+
+                          <button
+                            class="btn btn-danger btn-sm"
+                            [disabled]="
+                              (isEdit && !isCustomerEditable) ||
+                              (customerAgentArray.length === 1 &&
+                                !group.get('user_id')?.value)
+                            "
+                            [style.cursor]="
+                              (isEdit && !isCustomerEditable) ||
+                              (customerAgentArray.length === 1 &&
+                                !group.get('user_id')?.value)
+                                ? 'not-allowed'
+                                : 'pointer'
+                            "
+                            [style.opacity]="
+                              (isEdit && !isCustomerEditable) ||
+                              (customerAgentArray.length === 1 &&
+                                !group.get('user_id')?.value)
+                                ? '0.6'
+                                : '1'
+                            "
+                            (click)="
+                              deleteMeetingAssigned(
+                                i,
+                                group.get('agents_id')?.value
+                              )
+                            "
+                            type="button"
+                          >
+                            Remove
+                          </button>
+                        </div>
+
+                        <div class="col-md-5">
+                          <label class="mb-2">Assigned To</label>
+                          <mat-select
+                            formControlName="user_id"
+                            placeholder="Select Employee"
+                            class="form-control theme-input"
+                            (selectionChange)="onEmployeeSelected(i)"
+                            [ngClass]="{
+                              'is-invalid':
+                                group.get('user_id')?.invalid &&
+                                (group.get('user_id')?.dirty ||
+                                  group.get('user_id')?.touched)
+                            }"
+                          >
+                            <ngx-mat-select-search
+                              [(ngModel)]="searchEmployeeValue[i]"
+                              [ngModelOptions]="{ standalone: true }"
+                              (input)="filterEmployee(i)"
+                              placeholderLabel="Search Employee"
+                              noEntriesFoundLabel="No result found"
+                            ></ngx-mat-select-search>
+
+                            <mat-option
+                              *ngFor="
+                                let source of filteredEmployeeList[i] || []
+                              "
+                              [value]="source.user_id"
+                            >
+                              {{ source.user_name | titlecase }}
+                            </mat-option>
+                          </mat-select>
+
+                          <div
+                            class="text-danger"
+                            *ngIf="
+                              group.get('user_id')?.invalid &&
+                              (group.get('user_id')?.touched ||
+                                group.get('user_id')?.dirty)
+                            "
+                          >
+                            <small>Please select an Employee</small>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div> -->
+            <hr />
+            <div>
+              <button
+                type="submit"
+                class="btn btn-primary px-4 btn-sm fw-bold"
+                (click)="submit()"
+              >
+                {{ isEdit ? "Update" : "Submit" }}
+              </button>
+              <button
+                type="submit"
+                class="btn btn-secondary ms-3 px-4 btn-sm fw-bold"
+                (click)="goToback()"
+              >
+                Cancel
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,60 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card p-3 m-3">
+                <div class="card-header d-flex justify-content-between p-3">
+                    <strong class="text-dark">View Categories </strong>
+                </div>
+                <div class="card-body">
+                    <form>
+                        <div class="row">
+                            <div class="col-4">
+                                <div class="form-group">
+                                    <b><label for="Categories_name">Parent Category : </label> </b>
+                                    {{(Categories_details.parent_category | titlecase )||'--'}}
+                                </div>
+                            </div>
+                                <div class="col-4">
+                                <div class="form-group">
+                                    <b><label for="Categories_name"> Category  name: </label> </b>
+                                    {{(Categories_details.name | titlecase )||'--'}}
+                                </div>
+                            </div>
+                             <div class="col-4">
+                                <div class="form-group">
+                                    <b><label for="department_name"> Department  name: </label> </b>
+                                    {{(Categories_details.department_name | titlecase )||'--'}}
+                                </div>
+                            </div>
+                              <div class="col-4">
+                                <div class="form-group">
+                                    <b><label for="priority_id"> Priority  name: </label> </b>
+                                    {{(Categories_details.priority_name | titlecase )||'--'}}
+                                </div>
+                            </div>
+                             <div class="col-4">
+                                <div class="form-group">
+                                    <b><label for="sla_hours"> SLA Hours: </label> </b>
+                                   {{ Categories_details.sla_hours  ? Categories_details.sla_hours  + ' hr' : '--' }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-8">
+                            <div class="form-group">
+                               <b> <label for="description" class="mb-1">Description : </label></b> 
+                               {{(Categories_details.description | titlecase)||'--'}}
+                            </div>
+                        </div>
+                        <hr />
+                        <div>
+                            <button type="submit" class="btn btn-secondary px-4 btn-sm fw-bold"
+                                (click)="goToback()">
+                                Cancel
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

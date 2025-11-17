@@ -1,0 +1,82 @@
+// .text-black-custom {
+//   color: black !important;
+// }
+// .Company-name{
+//   cursor: pointer !important;
+// }
+::ng-deep .mat-option .mat-select-search-inner {
+  width: 100%;
+}
+
+.input-group .country-select {
+  max-width: 30% !important;
+  padding-right: 0px;
+}
+.text-black-custom {
+  color: black !important;
+}
+.phone-number {
+  padding-left: 50px;
+}
+.input-group .country-code-btn {
+  min-width: 80px;
+}
+.country-code-inside-input {
+  position: absolute;
+  top: 7px; /* Adjust this value as needed based on your input height */
+  left: 110px; /* Adjust to match your layout */
+  z-index: 10; /* Higher to stay above input */
+  color: #000 !important; /* Ensure it's black always */
+  font-size: 16px;
+  pointer-events: none;
+}
+
+/* Ensure the typed input text is black and has left padding */
+input.form-control {
+  color: #000 !important;
+  //   padding-left: 60px; /* Enough space for the prefix */
+}
+input:disabled,
+select:disabled,
+textarea:disabled {
+  cursor: not-allowed;
+  background-color: #f5f5f5; /* Optional: Gray background */
+}
+@media (max-width: 1200px) {
+  .country-code-inside-input {
+    left: 110px;
+  }
+}
+
+@media (max-width: 992px) {
+  .country-code-inside-input {
+    left: 120px;
+  }
+}
+
+@media (max-width: 768px) {
+  .country-code-inside-input {
+    top: 8px;
+    left: 110px;
+    font-size: 13px;
+  }
+
+  input.form-control {
+    padding-left: 5px;
+  }
+}
+
+@media (max-width: 576px) {
+  .country-code-inside-input {
+    top: 8px;
+    left: 120px;
+    font-size: 12px;
+  }
+
+  input.form-control {
+    padding-left: 15px;
+  }
+}
+.Company-name {
+  cursor: pointer !important;
+}

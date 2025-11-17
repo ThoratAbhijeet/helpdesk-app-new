@@ -1,1 +1,379 @@
 /* You can add global styles to this file, and also import other style files */
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+* {
+    font-family: 'Poppins', sans-serif ;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  .comment-cell {
+  max-height: 80px; 
+  overflow-y: auto;
+  white-space: normal; 
+}
+button.btn:disabled,
+button.btn[disabled] {
+  cursor: not-allowed !important;
+  opacity: 0.6 !important;
+  pointer-events: auto !important; /* cursor को allow करने के लिए */
+}
+
+
+.wrap-text {
+  white-space: normal;
+  word-wrap: break-word;
+  max-width: 200px; /* adjust as needed */
+}
+
+.mat-mdc-select-disabled {
+    color: rgb(247, 227, 227) !important;
+   background-color: #f5f5f5 !important; 
+}
+.mat-mdc-select-disabled .mat-mdc-select-trigger
+ {
+   cursor:  not-allowed !important;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+.mat-mdc-select-value-text
+ {
+    white-space: nowrap;
+    cursor: pointer !important;
+    overflow: hidden;
+    text-overflow: ellipsis;
+        color: #000000 !important;
+}
+tbody .fa {
+  color: #222950 !important;
+}
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+.form-group{
+  margin-bottom: 10px;
+  font-size: 95%;
+  input,mat-select{
+    font-size: 95%!important;
+  }
+}
+.scrollable-body {
+  max-height: 500px;
+  overflow-y: auto;
+}
+small {
+  font-size: .83em !important;
+}
+
+small .error-icon {
+  content: url(../src/assets/icon/icon-warning-error.svg);
+  background-repeat: no-repeat;
+}
+.form-check-input {
+  box-shadow: none !important; /* Optional: prevents Bootstrap focus style */
+  border:2px solid #c4c4c4;
+}
+
+.form-check-input:checked {
+  background-color: rgb(87 187 67) !important;
+  box-shadow: 0 0 0 0.2rem rgba(48, 216, 48, 0.25) !important; /* Optional: matching green glow */
+  border: rgb(87 187 67) !important;
+}
+.search-input {
+    width: 35%;
+    height: 38.5px;
+    padding-left: 10px;
+    border-top-left-radius: 0px;
+    border-top-right-radius: 5px;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 5px;
+    border: 1px solid #d2d2d2;
+  }
+.searching-icon{
+  border: 1px solid #d2d2d2;
+  padding: 10.5px;
+  // color: #757575;
+  border-right: 0px;
+  border-bottom-left-radius: 5px;
+  border-start-start-radius: 5px;
+}
+.search-input:focus{
+  outline: none;
+}
+::ng-deep .mat-mdc-paginator-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between !important; 
+    padding: 0 8px;
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+
+
+/* "Items per page:" ke aage "Results Found: X" dikhane ke liye */
+::ng-deep .mat-mdc-paginator-page-size {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Space between dropdown and results count */
+}
+.cursor-pointer {
+    cursor: pointer !important;
+  }
+  table, tr, td {
+    background-color: transparent;
+    color: rgb(9, 9, 14) !important;
+    font-size: 14px ;
+    border-color: rgba(190, 221, 255, 0.3);
+}
+.fixed-width {
+  width: 110px !important; /* Minimum width to fit at least 6 digits */
+  max-width: 150px; /* Set a max width to control the overflow */
+  // text-align: right; /* Align text to the right */
+  white-space: nowrap; /* Prevent text from wrapping to a new line */
+  overflow: hidden; /* Hide overflowing content */
+  text-overflow: ellipsis; /* Display ellipsis ("...") for overflow */
+}
+.loading{
+  height: 100%;
+  position: fixed;
+  background: #00000042;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+.lds-roller,
+.lds-roller div,
+.lds-roller div:after {
+  box-sizing: border-box;
+}
+.lds-roller {
+  display: inline-block;
+  position: relative;
+  width: 80px;
+  height: 80px;
+}
+.lds-roller div {
+  animation: lds-roller 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+  transform-origin: 40px 40px;
+}
+.lds-roller div:after {
+  content: " ";
+  display: block;
+  position: absolute;
+  width: 7.2px;
+  height: 7.2px;
+  border-radius: 50%;
+  background: rgb(59, 61, 87);
+  margin: -3.6px 0 0 -3.6px;
+}
+.lds-roller div:nth-child(1) {
+  animation-delay: -0.036s;
+}
+.lds-roller div:nth-child(1):after {
+  top: 62.62742px;
+  left: 62.62742px;
+}
+.lds-roller div:nth-child(2) {
+  animation-delay: -0.072s;
+}
+.lds-roller div:nth-child(2):after {
+  top: 67.71281px;
+  left: 56px;
+}
+.lds-roller div:nth-child(3) {
+  animation-delay: -0.108s;
+}
+.lds-roller div:nth-child(3):after {
+  top: 70.90963px;
+  left: 48.28221px;
+}
+.lds-roller div:nth-child(4) {
+  animation-delay: -0.144s;
+}
+.lds-roller div:nth-child(4):after {
+  top: 72px;
+  left: 40px;
+}
+.lds-roller div:nth-child(5) {
+  animation-delay: -0.18s;
+}
+.lds-roller div:nth-child(5):after {
+  top: 70.90963px;
+  left: 31.71779px;
+}
+.lds-roller div:nth-child(6) {
+  animation-delay: -0.216s;
+}
+.lds-roller div:nth-child(6):after {
+  top: 67.71281px;
+  left: 24px;
+}
+.lds-roller div:nth-child(7) {
+  animation-delay: -0.252s;
+}
+.lds-roller div:nth-child(7):after {
+  top: 62.62742px;
+  left: 17.37258px;
+}
+.lds-roller div:nth-child(8) {
+  animation-delay: -0.288s;
+}
+.lds-roller div:nth-child(8):after {
+  top: 56px;
+  left: 12.28719px;
+}
+@keyframes lds-roller {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+}
+
+}
+.small-toggle .mat-mdc-slide-toggle {
+  transform: scale(0.8); /* Adjust scale */
+}
+.sortable {
+  cursor: pointer;
+  user-select: none;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.sort-icons {
+  display: flex;
+  flex-direction: column; /* Stack ▲ and ▼ vertically */
+  align-items: center; /* Center the arrows */
+  font-size: 8px; /* Small size */
+  margin-left: 3px;
+  margin-top: 5px;
+  line-height: 10px; /* Adjust spacing */
+}
+
+.sort-icons span {
+  opacity: 0.5; /* Default opacity */
+}
+
+.sort-icons .active {
+  font-weight: bold;
+  opacity: 1; /* Highlight active sort */
+}
+.btn-primary{
+  background-color: #6763f0 !important;
+ }
+/* Importing Bootstrap SCSS file. */
+// @import 'bootstrap/scss/bootstrap';
+
+::ng-deep.mat-mdc-paginator-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between!important; 
+    padding: 0 8px;
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+.table-responsive {
+  overflow-x: auto;
+  white-space: nowrap;
+}
+  @media only screen and (max-width: 600px) {
+    :host ::ng-deep .mat-mdc-paginator-range-label{
+    margin:0px !important;
+    font-size: 9px !important;
+  }
+  h6{
+    font-size: 12px !important;
+  }
+  td, th{
+    font-size: 10px !important;
+  }
+}
+// angular-editor .angular-editor-toolbar button {
+//   position: relative;
+// }
+
+// angular-editor .angular-editor-toolbar button[title="Bold"]::after {
+//   content: '𝐁';
+// }
+
+// angular-editor .angular-editor-toolbar button[title="Italic"]::after {
+//   content: '𝐼';
+// }
+
+// angular-editor .angular-editor-toolbar button[title="Underline"]::after {
+//   content: 'U̲';
+// }
+
+// angular-editor .angular-editor-toolbar button[title="StrikeThrough"]::after {
+//   content: 'S̶';
+// }
+
+// angular-editor .angular-editor-toolbar button[title="Undo"]::after {
+//   content: '↺';
+// }
+
+// angular-editor .angular-editor-toolbar button[title="Redo"]::after {
+//   content: '↻';
+// }
+
+// angular-editor .angular-editor-toolbar button[title="Ordered List"]::after {
+//   content: '1.';
+// }
+
+// angular-editor .angular-editor-toolbar button[title="Bullet List"]::after {
+//   content: '•';
+// }
+
+// angular-editor .angular-editor-toolbar button[title="Indent"]::after {
+//   content: '→';
+// }
+
+// angular-editor .angular-editor-toolbar button[title="Outdent"]::after {
+//   content: '←';
+// }
+
+// angular-editor .angular-editor-toolbar button[title="Align Left"]::after {
+//   content: '⇤';
+// }
+
+// angular-editor .angular-editor-toolbar button[title="Align Center"]::after {
+//   content: '⇆';
+// }
+
+// angular-editor .angular-editor-toolbar button[title="Align Right"]::after {
+//   content: '⇥';
+// }
+
+// angular-editor .angular-editor-toolbar button[title="Justify"]::after {
+//   content: '☰';
+// }
+
+// angular-editor .angular-editor-toolbar button[title="Link"]::after {
+//   content: '🔗';
+// }
+
+// angular-editor .angular-editor-toolbar button[title="Unlink"]::after {
+//   content: '❌';
+// }
+
+// angular-editor .angular-editor-toolbar button[title="Clear Formatting"]::after {
+//   content: '🚫';
+// }
+/* Override angular-editor icon styles to use FA icons */
+// angular-editor .angular-editor-toolbar i {
+//   font-family: 'Font Awesome 6 Free' !important;
+//   font-weight: 900;
+//   font-style: normal;
+// }
+
+// /* Hide broken SVG icons */
+// angular-editor .angular-editor-toolbar svg {
+//   display: none !important;
+// }

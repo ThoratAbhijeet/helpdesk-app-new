@@ -1,0 +1,113 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card p-3 m-3">
+        <div class="card-header d-flex justify-content-between p-3">
+          <strong class="text-dark">View User </strong>
+        </div>
+        <div class="card-body">
+          <form>
+            <div class="row">
+              <div class="col-4 mb-3">
+                <div class="form-group">
+                  <label for="company_name">User Name:</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="company_name"
+                    [value]="allCustomerDetails.user_name || '--'"
+                    [disabled]="true"
+                  />
+                </div>
+              </div>
+              <div class="col-4 mb-3">
+                <div class="form-group">
+                  <label for="email_id">Email Id:</label>
+                  <input
+                    type="email"
+                    class="form-control"
+                    id="email_id"
+                    [value]="allCustomerDetails.email_id || '--'"
+                    [disabled]="true"
+                  />
+                </div>
+              </div>
+              <div class="col-4 mb-3">
+                <div class="form-group">
+                  <label for="phone_number">Phone Number:</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="phone_number"
+                    [value]="allCustomerDetails.phone_number || '--'"
+                    [disabled]="true"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <!-- <div class="col-4 mb-3">
+                <div class="form-group">
+                  <label for="department_id">Department:</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="department_id"
+                    [value]="allCustomerDetails.department_name || '--'"
+                    [disabled]="true"
+                  />
+                </div>
+              </div>
+              <div class="col-4 mb-3">
+                <div class="form-group">
+                  <label for="role_id">Role:</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="role_id"
+                    [value]="allCustomerDetails.role_name || '--'"
+                    [disabled]="true"
+                  />
+                </div>
+              </div> -->
+            </div>
+            <!-- <hr class="mb-0" *ngIf="customerAgents.length > 0"/>
+            <div class="card-header mb-3" *ngIf="customerAgents.length > 0">
+              <label class="fw-bold">Customer Agent</label>
+            </div>
+
+            <div class="row" *ngIf="customerAgents.length > 0">
+              <div
+                class="col-4 mb-3"
+                *ngFor="let agent of customerAgents; let i = index"
+              >
+                <div class="form-group">
+                 {{i+1}}. <label for="agent_{{ i + 1}}">Assigned To:</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    [id]="'agent_' + i"
+                    [value]="agent?.user_name || '--'"
+                    [disabled]="true"
+                  />
+                </div>
+              </div>
+            </div> -->
+
+            <hr />
+            <div>
+              <button
+                type="button"
+                class="btn btn-secondary px-4 btn-sm fw-bold"
+                (click)="goToback()"
+              >
+                Cancel
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

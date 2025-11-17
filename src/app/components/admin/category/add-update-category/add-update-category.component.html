@@ -1,0 +1,246 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card p-3 m-3">
+        <div class="card-header d-flex justify-content-between p-3">
+          <strong class="text-dark"
+            >{{ isEdit ? " Edit" : "Add " }} Category</strong
+          >
+        </div>
+        <div class="card-body">
+          <form [formGroup]="form">
+            <div class="row">
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label for="parent_category"
+                    >Parent Category
+                    <span
+                      class="text-danger"
+                      *ngIf="!control['parent_category'].value"
+                      >*</span
+                    >
+                  </label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="exampleInputname1"
+                    autocomplete="off"
+                    formControlName="parent_category"
+                    placeholder="Parent Category"
+                    [ngClass]="{
+                      'is-invalid':
+                        control['parent_category'].invalid &&
+                        (control['parent_category'].dirty ||
+                          control['parent_category'].touched)
+                    }"
+                  />
+                  <div class="error-message">
+                    <span
+                      *ngIf="
+                        control['parent_category'].invalid &&
+                        (control['parent_category'].dirty ||
+                          control['parent_category'].touched)
+                      "
+                    >
+                      <small
+                        class="text-danger p-2 w-100 d-flex justify-content-start"
+                      >
+                        <span class="error-icon"></span> Parent Category is
+                        required.
+                      </small>
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label for="name">
+                    Category
+                    <span class="text-danger" *ngIf="!control['name'].value"
+                      >*</span
+                    >
+                  </label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="exampleInputname1"
+                    autocomplete="off"
+                    formControlName="name"
+                    placeholder="Category Name"
+                    [ngClass]="{
+                      'is-invalid':
+                        control['name'].invalid &&
+                        (control['name'].dirty || control['name'].touched)
+                    }"
+                  />
+                  <div class="error-message">
+                    <span
+                      *ngIf="
+                        control['name'].invalid &&
+                        (control['name'].dirty || control['name'].touched)
+                      "
+                    >
+                      <small
+                        class="text-danger p-2 w-100 d-flex justify-content-start"
+                      >
+                        <span class="error-icon"></span> Category name is
+                        required.
+                      </small>
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <!-- Department -->
+              <div class="col-md-3 mb-3">
+                <label class=""
+                  >Department <span class="text-danger">*</span></label
+                >
+                <mat-select
+                  placeholder="Select Department"
+                  formControlName="department_id"
+                  class="form-control"
+                  [ngClass]="{
+                    'is-invalid':
+                      control['department_id'].invalid &&
+                      (control['department_id'].dirty ||
+                        control['department_id'].touched)
+                  }"
+                >
+                  <mat-option
+                    *ngFor="let item of allDepartmentList"
+                    [value]="item.department_id"
+                  >
+                    {{ item.department_name | titlecase }}
+                  </mat-option>
+                </mat-select>
+                <div
+                  class="text-danger"
+                  *ngIf="
+                    control['department_id'].invalid &&
+                    (control['department_id'].touched ||
+                      control['department_id'].dirty)
+                  "
+                >
+                  <small>Please select a Department.</small>
+                </div>
+              </div>
+
+              <!-- Priority -->
+              <div class="col-md-4 mb-3">
+                <label class=""
+                  >Priority <span class="text-danger">*</span></label
+                >
+                <select
+                  class="form-control"
+                  formControlName="priority_id"
+                  [ngClass]="{
+                    'is-invalid':
+                      control['priority_id'].invalid &&
+                      (control['priority_id'].dirty ||
+                        control['priority_id'].touched)
+                  }"
+                >
+                  <option value="" disabled selected hidden>
+                    Select Priority
+                  </option>
+                  <option
+                    *ngFor="let item of allPriorityList"
+                    [value]="item.priority_id"
+                  >
+                    {{ item.name | titlecase }}
+                  </option>
+                </select>
+                <div
+                  class="text-danger"
+                  *ngIf="
+                    control['priority_id'].invalid &&
+                    (control['priority_id'].touched ||
+                      control['priority_id'].dirty)
+                  "
+                >
+                  <small>Please select a Priority.</small>
+                </div>
+              </div>
+              <div class="col-4">
+                <div class="form-group">
+                  <label for="sla_hours"
+                    >SLA Time
+                    <span
+                      class="text-danger"
+                      *ngIf="!control['sla_hours'].value"
+                      >*</span
+                    >
+                  </label>
+                  <div class="input-group">
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="exampleInputname1"
+                      autocomplete="off"
+                      formControlName="sla_hours"
+                      placeholder="SLA Time Hrs"
+                      [ngClass]="{
+                        'is-invalid':
+                          control['sla_hours'].invalid &&
+                          (control['sla_hours'].dirty ||
+                            control['sla_hours'].touched)
+                      }"
+                    />
+                    <span class="input-group-text bg-light text-muted">Hr</span>
+                  </div>
+
+                  <div class="error-message">
+                    <span
+                      *ngIf="
+                        control['sla_hours'].invalid &&
+                        (control['sla_hours'].dirty ||
+                          control['sla_hours'].touched)
+                      "
+                    >
+                      <small
+                        class="text-danger p-2 w-100 d-flex justify-content-start"
+                      >
+                        <span class="error-icon"></span> SLA Time is required.
+                      </small>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-8">
+              <div class="form-group">
+                <label for="description" class="mb-1">Description </label>
+                <textarea
+                  type="text"
+                  class="form-control"
+                  id="exampleInputname1"
+                  formControlName="description"
+                  placeholder="Description"
+                  aria-describedby="emailHelp"
+                ></textarea>
+              </div>
+            </div>
+            <hr />
+            <div>
+              <button
+                type="submit"
+                class="btn btn-primary px-4 btn-sm fw-bold"
+                (click)="submit()"
+              >
+                {{ isEdit ? "Update" : "Submit" }}
+              </button>
+              <button
+                type="submit"
+                class="btn btn-secondary ms-3 px-4 btn-sm fw-bold"
+                (click)="goToback()"
+              >
+                Cancel
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

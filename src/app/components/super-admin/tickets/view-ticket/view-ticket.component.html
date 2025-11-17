@@ -1,0 +1,235 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card p-3 m-3">
+        <div class="card-header d-flex justify-content-between p-3">
+          <strong class="text-dark">View Tickets </strong>
+        </div>
+        <div class="card-body">
+          <form>
+            <div class="row">
+                <div class="col-4 mb-3">
+                <div class="form-group">
+                  <label for="name">Company :</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="name"
+                    [value]="allTicketDetails.company_name || '--'"
+                    [disabled]="true"
+                  />
+                </div>
+              </div>
+              <div class="col-4 mb-3">
+                <div class="form-group">
+                  <label for="name">Service :</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="name"
+                    [value]="allTicketDetails.service_name || '--'"
+                    [disabled]="true"
+                  />
+                </div>
+              </div>
+              <div class="col-4 mb-3">
+                <div class="form-group">
+                  <label for="name">Category :</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="name"
+                    [value]="allTicketDetails.name || '--'"
+                    [disabled]="true"
+                  />
+                </div>
+              </div>
+              <div class="col-4 mb-3">
+                <div class="form-group">
+                  <label for="department_name">Department :</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="department_name"
+                    [value]="allTicketDetails.department_name || '--'"
+                    [disabled]="true"
+                  />
+                </div>
+              </div>
+              <div class="col-4 mb-3">
+                <div class="form-group">
+                  <label for="priority_name">Priority :</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="priority_name"
+                    [value]="allTicketDetails.priority_name || '--'"
+                    [disabled]="true"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-4 mb-3">
+                <div class="form-group">
+                  <label for="subject">Subject :</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="subject"
+                    [value]="allTicketDetails.subject || '--'"
+                    [disabled]="true"
+                  />
+                </div>
+              </div>
+              <div class="col-4 mb-3">
+                <div class="form-group">
+                  <label for="ticket_status">Ticket Status:</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="ticket_status"
+                    [value]="allTicketDetails.ticket_status || '--'"
+                    [disabled]="true"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-8 mb-3">
+                <div class="form-group">
+                  <label for="isPartner">Message :</label>
+                  <textarea
+                    type="text"
+                    class="form-control"
+                    id="isPartner"
+                    [value]="allTicketDetails.description || '--'"
+                    [disabled]="true"
+                  ></textarea>
+                </div>
+              </div>
+         
+            </div>
+             <div class="col-md-12 mt-3">
+                <table
+                  class="table table-hover table-bordered border-black border-5"
+                >
+                  <thead class="table-light">
+                    <tr>
+                      <th>Sr.No</th>
+                      <th scope="col">Date</th>
+                      <th scope="col">Old Status</th>
+                      <th scope="col">New Status</th>
+                      <th scope="col">Remarks</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+  <ng-container *ngFor="let comment of allTicketDetails.ticketStatusHistory; let i = index">
+    <tr>
+      <td>{{ i + 1 }}</td>
+      <td>{{ comment.cts | date : "dd-MM-yyyy hh:mm a" }}</td>
+  
+
+      <!-- quotation array se fetch -->
+      <td>
+        {{ comment?.old_status || "--" }}
+      </td>
+      <td>
+        {{ (comment?.new_status | titlecase) || "--" }}
+      </td>
+
+      <td class="scrollable-cell"
+          [innerHTML]="comment?.remarks || '--'">
+      </td>
+    </tr>
+  </ng-container>
+</tbody>
+
+                </table>
+              </div>
+            <hr class="mb-0" />
+            <div class="card-header mb-3">
+              <label class="fw-bold">Ticket Assigned</label>
+            </div>
+            <div>
+              <div class="row">
+                <div class="col-4 mb-3">
+                  <div class="form-group">
+                    <label for="assigned_to_name">Assigned To:</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="assigned_to_name"
+                      [value]="allTicketDetails.assigned_to_name || '--'"
+                      [disabled]="true"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <!-- Ticket Attachments -->
+                <div class="col-4 mb-3">
+                  <div class="form-group">
+                    <label>Ticket Attachments :</label><br />
+
+                    <!-- Show PDF Name & Download Link (or just filename for image formats) -->
+                    <ng-container
+                      *ngIf="
+                        isPdf(allTicketDetails.file_path);
+                        else showGstFileName
+                      "
+                    >
+                      <p>
+                        <i class="fa fa-file-pdf-o text-danger"></i> Ticket
+                        Document (PDF)
+                      </p>
+                      <a
+                        (click)="
+                          downloadTicketTicketAttachmentDocument(
+                            allTicketDetails.ticket_id
+                          )
+                        "
+                        class="btn btn-outline-success btn-sm cursor-pointer"
+                        >Download Ticket PDF</a
+                      >
+                    </ng-container>
+
+                    <!-- Show filename for images or others -->
+                    <ng-template #showGstFileName>
+                      <p class="fw-bold mt-2">
+                        <i class="fa fa-paperclip text-secondary"></i>
+                        {{ allTicketDetails.file_path}}
+                      </p>
+                      <a
+                        (click)="
+                          downloadTicketTicketAttachmentDocument(
+                            allTicketDetails.ticket_id
+                          )
+                        "
+                        class="btn btn-outline-success btn-sm cursor-pointer"
+                        >Download Ticket File</a
+                      >
+                    </ng-template>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+            <hr />
+            <div>
+              <button
+                type="button"
+                class="btn btn-secondary px-4 btn-sm fw-bold"
+                (click)="goToback()"
+              >
+                Cancel
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

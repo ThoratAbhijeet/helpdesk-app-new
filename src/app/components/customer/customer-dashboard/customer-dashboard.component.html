@@ -1,0 +1,292 @@
+<div class="container-fluid p-0">
+  <div class="row justify-content-center mx-3">
+    <div class="col-md-12 m-2">
+      <div class="card">
+        <div class="d-flex justify-content-between align-items-center">
+          <label *ngIf="userName" [@fadeIn] class="welcome-text ms-3 my-2">
+            Welcome to Tecstaq Help Desk , {{ userName | titlecase }} ...! 🎉
+          </label>
+
+          <div class="card p-1 m-2">
+            <div class="d-flex justify-content-between align-items-center px-2">
+              <div class="dropdown">
+                <button
+                  class="btn btn-light dropdown-toggle"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  <i class="fas fa-cog mx-2"></i> Settings
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end pt-0">
+                  <!-- Role Display (non-clickable) -->
+                  <li
+                    class="dropdown-item disabled bg-light text-dark d-flex align-items-center"
+                  >
+                    <i class="fas fa-user-tag me-2 text-primary"></i>
+                    <span class="fw-semibold">{{ roleName }}</span>
+                  </li>
+
+                  <li>
+                    <hr
+                      class="dropdown-divider mt-0"
+                      style="border-color: white"
+                    />
+                  </li>
+
+                  <!-- Change Password Option -->
+                  <li>
+                    <a
+                      class="dropdown-item cursor-pointer"
+                      (click)="openChangePasswordDialog()"
+                    >
+                      <i class="fas fa-key mx-1"></i> Change Password
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row mt-3">
+        <div class="col-12 d-flex flex-wrap gap-2">
+          <div
+            *ngFor="let task of taskStatusCount"
+            class="col-6 col-sm-4 col-md-2"
+          >
+            <div
+              class="card p-2 text-center fw-bold cursor-pointer"
+              [ngClass]="getStatusColor(task.ticket_status)"
+              (click)="onStatusCardClick(task.ticket_status)"
+            >
+              <h4 class="fs-4">{{ task.count }}</h4>
+              <p class="mb-1 text-capitalize">{{ task.ticket_status }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row mt-3">
+        <div class="col-md-12">
+          <div class="card p-2 chart-container">
+            <canvas
+              #myChart
+              style="border: 1px solid #3f51b5 !important; padding: 25px"
+            ></canvas>
+          </div>
+        </div>
+      </div>
+
+      <div class="row mt-3">
+        <div class="col-md-12">
+          <div class="card px-3 pb-3">
+            <div
+              class="card-header bg-white d-flex justify-content-between px-3"
+            >
+              <h3 class="m-0 fw-bold fs-4 d-flex align-items-center">
+                <i
+                  class="fa fas fs-2 fa-clipboard-list mx-3 ms-0 text-primary"
+                ></i>
+                Ticket List
+              </h3>
+              <div>
+                <!-- <button type="button" class="fw-bold btn btn-outline-primary btn-primary text-white px-4 btn-sm"  (click)="AddUpdateDomainDialog()">
+                    <i class="fa fw-bolded fa-solid fa-plus me-1"></i> Add
+                  </button> -->
+                <!-- <button class="btn btn-success fw-bold text-white px-4 btn-sm ms-2" (click)="downloadDashboardTodayTaskList()">  <i class="fa fw-bolded  fa-download me-1"></i> Download</button> -->
+              </div>
+            </div>
+            <div class="card-body pt-0" #ticketTabs>
+              <mat-tab-group
+                [(selectedIndex)]="selectedTabIndex"
+                (selectedTabChange)="onTabTaskChange($event)"
+              >
+                <!-- OPEN TAB -->
+                <mat-tab label="Open">
+                  <ng-container *ngIf="selectedStatus === 'open'">
+                    <ng-container
+                      *ngTemplateOutlet="ticketTable"
+                    ></ng-container>
+                  </ng-container>
+                </mat-tab>
+
+                <!-- IN PROGRESS TAB -->
+                <mat-tab label="In Progress">
+                  <ng-container *ngIf="selectedStatus === 'in progress'">
+                    <ng-container
+                      *ngTemplateOutlet="ticketTable"
+                    ></ng-container>
+                  </ng-container>
+                </mat-tab>
+
+                <!-- ON HOLD TAB -->
+                <mat-tab label="On Hold">
+                  <ng-container *ngIf="selectedStatus === 'on hold'">
+                    <ng-container
+                      *ngTemplateOutlet="ticketTable"
+                    ></ng-container>
+                  </ng-container>
+                </mat-tab>
+
+                <!-- RESOLVED TAB -->
+                <mat-tab label="Resolved">
+                  <ng-container *ngIf="selectedStatus === 'resolved'">
+                    <ng-container
+                      *ngTemplateOutlet="ticketTable"
+                    ></ng-container>
+                  </ng-container>
+                </mat-tab>
+
+                <!-- CLOSED TAB -->
+                <mat-tab label="Closed">
+                  <ng-container *ngIf="selectedStatus === 'closed'">
+                    <ng-container
+                      *ngTemplateOutlet="ticketTable"
+                    ></ng-container>
+                  </ng-container>
+                </mat-tab>
+              </mat-tab-group>
+
+              <ng-template #ticketTable>
+                <div class="col-md-12">
+                  <hr class="m-0" />
+                  <mat-paginator
+                    [length]="total"
+                    [pageSize]="perPage"
+                    [pageSizeOptions]="[10, 25, 50, 100]"
+                    [showFirstLastButtons]="true"
+                    (page)="onPageChange($event)"
+                  ></mat-paginator>
+                </div>
+
+                <hr class="m-0" />
+
+                <div class="card-body">
+                  <div class="col-md-12">
+                    <div class="table-responsive">
+                      <table class="table table-hover">
+                        <thead class="table-light">
+                          <tr>
+                            <th>Sr.No</th>
+                            <th>Options</th>
+                            <th>Created Date</th>
+                            <th>Created By</th>
+                            <th scope="col">Assigned To</th>
+                            <th>Ticket No</th>
+                            <th>Subject</th>
+                            <th>Category</th>
+                            <th>Ticket Status</th>
+                          </tr>
+                        </thead>
+                        <tbody class="body-data">
+                          <tr
+                            *ngFor="
+                              let item of allOpenTicketList;
+                              let i = index
+                            "
+                          >
+                            <td>{{ i + 1 }}</td>
+                            <td>
+                              <div class="btn-group dropend">
+                                <button
+                                  type="button"
+                                  class="btn btn-link p-0 border-0 bg-transparent"
+                                  data-bs-toggle="dropdown"
+                                  aria-expanded="false"
+                                >
+                                  <i class="fa fa-ellipsis-v fs-5 ms-3"></i>
+                                </button>
+                                <ul class="dropdown-menu">
+                                  <li>
+                                    <a
+                                      class="dropdown-item"
+                                      [routerLink]="[
+                                        '/employee',
+                                        {
+                                          outlets: {
+                                            employee_menu:
+                                              'view-tickets/' + item.ticket_id
+                                          }
+                                        }
+                                      ]"
+                                    >
+                                      <i class="fa fa-eye me-2"></i> View
+                                    </a>
+                                  </li>
+                                  <li>
+                                    <a
+                                      class="dropdown-item"
+                                      [routerLink]="[
+                                        '/employee',
+                                        {
+                                          outlets: {
+                                            employee_menu:
+                                              'update-tickets/' + item.ticket_id
+                                          }
+                                        }
+                                      ]"
+                                    >
+                                      <i class="fa fa-pencil-alt me-2"></i> Edit
+                                    </a>
+                                  </li>
+                                </ul>
+                              </div>
+                            </td>
+                            <td class="wrap-text">
+                              {{ (item.created_at | date) || "--" }}
+                            </td>
+                            <td class="wrap-text">
+                              {{ (item.user_name | titlecase) || "--" }}
+                            </td>
+                            <td class="wrap-text">
+                              {{ (item.assigned_user_name | titlecase) || "--" }}
+                            </td>
+                            <td class="wrap-text">
+                              {{ (item.ticket_no | uppercase) || "--" }}
+                            </td>
+                            <td class="wrap-text">
+                              {{ (item.subject | titlecase) || "--" }}
+                            </td>
+                            <td class="wrap-text">{{ item.name || "--" }}</td>
+                            <td>
+                              <label
+                                [ngClass]="
+                                  getStatusColor(item.ticket_status) +
+                                  ' status-label'
+                                "
+                              >
+                                {{ item.ticket_status | titlecase }}
+                              </label>
+                            </td>
+                          </tr>
+                          <tr
+                            class="fw-bold text-center"
+                            *ngIf="allOpenTicketList.length === 0"
+                          >
+                            <td colspan="10" class="text-danger">
+                              No Data Available
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+
+                      <div class="col-md-12">
+                        <mat-paginator
+                          [length]="total"
+                          [pageSize]="perPage"
+                          [pageSizeOptions]="[5, 10, 25, 100]"
+                          [showFirstLastButtons]="true"
+                          (page)="onPageChange($event)"
+                        ></mat-paginator>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </ng-template>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
