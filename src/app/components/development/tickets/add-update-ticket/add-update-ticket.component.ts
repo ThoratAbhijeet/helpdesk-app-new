@@ -21,6 +21,7 @@ export class AddUpdateTicketComponent implements OnInit {
   allDepartmentList: Array<any> = [];
   allAssignDepartmentList: Array<any> = [];
   allTicketEmployeeStatusList: Array<any> = [];
+  allTicketTechnicianStatusList: Array<any> = [];
   TicketId: any;
   searchCategoryValue: string = '';
   filteredCategoryList: any[] = [];
@@ -32,6 +33,9 @@ export class AddUpdateTicketComponent implements OnInit {
   searchServiceValue: string = '';
   filteredServiceList: any[] = [];
   userId: any;
+  allTicketTechnicianList: Array<any> = [];
+  searchTicketTechnicianValue: string = '';
+  filteredTicketTechnicianList: any[] = [];
   constructor(
     private fb: FormBuilder,
     private _toastrService: ToastrService,
@@ -49,11 +53,14 @@ export class AddUpdateTicketComponent implements OnInit {
     this.getAllDepartmentListWma();
     //  this.getAllCompanyListWma()
     this.getTicketAssignToById(this.userId);
+    this.getTicketTechnicianAssignToById(this.userId);
     this.TicketId = this.url.snapshot.params['id'];
     //activate route get employee id
     if (this.TicketId) {
       this.getTicketById(this.TicketId);
       this.isEdit = true
+           this.TicketForm.get('customer_id')?.disable();
+      this.TicketForm.get('service_id')?.disable();
       this.TicketForm.get('ticket_category_id')?.disable();
       this.TicketForm.get('department_id')?.disable();
        this.TicketForm.get('priority_id')?.disable();
@@ -254,7 +261,26 @@ onFileSelected(event: any) {
       this.filteredTicketEmployeeList = this.allTicketEmployeeStatusList;
     }
   }
-
+  //get Ticket assign to by id
+  getTicketTechnicianAssignToById(id: any) {
+   this._customerService.getAllTechnicianListWma(id).subscribe({
+      next: (res: any) => {
+        if (res.data.length > 0) {
+          this.allTicketTechnicianStatusList = res.data;
+          this.filteredTicketTechnicianList = this.allTicketTechnicianStatusList;
+        }
+      }
+    });
+  }
+    filterTechnicianAssignTo() {
+    if (this.searchTicketTechnicianValue !== '') {
+      this.filteredTicketTechnicianList = this.allTicketTechnicianStatusList.filter(project =>
+        project.user_name.toLowerCase().includes(this.searchTicketTechnicianValue.toLowerCase())
+      );
+    } else {
+      this.filteredTicketTechnicianList = this.allTicketTechnicianStatusList;
+    }
+  }
   //get status  list...
   getAllPriorityListWma() {
     this._customerService.getAllPriorityListWma().subscribe({
