@@ -107,7 +107,6 @@
                 </option>
               </select>
             </div>
-
             <!-- Priority -->
             <div class="col-md-3">
               <label class=""
@@ -126,23 +125,67 @@
                 </option>
               </select>
             </div>
-            <div class="col-md-3">
-              <label for=" ">Assign To</label>
+               <!-- <div class="col-md-3">
+                <label class="mb-2"
+                  >Company <span class="text-danger">*</span></label
+                >
+                <select
+                  class="form-control"
+                  formControlName="customer_id"
+                  (change)="onCompanyChange($event)"
+                >
+                  <option value="" disabled selected hidden>
+                    Select Company
+                  </option>
+                  <option
+                    *ngFor="let item of allTicketEmployeeStatusList"
+                    [value]="item.customer_id"
+                  >
+                    {{ item.company_name | titlecase }}
+                  </option>
+                </select>
+              </div> -->
+                 <div class="col-md-3">
+              <label for=" ">Company</label>
               <mat-select
-                placeholder="Select Employee"
-                formControlName="assigned_to"
-                class="form-control w-100"
+                placeholder="Select Company"
+                formControlName="customer_id"
+                class="form-control w-100"      
+  (selectionChange)="onCompanyChange($event)"
               >
                 <ngx-mat-select-search
                   [(ngModel)]="searchTicketEmployeeValue"
                   [ngModelOptions]="{ standalone: true }"
                   (input)="filterAssignTo()"
+                  placeholderLabel="Search Company"
+                  noEntriesFoundLabel="No Company found"
+                ></ngx-mat-select-search>
+                <mat-option value="null">All Company</mat-option>
+                <mat-option
+                  *ngFor="let user of allTicketEmployeeStatusList"
+                  [value]="user.customer_id"
+                >
+                  {{ user.company_name | titlecase }}
+                </mat-option>
+              </mat-select>
+            </div>
+            <div class="col-md-3">
+              <label for=" ">Employee</label>
+              <mat-select
+                placeholder="Select Employee"
+                formControlName="user_id"
+                class="form-control w-100"
+              >
+                <ngx-mat-select-search
+                  [(ngModel)]="searchTicketEmployeeCompanyValue"
+                  [ngModelOptions]="{ standalone: true }"
+                  (input)="filterEmployee()"
                   placeholderLabel="Search Employee"
                   noEntriesFoundLabel="No employees found"
                 ></ngx-mat-select-search>
                 <mat-option value="null">All Employee</mat-option>
                 <mat-option
-                  *ngFor="let user of filteredTicketEmployeeList"
+                  *ngFor="let user of filteredTicketEmployeeCompanyList"
                   [value]="user.user_id"
                 >
                   {{ user.user_name | titlecase }}
@@ -220,7 +263,7 @@
                               <i class="fa fa-eye me-2"></i> View
                             </a>
                           </li>
-                          <li>
+                          <!-- <li>
                             <a
                               class="dropdown-item"
                               [routerLink]="[
@@ -235,7 +278,7 @@
                             >
                               <i class="fa fa-pencil-alt me-2"></i> Edit
                             </a>
-                          </li>
+                          </li> -->
                         </ul>
                       </div>
                     </td>

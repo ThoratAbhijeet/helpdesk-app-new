@@ -171,7 +171,7 @@
                             <th>Options</th>
                             <th>Created Date</th>
                             <th>Created By</th>
-                            <th scope="col">Assigned To</th>
+                            <!-- <th scope="col">Assigned To</th> -->
                             <th>Ticket No</th>
                             <th>Subject</th>
                             <th>Category</th>
@@ -238,9 +238,9 @@
                             <td class="wrap-text">
                               {{ (item.user_name | titlecase) || "--" }}
                             </td>
-                            <td class="wrap-text">
+                            <!-- <td class="wrap-text">
                               {{ (item.assigned_user_name | titlecase) || "--" }}
-                            </td>
+                            </td> -->
                             <td class="wrap-text">
                               {{ (item.ticket_no | uppercase) || "--" }}
                             </td>

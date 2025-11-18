@@ -59,8 +59,8 @@ export class AddUpdateTicketComponent  implements OnInit {
     if (this.TicketId) {
       this.getTicketById(this.TicketId);
       this.isEdit = true
-           this.TicketForm.get('customer_id')?.disable();
-      this.TicketForm.get('service_id')?.disable();
+      //      this.TicketForm.get('customer_id')?.disable();
+      // this.TicketForm.get('service_id')?.disable();
       this.TicketForm.get('ticket_category_id')?.disable();
       this.TicketForm.get('department_id')?.disable();
        this.TicketForm.get('priority_id')?.disable();
@@ -72,8 +72,8 @@ export class AddUpdateTicketComponent  implements OnInit {
   //Ticket form
   createForm() {
     this.TicketForm = this.fb.group({
-      customer_id: ['',Validators.required],
-      service_id: ['',Validators.required],
+      // customer_id: ['',Validators.required],
+      // service_id: ['',Validators.required],
       ticket_category_id: ['',Validators.required],
       department_id: ['',Validators.required],
       priority_id: ['',Validators.required],
@@ -205,15 +205,15 @@ onCompanyChange(event: Event) {
     this._customerService.getTicketById(id).subscribe({
       next: (result: any) => {
         const customerData = result.data;
-        this.controls['customer_id'].patchValue(customerData.customer_id)
-        this.controls['service_id'].patchValue(customerData.service_id)
+        // this.controls['customer_id'].patchValue(customerData.customer_id)
+        // this.controls['service_id'].patchValue(customerData.service_id)
         this.controls['department_id'].patchValue(customerData.department_id)
         this.controls['ticket_category_id'].patchValue(customerData.ticket_category_id)
         this.controls['priority_id'].patchValue(customerData.priority_id)
         this.controls['subject'].patchValue(customerData.subject)
         this.controls['message'].patchValue(customerData.description)
         this.controls['ticket_status'].patchValue(customerData.ticket_status)
-        this.getAllServiceListWma(customerData.customer_id);
+        // this.getAllServiceListWma(customerData.customer_id);
         this.getAllCategoryListWma(customerData.department_id);
          if (customerData.ticket_status?.trim().toLowerCase() === 'open') {
         this.controls['assigned_to'].patchValue(this.userId);

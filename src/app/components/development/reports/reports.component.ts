@@ -18,6 +18,9 @@ export class ReportsComponent implements OnInit {
   allCategoryList: Array<any> = [];
   searchCategoryValue: string = '';
   filteredCategoryList: any[] = [];
+   allTicketEmployeeStatusList: Array<any> = [];
+  searchTicketEmployeeValue: string = '';
+  filteredTicketEmployeeList: any[] = [];
   page = 1;
   perPage = 50;
   total = 0;
@@ -29,17 +32,19 @@ export class ReportsComponent implements OnInit {
   ticket_category_id = '';
   searchControl: any;
   searchKey: any = '';
-  customer_id: any = '';
+  customer_Id: any = '';
+  customer_id = '';
   constructor(private _customerService: CustomerService, private fb: FormBuilder, private elRef: ElementRef, private _toastrService: ToastrService,) { }
 
   ngOnInit(): void {
     let userData = localStorage.getItem('data');
     this.user_id = userData ? JSON.parse(userData).user_id : null;
-    this.customer_id = userData ? JSON.parse(userData).cust_customer_id : null;
+    this.customer_Id = userData ? JSON.parse(userData).cust_customer_id : null;
     this.createForm();
     this.getAllPriorityListWma()
     this.getAllDepartmentListWma();
     this.getAllCategoryListWma();
+    this.getTicketAssignToById();
     this.searchControl.valueChanges.pipe(debounceTime(550)).subscribe((searchKey: any) => {
       this.getSearchInput(searchKey);
     });
@@ -52,7 +57,8 @@ export class ReportsComponent implements OnInit {
       company_name: [''],
       priority_id: [''],
       ticket_category_id: [''],
-      assigned_to: ['']
+      assigned_to: [''],
+      customer_id: [''],
     });
   }
  
@@ -62,8 +68,8 @@ export class ReportsComponent implements OnInit {
     this.department_id = this.form.value.department_id;
     this.priority_id = this.form.value.priority_id;
     this.ticket_category_id = this.form.value.ticket_category_id;
-    
-    this._customerService.getAllTicketsListReport(this.page, this.perPage, this.fromDate, this.toDate, this.department_id, this.priority_id, this.ticket_category_id, '', this.searchKey,'','').subscribe({
+    this.customer_id = this.form.value.customer_id;
+    this._customerService.getAllTicketsListReport(this.page, this.perPage, this.fromDate, this.toDate, this.department_id, this.priority_id, this.ticket_category_id, '', this.searchKey,this.user_id,this.customer_id).subscribe({
       next: (res: any) => {
         if (res.data.length > 0) {
           this.allReportList = res.data;
@@ -91,7 +97,26 @@ export class ReportsComponent implements OnInit {
   }
 
 
-
+//get Ticket assign to by id
+  getTicketAssignToById() {
+   this._customerService.getAllCustomerListWma(this.user_id).subscribe({
+      next: (res: any) => {
+        if (res.data.length > 0) {
+          this.allTicketEmployeeStatusList = res.data;
+          this.filteredTicketEmployeeList = this.allTicketEmployeeStatusList;
+        }
+      }
+    });
+  }
+    filterAssignTo() {
+    if (this.searchTicketEmployeeValue !== '') {
+      this.filteredTicketEmployeeList = this.allTicketEmployeeStatusList.filter(project =>
+        project.user_name.toLowerCase().includes(this.searchTicketEmployeeValue.toLowerCase())
+      );
+    } else {
+      this.filteredTicketEmployeeList = this.allTicketEmployeeStatusList;
+    }
+  }
 
   //download All Ticket report list
   downloadAllMeetingReportList() {
@@ -100,7 +125,8 @@ this.fromDate = this.form.value.fromDate;
     this.department_id = this.form.value.department_id;
     this.priority_id = this.form.value.priority_id;
     this.ticket_category_id = this.form.value.ticket_category_id;
-    this._customerService.downloadAllTikitReportList(this.fromDate, this.toDate, this.department_id, this.priority_id,this.ticket_category_id,'', this.searchKey,'','' ).subscribe({
+    this.customer_id = this.form.value.customer_id;
+    this._customerService.downloadAllTikitReportList(this.fromDate, this.toDate, this.department_id, this.priority_id,this.ticket_category_id,'', this.searchKey,'',this.customer_id).subscribe({
       next: (blob: Blob) => {
         const url = window.URL.createObjectURL(blob);
         const link = document.createElement('a');

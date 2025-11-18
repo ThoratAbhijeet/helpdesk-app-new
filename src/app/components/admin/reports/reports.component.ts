@@ -45,7 +45,7 @@ export class ReportsComponent implements OnInit {
     this.getAllPriorityListWma()
     this.getAllDepartmentListWma();
     this.getAllCategoryListWma();
-    this.getTicketAssignToById(this.user_id);
+    this.getTicketAssignToById(this.customer_id);
     this.searchControl.valueChanges.pipe(debounceTime(550)).subscribe((searchKey: any) => {
       this.getSearchInput(searchKey);
     });
@@ -58,7 +58,7 @@ export class ReportsComponent implements OnInit {
       company_name: [''],
       priority_id: [''],
       ticket_category_id: [''],
-      assigned_to: ['']
+      user_id: ['']
     });
   }
  
@@ -68,9 +68,9 @@ export class ReportsComponent implements OnInit {
     this.department_id = this.form.value.department_id;
     this.priority_id = this.form.value.priority_id;
     this.ticket_category_id = this.form.value.ticket_category_id;
-    this.assigned_to = this.form.value.assigned_to;
+    this.assigned_to = this.form.value.user_id;
     
-    this._customerService.getAllTicketsListReport(this.page, this.perPage, this.fromDate, this.toDate, this.department_id, this.priority_id, this.ticket_category_id, this.assigned_to, this.searchKey,'',this.customer_id).subscribe({
+    this._customerService.getAllTicketsListReport(this.page, this.perPage, this.fromDate, this.toDate, this.department_id, this.priority_id, this.ticket_category_id, '', this.searchKey, this.assigned_to,this.customer_id).subscribe({
       next: (res: any) => {
         if (res.data.length > 0) {
           this.allReportList = res.data;
@@ -205,7 +205,7 @@ getAllDepartmentListWma() {
     }
   }
    getTicketAssignToById(id: any) {
-   this._customerService.getAllCustomerListWma(id).subscribe({
+   this._customerService.getAllCustomerCompnaywiseListWma(id).subscribe({
       next: (res: any) => {
         if (res.data.length > 0) {
           this.allTicketEmployeeStatusList = res.data;

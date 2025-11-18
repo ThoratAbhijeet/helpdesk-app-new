@@ -207,6 +207,25 @@ export class AdminService {
       });
   
     }
+     getEmployeeWmaList(key: any, page: any, perPage: any): Observable<any> {
+      let params: any = {
+        page: page,
+        perPage: perPage,
+        key: key
+      };
+      // Check if page or perPage is empty and remove them from params if so
+      if (page === '' || perPage === '') {
+        delete params.page;
+        delete params.perPage;
+      }
+      if (key === '' || key === 'null') delete params.key;
+     
+      // Make the HTTP GET request
+      return this.http.get(this.baseUrl + 'api/user/technician-wma', {
+        params: params
+      });
+  
+    }
    //add new user...
   addUser(data: any): Observable<any> {
     return this.http.post(this.baseUrl + 'api/user', data);
@@ -345,7 +364,15 @@ export class AdminService {
     });
   }
   //customer wma assign to
-    getUserAgentById(department_id: any,): Observable<any> {
+    getUserAgentCustomerById(department_id: any,): Observable<any> {
+    let params: any = {
+      department_id: department_id
+    };
+    return this.http.get(this.baseUrl + 'api/user/technician-wma', {
+      params: params
+    })
+  }
+   getUserAgentById(department_id: any,): Observable<any> {
     let params: any = {
       department_id: department_id
     };

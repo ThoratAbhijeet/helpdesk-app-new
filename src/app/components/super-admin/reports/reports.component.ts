@@ -4,6 +4,7 @@ import { CustomerService } from '../../customer/customer.service';
 import { ToastrService } from 'ngx-toastr';
 import { debounceTime } from 'rxjs';
 import { PageEvent } from '@angular/material/paginator';
+import { MatSelectChange } from '@angular/material/select';
 
 @Component({
   selector: 'app-reports',
@@ -21,6 +22,9 @@ export class ReportsComponent implements OnInit {
   allCategoryList: Array<any> = [];
   searchCategoryValue: string = '';
   filteredCategoryList: any[] = [];
+   allTicketEmployeeCompanyStatusList: Array<any> = [];
+  searchTicketEmployeeCompanyValue: string = '';
+   filteredTicketEmployeeCompanyList: any[] = [];
   page = 1;
   perPage = 50;
   total = 0;
@@ -33,7 +37,7 @@ export class ReportsComponent implements OnInit {
   ticket_category_id = '';
   searchControl: any;
   searchKey: any = '';
-  
+  customer_id = '';
   constructor(private _customerService: CustomerService, private fb: FormBuilder, private elRef: ElementRef, private _toastrService: ToastrService,) { }
 
   ngOnInit(): void {
@@ -43,7 +47,7 @@ export class ReportsComponent implements OnInit {
     this.getAllPriorityListWma()
     this.getAllDepartmentListWma();
     this.getAllCategoryListWma();
-    this.getTicketAssignToById(this.user_id);
+    this.getTicketAssignToById();
     this.searchControl.valueChanges.pipe(debounceTime(550)).subscribe((searchKey: any) => {
       this.getSearchInput(searchKey);
     });
@@ -56,7 +60,8 @@ export class ReportsComponent implements OnInit {
       company_name: [''],
       priority_id: [''],
       ticket_category_id: [''],
-      assigned_to: ['']
+      user_id: [''],
+      customer_id: [''],
     });
   }
  
@@ -66,9 +71,9 @@ export class ReportsComponent implements OnInit {
     this.department_id = this.form.value.department_id;
     this.priority_id = this.form.value.priority_id;
     this.ticket_category_id = this.form.value.ticket_category_id;
-    this.assigned_to = this.form.value.assigned_to;
-    
-    this._customerService.getAllTicketsListReport(this.page, this.perPage, this.fromDate, this.toDate, this.department_id, this.priority_id, this.ticket_category_id, this.assigned_to, this.searchKey,'','').subscribe({
+    this.assigned_to = this.form.value.user_id;
+        this.customer_id = this.form.value.customer_id;
+    this._customerService.getAllTicketsListReport(this.page, this.perPage, this.fromDate, this.toDate, this.department_id, this.priority_id, this.ticket_category_id, '', this.searchKey,this.assigned_to, this.customer_id).subscribe({
       next: (res: any) => {
         if (res.data.length > 0) {
           this.allReportList = res.data;
@@ -81,7 +86,12 @@ export class ReportsComponent implements OnInit {
     });
   }
 
-
+onCompanyChange(event: MatSelectChange) {
+  const customerId = event.value; 
+  if (customerId) {
+    this.getTicketEmployeeById(customerId);
+  }
+}
   getSearchInput(searchKey: any) {
     this.searchKey = searchKey;
     this.getAllMeetingReportList();
@@ -106,7 +116,8 @@ this.fromDate = this.form.value.fromDate;
     this.priority_id = this.form.value.priority_id;
     this.ticket_category_id = this.form.value.ticket_category_id;
     this.assigned_to = this.form.value.assigned_to;
-    this._customerService.downloadAllTikitReportList(this.fromDate, this.toDate, this.department_id, this.priority_id,this.ticket_category_id,this.assigned_to, this.searchKey,'' ,'').subscribe({
+    this.customer_id = this.form.value.customer_id;
+    this._customerService.downloadAllTikitReportList(this.fromDate, this.toDate, this.department_id, this.priority_id,this.ticket_category_id,this.assigned_to, this.searchKey,'' ,this.customer_id).subscribe({
       next: (blob: Blob) => {
         const url = window.URL.createObjectURL(blob);
         const link = document.createElement('a');
@@ -202,8 +213,9 @@ getAllDepartmentListWma() {
       this.filteredCategoryList = this.allCategoryList;
     }
   }
-   getTicketAssignToById(id: any) {
-   this._customerService.getAllCustomerListWma(id).subscribe({
+ //get Ticket assign to by id
+  getTicketAssignToById() {
+   this._customerService.getAllCustomerListWma('').subscribe({
       next: (res: any) => {
         if (res.data.length > 0) {
           this.allTicketEmployeeStatusList = res.data;
@@ -215,10 +227,29 @@ getAllDepartmentListWma() {
     filterAssignTo() {
     if (this.searchTicketEmployeeValue !== '') {
       this.filteredTicketEmployeeList = this.allTicketEmployeeStatusList.filter(project =>
-        project.user_name.toLowerCase().includes(this.searchTicketEmployeeValue.toLowerCase())
+        project.company_name.toLowerCase().includes(this.searchTicketEmployeeValue.toLowerCase())
       );
     } else {
       this.filteredTicketEmployeeList = this.allTicketEmployeeStatusList;
+    }
+  }
+   getTicketEmployeeById(id:any) {
+   this._customerService.getAllCustomerCompnaywiseListWma(id).subscribe({
+      next: (res: any) => {
+        if (res.data.length > 0) {
+          this.allTicketEmployeeCompanyStatusList = res.data;
+          this.filteredTicketEmployeeCompanyList = this.allTicketEmployeeCompanyStatusList;
+        }
+      }
+    });
+  }
+    filterEmployee() {
+    if (this.searchTicketEmployeeCompanyValue !== '') {
+      this.filteredTicketEmployeeCompanyList = this.allTicketEmployeeCompanyStatusList.filter(project =>
+        project.user_name.toLowerCase().includes(this.searchTicketEmployeeCompanyValue.toLowerCase())
+      );
+    } else {
+      this.filteredTicketEmployeeCompanyList = this.allTicketEmployeeCompanyStatusList;
     }
   }
 

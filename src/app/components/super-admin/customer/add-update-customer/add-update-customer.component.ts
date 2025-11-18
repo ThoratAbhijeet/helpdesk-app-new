@@ -417,7 +417,7 @@ onDepartmentAgentChange(departmentId: number, index: number) {
 }
 
 getUserAgentById(departmentId: number, index: number, selectedUserId?: any) {
-  this._adminService.getUserAgentById(departmentId).subscribe({
+  this._adminService.getUserAgentCustomerById(departmentId).subscribe({
     next: (res: any) => {
       if (res.data?.length > 0) {
         this.userAgentLists[index] = res.data;
