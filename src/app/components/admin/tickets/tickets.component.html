@@ -61,7 +61,7 @@
                     <!-- <th scope="col">Status</th> -->
                     <th scope="col">Created Date</th>
                     <th scope="col">Created By</th>
-                    <th scope="col">Assigned To</th>
+                    <!-- <th scope="col">Assigned To</th> -->
                     <th scope="col">Ticket No</th>
                     <!-- <th scope="col">Designation</th> -->
                     <th scope="col">Subject</th>
@@ -137,9 +137,9 @@
                     <td class="wrap-text">
                       {{ (item.user_name | titlecase) || "--" }}
                     </td>
-                    <td class="wrap-text">
+                    <!-- <td class="wrap-text">
                       {{ (item.assigned_to_name | titlecase) || "--" }}
-                    </td>
+                    </td> -->
                     <td class="wrap-text">
                       {{ (item.ticket_no | uppercase) || "--" }}
                     </td>

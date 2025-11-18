@@ -1,3 +1,117 @@
 .form-control{
     cursor: not-allowed !important;
 }
+.modern-card {
+    background: rgba(255, 255, 255, 0.88);
+    backdrop-filter: blur(12px);
+    border-radius: 16px;
+    padding: 22px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.10);
+    border: 1px solid rgba(255,255,255,0.45);
+    transition: 0.3s ease-in-out;
+  }
+
+  .modern-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.15);
+  }
+
+  .section-head {
+    font-weight: 700;
+    font-size: 20px;
+    color: #2a2a2a;
+    letter-spacing: .5px;
+    margin-bottom: 10px;
+  }
+
+  .nice-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #5A5A5A;
+    margin-bottom: 4px;
+    display: block;
+  }
+
+  .modern-input {
+    border-radius: 10px;
+    border: 1px solid #dcdcdc;
+    padding: 7px 12px;
+    font-size: 14px;
+  }
+
+  textarea.modern-input {
+    resize: none;
+  }
+
+  .history-box {
+    max-height: 450px;
+    overflow-y: auto;
+    padding-right: 5px;
+  }
+
+  .history-box::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .history-box::-webkit-scrollbar-thumb {
+    background: #b7b7b7;
+    border-radius: 10px;
+  }
+
+  table thead th {
+    background: #f6f7f8 !important;
+    font-weight: 600;
+    font-size: 13px;
+  }
+
+  table tbody td {
+    font-size: 13px;
+    vertical-align: middle;
+  }
+  .history-timeline {
+  position: relative;
+  margin-left: 10px;
+  padding-left: 20px;
+  border-left: 2px solid #d9d9d9;
+  height: 450px;
+  overflow-y: auto;
+}
+
+.timeline-item {
+  margin-bottom: 25px;
+  position: relative;
+}
+
+.timeline-dot {
+  width: 14px;
+  height: 14px;
+  background: #4a90e2;
+  border-radius: 50%;
+  position: absolute;
+  left: -30px;
+  top: 5px;
+}
+
+.timeline-content {
+  background: #ffffff;
+  padding: 12px 15px;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+.status-title {
+  font-weight: 700;
+}
+.history-timeline::-webkit-scrollbar {
+  width: 6px;
+}
+.history-timeline::-webkit-scrollbar-thumb {
+  background: #c9c9c9;
+  border-radius: 10px;
+}
+.gradient-text {
+  background: linear-gradient(45deg, #3f51b5, #00bcd4);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 700;
+  font-size: 18px;
+}

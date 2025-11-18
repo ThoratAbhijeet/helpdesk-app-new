@@ -126,6 +126,28 @@
                 </option>
               </select>
             </div>
+              <div class="col-md-3">
+              <label for=" "> Company</label>
+              <mat-select
+                placeholder="Select Company"
+                formControlName="customer_id"
+                class="form-control w-100"
+              >
+                <ngx-mat-select-search
+                  [(ngModel)]="searchTicketEmployeeValue"
+                  [ngModelOptions]="{ standalone: true }"
+                  placeholderLabel="Search Company"
+                  noEntriesFoundLabel="No Company found"
+                ></ngx-mat-select-search>
+                <mat-option value="null">All Company</mat-option>
+                <mat-option
+                  *ngFor="let user of filteredTicketEmployeeList"
+                  [value]="user.customer_id"
+                >
+                  {{ user.company_name | titlecase }}
+                </mat-option>
+              </mat-select>
+            </div>
             <div class="col-md-3 d-flex align-items-center mt-3">
               <button
                 type="button"

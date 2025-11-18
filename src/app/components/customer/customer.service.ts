@@ -34,8 +34,18 @@ export class CustomerService {
     let params: any = {
       user_id: user_id
     };
-  //  if (user_id === '' || user_id === 'null') delete params.user_id;
+   if (user_id === '' || user_id === 'null') delete params.user_id;
     return this.http.get(this.baseUrl + 'api/user/customer-wma', {
+      params: params
+    })
+  }
+    //customer wma assign to
+  getAllCustomerCompnaywiseListWma(customer_id: any): Observable<any> {
+    let params: any = {
+      customer_id: customer_id
+    };
+   if (customer_id === '' || customer_id === 'null') delete params.customer_id;
+    return this.http.get(this.baseUrl + 'api/user/signup-wma', {
       params: params
     })
   }

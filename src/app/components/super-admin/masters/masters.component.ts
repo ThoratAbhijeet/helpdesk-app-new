@@ -18,6 +18,7 @@ export class MastersComponent implements OnInit {
   allPriorityList: Array<any> = [];
   allRoleList: Array<any> = [];
   allUserList: Array<any> = [];
+  customer_id :any;
   page = 1;
   limit = 50;
   total = 0;
@@ -31,6 +32,8 @@ export class MastersComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    let userData = localStorage.getItem('data');
+    this.customer_id = userData ? JSON.parse(userData).sign_customer_id : null;
     this.getTicketCategoriesList();
     const savedIndex = localStorage.getItem('selectedTabIndex');
     if (savedIndex) {
@@ -145,7 +148,7 @@ getServicesList() {
   }
   getEmployeeList() {
     const searchKey = this.searchKeys[this.selectedTabIndex] || '';
-    this._adminService.getUsersList(searchKey, this.page, this.limit,this.role_id,'').subscribe({
+    this._adminService.getEmployeeWmaList(searchKey, this.page, this.limit).subscribe({
       next: (res: any) => {
         if (res.data.length > 0) {
           this.allUserList = res.data

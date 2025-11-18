@@ -48,7 +48,7 @@ export class AddUpdateTicketsComponent  implements OnInit {
     this.getAllPriorityListWma();
     this.getAllDepartmentListWma()
     //  this.getAllCompanyListWma()
-    this.getTicketAssignToById(this.userId);
+    // this.getTicketAssignToById(this.userId);
     this.TicketId = this.url.snapshot.params['id'];
     //activate route get employee id
     if (this.TicketId) {
@@ -61,8 +61,8 @@ export class AddUpdateTicketsComponent  implements OnInit {
   //Ticket form
   createForm() {
     this.TicketForm = this.fb.group({
-       customer_id: ['',Validators.required],
-      service_id: ['',Validators.required],
+      //  customer_id: ['',Validators.required],
+      // service_id: ['',Validators.required],
       ticket_category_id: ['',Validators.required],
       department_id: ['',Validators.required],
       priority_id: ['',Validators.required],
@@ -193,8 +193,8 @@ onCompanyChange(event: Event) {
     this._customerService.getTicketById(id).subscribe({
       next: (result: any) => {
         const customerData = result.data;
-        this.controls['customer_id'].patchValue(customerData.customer_id)
-        this.controls['service_id'].patchValue(customerData.service_id)
+        // this.controls['customer_id'].patchValue(customerData.customer_id)
+        // this.controls['service_id'].patchValue(customerData.service_id)
         this.controls['ticket_category_id'].patchValue(customerData.ticket_category_id)
         this.controls['department_id'].patchValue(customerData.department_id)
         this.controls['priority_id'].patchValue(customerData.priority_id)
@@ -226,25 +226,25 @@ onFileSelected(event: any) {
 
 
   //get Ticket assign to by id
-  getTicketAssignToById(id: any) {
-   this._customerService.getAllCustomerListWma(id).subscribe({
-      next: (res: any) => {
-        if (res.data.length > 0) {
-          this.allTicketEmployeeStatusList = res.data;
-          this.filteredTicketEmployeeList = this.allTicketEmployeeStatusList;
-        }
-      }
-    });
-  }
-    filterAssignTo() {
-    if (this.searchTicketEmployeeValue !== '') {
-      this.filteredTicketEmployeeList = this.allTicketEmployeeStatusList.filter(project =>
-        project.user_name.toLowerCase().includes(this.searchTicketEmployeeValue.toLowerCase())
-      );
-    } else {
-      this.filteredTicketEmployeeList = this.allTicketEmployeeStatusList;
-    }
-  }
+  // getTicketAssignToById(id: any) {
+  //  this._customerService.getAllCustomerListWma(id).subscribe({
+  //     next: (res: any) => {
+  //       if (res.data.length > 0) {
+  //         this.allTicketEmployeeStatusList = res.data;
+  //         this.filteredTicketEmployeeList = this.allTicketEmployeeStatusList;
+  //       }
+  //     }
+  //   });
+  // }
+  //   filterAssignTo() {
+  //   if (this.searchTicketEmployeeValue !== '') {
+  //     this.filteredTicketEmployeeList = this.allTicketEmployeeStatusList.filter(project =>
+  //       project.user_name.toLowerCase().includes(this.searchTicketEmployeeValue.toLowerCase())
+  //     );
+  //   } else {
+  //     this.filteredTicketEmployeeList = this.allTicketEmployeeStatusList;
+  //   }
+  // }
 
   //get status  list...
   getAllPriorityListWma() {
