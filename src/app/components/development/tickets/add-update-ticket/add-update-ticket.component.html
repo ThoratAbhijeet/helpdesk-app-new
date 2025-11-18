@@ -366,15 +366,15 @@
                         >
                           <mat-option>
                             <ngx-mat-select-search
-                              [(ngModel)]="searchTicketEmployeeValue"
+                              [(ngModel)]="searchTicketTechnicianValue"
                               [ngModelOptions]="{ standalone: true }"
-                              (input)="filterAssignTo()"
+                              (input)="filterTechnicianAssignTo()"
                               placeholderLabel="Search Employee"
                               noEntriesFoundLabel="No result found"
                             ></ngx-mat-select-search>
                           </mat-option>
                           <mat-option
-                            *ngFor="let source of filteredTicketEmployeeList"
+                            *ngFor="let source of filteredTicketTechnicianList"
                             [value]="source.user_id"
                           >
                             <span>

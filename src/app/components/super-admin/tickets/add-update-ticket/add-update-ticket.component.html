@@ -18,7 +18,7 @@
         <div class="card-body">
           <form [formGroup]="TicketForm">
             <div class="row">
-               <div class="col-md-4">
+                <div class="col-md-4">
                 <label class="mb-2"
                   >Company <span class="text-danger">*</span></label
                 >
@@ -98,6 +98,42 @@
                   "
                 >
                   <small>Please select a Service.</small>
+                </div>
+              </div>
+               <div class="col-md-4">
+                <label class="mb-2"
+                  >Department <span class="text-danger">*</span></label
+                >
+                <select
+                  class="form-control"
+                  formControlName="department_id"
+                  (change)="onDepartmentAgentChange($event)"
+                  [ngClass]="{
+                    'is-invalid':
+                      controls['department_id'].invalid &&
+                      (controls['department_id'].dirty ||
+                        controls['department_id'].touched)
+                  }"
+                >
+                  <option value="" disabled selected hidden>
+                    Select Department
+                  </option>
+                  <option
+                    *ngFor="let item of allDepartmentList"
+                    [value]="item.department_id"
+                  >
+                    {{ item.department_name | titlecase }}
+                  </option>
+                </select>
+                 <div
+                  class="text-danger"
+                  *ngIf="
+                    controls['department_id'].invalid &&
+                    (controls['department_id'].touched ||
+                      controls['department_id'].dirty)
+                  "
+                >
+                  <small>Please select a Department.</small>
                 </div>
               </div>
               <!-- Ticket Category -->
@@ -330,15 +366,15 @@
                         >
                           <mat-option>
                             <ngx-mat-select-search
-                              [(ngModel)]="searchTicketEmployeeValue"
+                              [(ngModel)]="searchTicketTechnicianValue"
                               [ngModelOptions]="{ standalone: true }"
-                              (input)="filterAssignTo()"
+                              (input)="filterTechnicianAssignTo()"
                               placeholderLabel="Search Employee"
                               noEntriesFoundLabel="No result found"
                             ></ngx-mat-select-search>
                           </mat-option>
                           <mat-option
-                            *ngFor="let source of filteredTicketEmployeeList"
+                            *ngFor="let source of filteredTicketTechnicianList"
                             [value]="source.user_id"
                           >
                             <span>

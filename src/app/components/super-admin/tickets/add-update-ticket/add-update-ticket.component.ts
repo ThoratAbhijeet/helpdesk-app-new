@@ -21,17 +21,21 @@ export class AddUpdateTicketComponent  implements OnInit {
   allDepartmentList: Array<any> = [];
   allAssignDepartmentList: Array<any> = [];
   allTicketEmployeeStatusList: Array<any> = [];
+  allTicketTechnicianStatusList: Array<any> = [];
   TicketId: any;
   searchCategoryValue: string = '';
   filteredCategoryList: any[] = [];
   allTicketEmployeeList: Array<any> = [];
   searchTicketEmployeeValue: string = '';
   filteredTicketEmployeeList: any[] = [];
-   allCompanyList: Array<any> = [];
+    allCompanyList: Array<any> = [];
   allServiceList: Array<any> = [];
   searchServiceValue: string = '';
   filteredServiceList: any[] = [];
   userId: any;
+  allTicketTechnicianList: Array<any> = [];
+  searchTicketTechnicianValue: string = '';
+  filteredTicketTechnicianList: any[] = [];
   constructor(
     private fb: FormBuilder,
     private _toastrService: ToastrService,
@@ -45,16 +49,18 @@ export class AddUpdateTicketComponent  implements OnInit {
     const data = localStorage.getItem('data');
     this.userId = data ? JSON.parse(data)?.user_id : null;
     this.createForm();
-     this.getAllCompanyListWma()
     this.getAllPriorityListWma();
-    this.getAllDepartmentListWma()
+    this.getAllDepartmentListWma();
+    //  this.getAllCompanyListWma()
     this.getTicketAssignToById(this.userId);
-    this.getAllCategoryListWma();
+    this.getTicketTechnicianAssignToById(this.userId);
     this.TicketId = this.url.snapshot.params['id'];
     //activate route get employee id
     if (this.TicketId) {
       this.getTicketById(this.TicketId);
       this.isEdit = true
+           this.TicketForm.get('customer_id')?.disable();
+      this.TicketForm.get('service_id')?.disable();
       this.TicketForm.get('ticket_category_id')?.disable();
       this.TicketForm.get('department_id')?.disable();
        this.TicketForm.get('priority_id')?.disable();
@@ -87,6 +93,12 @@ export class AddUpdateTicketComponent  implements OnInit {
     return this.TicketForm.controls;
   }
 
+onDepartmentAgentChange(event: Event) {
+  const departmentId = (event.target as HTMLSelectElement).value; 
+  if (departmentId) {
+    this.getAllCategoryListWma(departmentId);
+  }
+}
 onCompanyChange(event: Event) {
   const customerId = (event.target as HTMLSelectElement).value; 
   if (customerId) {
@@ -146,6 +158,8 @@ onCompanyChange(event: Event) {
   //add Ticket
   addTicket() {
     const data = this.TicketForm.getRawValue();
+  console.log('haa',data);
+  
     if (this.TicketForm.valid) {
       Swal.fire({
         title: 'Do you want to create this Ticket?',
@@ -193,16 +207,20 @@ onCompanyChange(event: Event) {
         const customerData = result.data;
         this.controls['customer_id'].patchValue(customerData.customer_id)
         this.controls['service_id'].patchValue(customerData.service_id)
-        this.controls['ticket_category_id'].patchValue(customerData.ticket_category_id)
         this.controls['department_id'].patchValue(customerData.department_id)
+        this.controls['ticket_category_id'].patchValue(customerData.ticket_category_id)
         this.controls['priority_id'].patchValue(customerData.priority_id)
         this.controls['subject'].patchValue(customerData.subject)
         this.controls['message'].patchValue(customerData.description)
         this.controls['ticket_status'].patchValue(customerData.ticket_status)
-        this.controls['assigned_to'].patchValue(customerData.assigned_to)
+        this.getAllServiceListWma(customerData.customer_id);
+        this.getAllCategoryListWma(customerData.department_id);
+         if (customerData.ticket_status?.trim().toLowerCase() === 'open') {
+        this.controls['assigned_to'].patchValue(this.userId);
+      } else {
+        this.controls['assigned_to'].patchValue(customerData.assigned_to);
+      }
        this.controls['remarks'].patchValue(customerData.ticketStatusHistory[0].remarks)
-       this.getAllServiceListWma(customerData.customer_id);
-        this.getAllCategoryListWma();
       }
     })
   }
@@ -243,7 +261,26 @@ onFileSelected(event: any) {
       this.filteredTicketEmployeeList = this.allTicketEmployeeStatusList;
     }
   }
-
+  //get Ticket assign to by id
+  getTicketTechnicianAssignToById(id: any) {
+   this._customerService.getAllTechnicianListWma(id).subscribe({
+      next: (res: any) => {
+        if (res.data.length > 0) {
+          this.allTicketTechnicianStatusList = res.data;
+          this.filteredTicketTechnicianList = this.allTicketTechnicianStatusList;
+        }
+      }
+    });
+  }
+    filterTechnicianAssignTo() {
+    if (this.searchTicketTechnicianValue !== '') {
+      this.filteredTicketTechnicianList = this.allTicketTechnicianStatusList.filter(project =>
+        project.user_name.toLowerCase().includes(this.searchTicketTechnicianValue.toLowerCase())
+      );
+    } else {
+      this.filteredTicketTechnicianList = this.allTicketTechnicianStatusList;
+    }
+  }
   //get status  list...
   getAllPriorityListWma() {
     this._customerService.getAllPriorityListWma().subscribe({
@@ -254,12 +291,28 @@ onFileSelected(event: any) {
       }
     });
   }
+  getAllCompanyListWma() {
+  this._customerService.getAllCompanyListWma().subscribe({
+    next: (res: any) => {
+      if (res.data.length > 0) {
+        // Hide or exclude "Customer" department
+        this.allCompanyList = res.data
+      }
+    },
+    error: (err) => {
+      console.error('Error fetching Company:', err);
+    }
+  });
+}
   //get status  list...
  getAllDepartmentListWma() {
     this._customerService.getAllDepartmentListWma().subscribe({
       next: (res: any) => {
         if (res.data.length > 0) {
-          this.allDepartmentList = res.data;
+           // Hide or exclude "Customer" department
+        this.allDepartmentList = res.data.filter(
+          (dept: any) => dept.department_name.toLowerCase() !== 'customer'
+        );
 
 
 
@@ -271,8 +324,8 @@ onFileSelected(event: any) {
 
 
   //Category list wma
-  getAllCategoryListWma() {
-    this._customerService.getAllCategoriesListWma('').subscribe({
+  getAllCategoryListWma(id:any) {
+    this._customerService.getAllCategoriesListWma(id).subscribe({
       next: (res: any) => {
         if (res.data.length > 0) {
           this.allCategoryList = res.data;
@@ -292,19 +345,6 @@ onFileSelected(event: any) {
     }
   }
 
- getAllCompanyListWma() {
-  this._customerService.getAllCompanyListWma().subscribe({
-    next: (res: any) => {
-      if (res.data.length > 0) {
-        // Hide or exclude "Customer" department
-        this.allCompanyList = res.data
-      }
-    },
-    error: (err) => {
-      console.error('Error fetching Company:', err);
-    }
-  });
-}
 
 getAllServiceListWma(id:any) {
     this._customerService.getAllServiceListWma(id).subscribe({
@@ -326,6 +366,7 @@ getAllServiceListWma(id:any) {
       this.filteredServiceList = this.allServiceList;
     }
   }
+
 
 
   // cancel route location service
