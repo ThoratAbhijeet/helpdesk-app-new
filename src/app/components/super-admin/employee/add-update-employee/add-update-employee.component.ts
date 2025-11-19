@@ -59,8 +59,8 @@ export class AddUpdateEmployeeComponent  implements OnInit {
       user_name: ['', Validators.required],
       email_id: ['', [Validators.required, Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.(com|in|org|net|edu|gov)$/)]],
       phone_number: ['', [Validators.required, Validators.pattern('^((\\+91-?)|0)?[0-9]{10}$')]],
-      // role_id: ['', Validators.required],
-      // department_id: ['', Validators.required],
+      role_id: ['', Validators.required],
+      department_id: ['', Validators.required],
       // customerAgent: this.fb.array([]),
     })
     // this.addCustomerAssigned();
@@ -152,11 +152,11 @@ export class AddUpdateEmployeeComponent  implements OnInit {
   }
   //update User
   editUser() {
-    // let data = this.UserForm.getRawValue();
-    let data = {
-      ...this.UserForm.value,
-      isPartner: this.UserForm.value.isPartner ? 'true' : 'false'
-    };
+    let data = this.UserForm.getRawValue();
+    // let data = {
+    //   ...this.UserForm.value,
+    //   isPartner: this.UserForm.value.isPartner ? 'true' : 'false'
+    // };
     if (this.UserForm.valid) {
       this._sharedService.setLoading(true);
       this._adminService.editUser(this.User_Id, data).subscribe({
@@ -186,11 +186,11 @@ export class AddUpdateEmployeeComponent  implements OnInit {
   }
   //add User
   addUser() {
-    // let data = this.UserForm.value;
-    let data = {
-      ...this.UserForm.value,
-      isPartner: this.UserForm.value.isPartner ? 'true' : 'false'
-    };
+    let data = this.UserForm.value;
+    // let data = {
+    //   ...this.UserForm.value,
+    //   isPartner: this.UserForm.value.isPartner ? 'true' : 'false'
+    // };
     if (this.UserForm.valid) {
       this._sharedService.setLoading(true);
       this._adminService.addUser(data).subscribe({
@@ -227,8 +227,8 @@ getUserById(id: any) {
       this.controls['user_name'].patchValue(userData.user_name);
       this.controls['email_id'].patchValue(userData.email_id);
       this.controls['phone_number'].patchValue(userData.phone_number);
-      //       this.controls['department_id'].patchValue(userData.department_id);
-      // this.controls['role_id'].patchValue(userData.role_id);
+            this.controls['department_id'].patchValue(userData.department_id);
+      this.controls['role_id'].patchValue(userData.role_id);
 
       // Patch FormArray (customerAgent)
       const customerAgentArray = this.customerAgentArray;
