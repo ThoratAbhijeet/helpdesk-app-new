@@ -43,7 +43,7 @@ export class ReportsComponent implements OnInit {
     this.createForm();
     this.getAllPriorityListWma()
     this.getAllDepartmentListWma();
-    this.getAllCategoryListWma();
+    // this.getAllCategoryListWma();
     this.getTicketAssignToById();
     this.searchControl.valueChanges.pipe(debounceTime(550)).subscribe((searchKey: any) => {
       this.getSearchInput(searchKey);
@@ -89,7 +89,12 @@ export class ReportsComponent implements OnInit {
   }
 
 
-
+onDepartmentAgentChange(event: Event) {
+  const departmentId = (event.target as HTMLSelectElement).value; 
+  if (departmentId) {
+    this.getAllCategoryListWma(departmentId);
+  }
+}
   onPageChange(event: PageEvent): void {
     this.page = event.pageIndex + 1;
     this.perPage = event.pageSize;
@@ -202,8 +207,8 @@ getAllDepartmentListWma() {
     // });
   }
    //Category list wma
-  getAllCategoryListWma() {
-    this._customerService.getAllCategoriesListWma('').subscribe({
+  getAllCategoryListWma(id:any) {
+    this._customerService.getAllCategoriesListWma(id).subscribe({
       next: (res: any) => {
         if (res.data.length > 0) {
           this.allCategoryList = res.data;
