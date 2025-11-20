@@ -254,29 +254,16 @@
   <select
     class="form-control"
     formControlName="ticket_status"
-    [ngClass]="{
-      'is-invalid':
-        controls['ticket_status'].invalid &&
-        (controls['ticket_status'].dirty || controls['ticket_status'].touched)
-    }"
+     [disabled]="true"
   >
     <option value="" disabled hidden>Select Status</option>
+    <option value="Accepted">Accepted</option>
     <option value="Open">Open</option>
     <option value="In Progress">In Progress</option>
     <option value="On Hold">On Hold</option>
     <option value="Resolved">Resolved</option>
     <option value="Closed">Closed</option>
   </select>
-
-  <div
-    class="text-danger"
-    *ngIf="
-      controls['ticket_status'].invalid &&
-      (controls['ticket_status'].dirty || controls['ticket_status'].touched)
-    "
-  >
-    <small>Please select a Ticket Status.</small>
-  </div>
 </div>
 
 

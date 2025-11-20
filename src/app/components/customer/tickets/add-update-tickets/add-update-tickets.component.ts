@@ -67,15 +67,14 @@ export class AddUpdateTicketsComponent implements OnInit {
       department_id: ['',Validators.required],
       priority_id: ['',Validators.required],
       subject: ['',Validators.required],
+      ticket_status: new FormControl({ value: 'Open', disabled: true }, Validators.required),
       description: [''],
-     ticket_status: new FormControl({ value: 'Open', disabled: true }, Validators.required),
       ticket_conversation_id: [null],
       base64PDF: [null],
       assigned_to: [null],
       remarks: [null],
       message: ['',Validators.required],
     });
-    
   }
 
   get controls() {
@@ -199,8 +198,8 @@ onCompanyChange(event: Event) {
         this.controls['department_id'].patchValue(customerData.department_id)
         this.controls['priority_id'].patchValue(customerData.priority_id)
         this.controls['subject'].patchValue(customerData.subject)
-        this.controls['message'].patchValue(customerData.description)
         this.controls['ticket_status'].patchValue(customerData.ticket_status)
+        this.controls['message'].patchValue(customerData.description)
         this.controls['assigned_to'].patchValue(customerData.assigned_to)
         this.controls['remarks'].patchValue(customerData.ticketStatusHistory[0].remarks)
           //  this.getAllServiceListWma(customerData.customer_id);

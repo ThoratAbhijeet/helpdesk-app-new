@@ -78,12 +78,12 @@ export class AddUpdateTicketComponent implements OnInit {
       department_id: ['',Validators.required],
       priority_id: ['',Validators.required],
       subject: ['',Validators.required],
-      description: [''],
+      // description: [''],
      ticket_status: ['',Validators.required],
       ticket_conversation_id: [null],
       base64PDF: [null],
       assigned_to: [null],
-      remarks: [null],
+      remarks: [null,Validators.required],
       message: ['',Validators.required],
     });
     
