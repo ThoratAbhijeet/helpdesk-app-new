@@ -76,7 +76,7 @@ tabLabels = ['open', 'in progress', 'on hold', 'resolved', 'closed'];
 }, 300);
   }
   getAdminTaskStatusCount(id:any) {
-    this._customerService.getDashBoardTicketStatusCount('','').subscribe({
+    this._customerService.getDashBoardTicketStatusCount(this.user_id,this.customer_id).subscribe({
       next: (res: any) => {
         this.taskStatusCount = res.ticket_status_counts;
       }
@@ -97,7 +97,7 @@ tabLabels = ['open', 'in progress', 'on hold', 'resolved', 'closed'];
 }
 
   getTaskStatusCount(id:any) {
-    this._customerService.getTicketStatusCount('','').subscribe({
+    this._customerService.getTicketStatusCount(this.user_id,this.customer_id).subscribe({
       next: (res: any) => {
         if (res.data) {
           this.todayTaskStatusCount = res.data;
@@ -192,7 +192,7 @@ onTabTaskChange(event: any) {
 }
 
 getStatusWiseTicketList(status: string) {
-  this._customerService.getStatusWiseTicketList(this.searchKey, this.page, this.perPage, status,'','')
+  this._customerService.getStatusWiseTicketList(this.searchKey, this.page, this.perPage, status,this.user_id, this.customer_id)
     .subscribe({
       next: (res: any) => {
         if (res.data.length > 0) {
