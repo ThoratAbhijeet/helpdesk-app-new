@@ -313,48 +313,7 @@
     <small>Please select a Ticket Status.</small>
   </div>
 </div>
-
-  <!-- remarks -->
-              <div class="col-md-4 mb-3">
-                <label class="mb-2">Remark </label>
-                <input
-                  type="text"
-                  class="form-control"
-                  formControlName="remarks"
-                  placeholder="Remark"
-                  [ngClass]="{
-                    'is-invalid':
-                      controls['remarks'].invalid &&
-                      (controls['remarks'].dirty || controls['remarks'].touched)
-                  }"
-                />
-              </div>
-
-           
-              <!-- message -->
-              <div class="col-md-6 mb-3">
-                <label class="mb-2">Message </label>
-                <textarea
-                  class="form-control"
-                  formControlName="message"
-                  placeholder="Message"
-                ></textarea>
-              </div>
-            </div>
-            <hr />
-            <!-- Ticket Assigned -->
-            <div class="card p-3">
-              <div class="row">
-                <div class="col-12">
-                  <div
-                    class="card-header d-flex justify-content-between align-items-center"
-                  >
-                    <b>Ticket Assigned </b>
-                  </div>
-
-                  <div class="card-body scrollable-body">
-                    <div class="row">
-                      <div class="col-md-4">
+<div class="col-md-4">
                         <label class="mb-2">
                           Assigned To <span class="text-danger">*</span>
                         </label>
@@ -385,6 +344,115 @@
                           </mat-option>
                         </mat-select>
                       </div>
+
+
+           
+              <!-- message -->
+              <div class="col-md-8 mb-3">
+                <label class="mb-2">Message </label>
+                <textarea
+                  class="form-control"
+                  formControlName="message"
+                  placeholder="Message"
+                ></textarea>
+              </div>
+            </div>
+            <hr />
+            <!-- Ticket Attachments (Multiple) -->
+            <div class="card p-3 mt-4">
+              <div class="row">
+                <div class="col-12">
+                  <div
+                    class="card-header d-flex justify-content-between align-items-center"
+                  >
+                    <b>Ticket Attachments </b>
+                  </div>
+                  <div class="card-body scrollable-body">
+                    <div class="row">
+                      <div class="col-md-8">
+                        <input
+                          type="file"
+                          class="form-control"
+                          (change)="onFileSelected($event)"
+                          accept=".pdf,.jpg,.png,.jpeg"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+            <hr />
+ <!-- Agent Remark -->
+            <div class="card p-3">
+              <div class="row">
+                <div class="col-12">
+                  <div
+                    class="card-header d-flex justify-content-between align-items-center"
+                  >
+                    <b>Agent Remark</b>
+                  </div>
+
+                  <div class="card-body scrollable-body">
+                    <div class="row">
+                      <!-- <div class="col-md-4">
+                        <label class="mb-2">
+                          Assigned To <span class="text-danger">*</span>
+                        </label>
+                        <mat-select
+                          formControlName="assigned_to"
+                          placeholder="Select Employee"
+                          class="form-control theme-input"
+                        >
+                          <mat-option>
+                            <ngx-mat-select-search
+                              [(ngModel)]="searchTicketTechnicianValue"
+                              [ngModelOptions]="{ standalone: true }"
+                              (input)="filterTechnicianAssignTo()"
+                              placeholderLabel="Search Employee"
+                              noEntriesFoundLabel="No result found"
+                            ></ngx-mat-select-search>
+                          </mat-option>
+                          <mat-option
+                            *ngFor="let source of filteredTicketTechnicianList"
+                            [value]="source.user_id"
+                          >
+                            <span>
+                              {{
+                                source.user_name
+                                  | titlecase
+                              }}
+                            </span>
+                          </mat-option>
+                        </mat-select>
+                      </div> -->
+                        <!-- remarks -->
+              <div class="col-md-8 mb-3">
+                <label class="mb-2">Remark <span class="text-danger">*</span></label>
+                <input
+                  type="text"
+                  class="form-control"
+                  formControlName="remarks"
+                  placeholder="Remark"
+                  [ngClass]="{
+                    'is-invalid':
+                      controls['remarks'].invalid &&
+                      (controls['remarks'].dirty || controls['remarks'].touched)
+                  }"
+                /> <div
+                  class="text-danger"
+                  *ngIf="
+                    controls['remarks'].invalid &&
+                    (controls['remarks'].dirty || controls['remarks'].touched)
+                  "
+                >
+                  <div *ngIf="controls['remarks'].errors?.['required']">
+                    <small>Remarks is Required</small>
+                  </div>
+                  </div>
+              </div>
                          <!-- remarks -->
               <!-- <div class="col-md-4 mb-3">
                 <label class="mb-2">Remark </label>
@@ -405,34 +473,7 @@
                 </div>
               </div>
             </div>
-
-            <hr />
-
-            <!-- Ticket Attachments (Multiple) -->
-            <div class="card p-3 mt-4">
-              <div class="row">
-                <div class="col-12">
-                  <div
-                    class="card-header d-flex justify-content-between align-items-center"
-                  >
-                    <b>Ticket Attachments</b>
-                  </div>
-                  <div class="card-body scrollable-body">
-                    <div class="row">
-                      <div class="col-md-8">
-                        <input
-                          type="file"
-                          class="form-control"
-                          (change)="onFileSelected($event)"
-                          accept=".pdf,.jpg,.png,.jpeg"
-                        />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
+           
             <hr />
             <div class="mt-3">
               <button

@@ -11,16 +11,6 @@
         <div class="row">
 
           <div class="col-md-6 mb-3">
-            <label class="nice-label">Company</label>
-            <input class="form-control modern-input" [value]="allTicketDetails.company_name || '--'" disabled />
-          </div>
-
-          <div class="col-md-6 mb-3">
-            <label class="nice-label">Service</label>
-            <input class="form-control modern-input" [value]="allTicketDetails.service_name || '--'" disabled />
-          </div>
-
-          <div class="col-md-6 mb-3">
             <label class="nice-label">Category</label>
             <input class="form-control modern-input" [value]="allTicketDetails.name || '--'" disabled />
           </div>
@@ -40,11 +30,14 @@
             <input class="form-control modern-input" [value]="allTicketDetails.subject || '--'" disabled />
           </div>
 
-          <div class="col-md-12 mb-3">
+          <div class="col-md-6 mb-3">
             <label class="nice-label">Ticket Status</label>
             <input class="form-control modern-input" [value]="allTicketDetails.ticket_status || '--'" disabled />
           </div>
-
+ <div class="col-md-6 mb-3">
+            <label class="nice-label">Remarks</label>
+            <input class="form-control modern-input" [value]="allTicketDetails.remarks || '--'" disabled />
+          </div>
           <div class="col-md-12 mb-3">
             <label class="nice-label">Message</label>
             <textarea class="form-control modern-input" rows="4" disabled>{{ allTicketDetails.description || '--' }}</textarea>
