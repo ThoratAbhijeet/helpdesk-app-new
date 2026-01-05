@@ -2,6 +2,9 @@ import { Component, OnInit, Renderer2 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { ChangePasswordComponent } from '../../components/auth/change-password/change-password.component';
+import { SharedService } from '../../shared/shared.service';
+import { ToastrService } from 'ngx-toastr';
+import { AuthService } from '../../components/auth/auth.service';
 
 @Component({
   selector: 'app-customer-sidebar',
@@ -9,11 +12,17 @@ import { ChangePasswordComponent } from '../../components/auth/change-password/c
   styleUrl: './customer-sidebar.component.scss'
 })
 export class CustomerSidebarComponent implements OnInit {
-
-  constructor(private router:Router,private dialog: MatDialog,
+user_id: any;
+session_id:any;
+  constructor(private router:Router,private dialog: MatDialog, private _authService: AuthService, private _tosterService: ToastrService, private _sharedService: SharedService,
    private renderer: Renderer2){
   }
   ngOnInit(): void {
+    let userData = localStorage.getItem('data');
+      let session_id = localStorage.getItem('session_id');
+    
+    this.session_id = session_id;
+    this.user_id = userData ? JSON.parse(userData).user_id : null;
     
   }
   handleMasterAccordionClick(): void {
@@ -36,8 +45,7 @@ export class CustomerSidebarComponent implements OnInit {
     this.renderer.removeClass(collapseTwo, 'show');
   }
   logout() {
-    localStorage.clear();
-    this.router.navigate([''])
+    this.Logout()
 
   }
     //change password
@@ -53,4 +61,32 @@ export class CustomerSidebarComponent implements OnInit {
          
           });
         }
+          Logout() {
+    const data = {
+      user_id: this.user_id,
+      session_id: this.session_id,
+        status: 'logout'
+    };
+    if (data) {
+      this._authService.Logout(data).subscribe({
+        next: (res: any) => {
+          if (res.status == 201 || res.status == 200) {
+            localStorage.clear();
+            this.router.navigate([''])
+            this._sharedService.setLoading(false);
+          } else {
+            this._tosterService.warning(res.message)
+          }
+        },
+        error: (err: any) => {
+          this._sharedService.setLoading(false);
+          if (err.error.status == 422) {
+            this._tosterService.warning(err.error.message)
+          } else {
+            this._tosterService.error('Internal Server Error')
+          }
+        }
+      })
+    }
+  }
 }

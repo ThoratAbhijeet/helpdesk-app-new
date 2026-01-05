@@ -30,6 +30,7 @@ import { SharedModule } from '../../shared/shared.module';
 import { EmployeeComponent } from './employee/employee.component';
 import { AddUpdateEmployeeComponent } from './employee/add-update-employee/add-update-employee.component';
 import { ViewEmployeeComponent } from './employee/view-employee/view-employee.component';
+import { LogReportsComponent } from './reports/log-reports/log-reports.component';
 
 
 @NgModule({
@@ -60,7 +61,8 @@ import { ViewEmployeeComponent } from './employee/view-employee/view-employee.co
     ViewTicketComponent,
     EmployeeComponent,
     AddUpdateEmployeeComponent,
-    ViewEmployeeComponent
+    ViewEmployeeComponent,
+    LogReportsComponent
   ],
   imports: [
     CommonModule,

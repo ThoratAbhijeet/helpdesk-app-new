@@ -69,4 +69,7 @@ sendOTPIfEmailNotExist(data: any): Observable<any> {
   MatchDomain(data: any): Observable<any> {
     return this.http.post(this.url  + 'api/user/match', data);
   }
+    Logout(data: any): Observable<any> {
+        return this.http.post(this.url + 'api/user/logout', data);
+      }
 }

@@ -34,7 +34,7 @@ export class ReportsComponent implements OnInit {
   searchControl: any;
   searchKey: any = '';
   customer_id:any;
-  
+  ticket_status='';
   constructor(private _customerService: CustomerService, private fb: FormBuilder, private elRef: ElementRef, private _toastrService: ToastrService,) { }
 
   ngOnInit(): void {
@@ -58,7 +58,8 @@ export class ReportsComponent implements OnInit {
       company_name: [''],
       priority_id: [''],
       ticket_category_id: [''],
-      user_id: ['']
+      user_id: [''],
+      ticket_status: [''],
     });
   }
  
@@ -69,8 +70,8 @@ export class ReportsComponent implements OnInit {
     this.priority_id = this.form.value.priority_id;
     this.ticket_category_id = this.form.value.ticket_category_id;
     this.assigned_to = this.form.value.user_id;
-    
-    this._customerService.getAllTicketsListReport(this.page, this.perPage, this.fromDate, this.toDate, this.department_id, this.priority_id, this.ticket_category_id, '', this.searchKey, this.assigned_to,this.customer_id).subscribe({
+    this.ticket_status = this.form.value.ticket_status;
+    this._customerService.getAllTicketsListReport(this.page, this.perPage, this.fromDate, this.toDate, this.department_id, this.priority_id, this.ticket_category_id, '', this.searchKey, this.assigned_to,this.customer_id,this.ticket_status).subscribe({
       next: (res: any) => {
         if (res.data.length > 0) {
           this.allReportList = res.data;
@@ -112,8 +113,8 @@ this.fromDate = this.form.value.fromDate;
     this.department_id = this.form.value.department_id;
     this.priority_id = this.form.value.priority_id;
     this.ticket_category_id = this.form.value.ticket_category_id;
-    this.assigned_to = this.form.value.assigned_to;
-    this._customerService.downloadAllTikitReportList(this.fromDate, this.toDate, this.department_id, this.priority_id,this.ticket_category_id,this.assigned_to, this.searchKey,this.user_id,this.customer_id ).subscribe({
+    this.assigned_to = this.form.value.user_id;
+    this._customerService.downloadAllTikitsReportList(this.fromDate, this.toDate, this.department_id, this.priority_id,this.ticket_category_id,this.assigned_to, this.searchKey,'',this.customer_id ).subscribe({
       next: (blob: Blob) => {
         const url = window.URL.createObjectURL(blob);
         const link = document.createElement('a');

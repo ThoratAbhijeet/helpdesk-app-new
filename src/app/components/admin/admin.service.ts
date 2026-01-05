@@ -421,5 +421,16 @@ export class AdminService {
       params: params
     });
   }
+       // download customer  list
+  downloadCustomersList(key: any): Observable<any> {
+    let params: any = {
+      key: key
+    };
+    if (key === ''|| key === 'null') delete params.key;
+    return this.http.get(this.baseUrl + 'api/user/customer-download', {
+      responseType: 'blob',
+      params: params
+    })
+  }
 }
 

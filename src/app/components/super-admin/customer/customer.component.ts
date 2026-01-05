@@ -76,7 +76,7 @@ export class CustomerComponent implements OnInit {
   }
   //download Customer list
   downloadCustomerList() {
-    this._adminService.downloadCustomerList(this.searchKey).subscribe({
+    this._adminService.downloadCustomersList(this.searchKey).subscribe({
       next: (blob: Blob) => {
         const url = window.URL.createObjectURL(blob);
         const link = document.createElement('a');

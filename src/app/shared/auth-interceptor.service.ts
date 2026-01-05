@@ -11,7 +11,7 @@ export class AuthInterceptor implements HttpInterceptor {
   private httpHeaders = new HttpHeaders({
     'Content-Type': 'application/json'
   });
-
+user_id:any;
   constructor(private _authService: AuthService, private _router: Router, private _toastrService: ToastrService, private _sharedService: SharedService) { }
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
@@ -50,9 +50,29 @@ export class AuthInterceptor implements HttpInterceptor {
     if (err.error.status == 401) {
       this._router.navigate(['']);
       this._toastrService.warning("Session Expries..!!!");
+      this.Logout();
       localStorage.setItem('isLogin', 'false');
       this._sharedService.setIsLogin(false);
     }
     return throwError(err);
+  }
+   Logout() {
+      let userData = localStorage.getItem('data');
+    this.user_id = userData ? JSON.parse(userData).user_id : null;
+    const data = {
+      user_id: this.user_id,
+      status: 'session_expired'
+    };
+    if (data) {
+      this._authService.Logout(data).subscribe({
+        next: (res: any) => {
+          if (res.status == 201 || res.status == 200) {
+            localStorage.clear();
+            this._router.navigate(['']);
+          } 
+        },
+        
+      })
+    }
   }
 }

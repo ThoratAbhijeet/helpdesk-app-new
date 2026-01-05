@@ -163,7 +163,7 @@ export class CustomerService {
     })
   }
   //get all Tickets report list  ...............................................................
-  getAllTicketsListReport(page: any, perPage: any, fromDate: any, toDate: any, department_id: any, priority_id: any, ticket_category_id: any, assigned_to: any, key: any, user_id: any,customer_id: any): Observable<any> {
+  getAllTicketsListReport(page: any, perPage: any, fromDate: any, toDate: any, department_id: any, priority_id: any, ticket_category_id: any, assigned_to: any, key: any, user_id: any,customer_id: any,ticket_status:any): Observable<any> {
     let params = {
       'page': page,
       'perPage': perPage,
@@ -175,7 +175,8 @@ export class CustomerService {
       'assigned_to': assigned_to,
       'key': key,
       'user_id': user_id,
-      'customer_id':customer_id
+      'customer_id':customer_id,
+      'ticket_status':ticket_status
     };
     // Check if page or perPage is empty and remove them from params if so
     if (page === '' || perPage === '') {
@@ -206,7 +207,10 @@ export class CustomerService {
     if(customer_id== '' || customer_id == 'null') {
       delete params['customer_id'];
     }
-    return this.http.get(this.baseUrl + 'api/ticket', {
+    if (ticket_status == '' || ticket_status == 'null') {
+      delete params['ticket_status'];
+    }
+    return this.http.get(this.baseUrl + 'api/ticket/report', {
       params: params
     })
   }
@@ -282,10 +286,64 @@ export class CustomerService {
       params: params
     })
   }
+   // Tikit report download
+   downloadAllTikitsReportList(fromDate: any, toDate: any, department_id: any, priority_id: any, ticket_category_id:any, assigned_to:any, key: any,user_id:any,customer_id:any): Observable<any> {
+    let params = {
+       'fromDate': fromDate,
+      'toDate': toDate,
+      'department_id': department_id,
+      'priority_id': priority_id,
+      'ticket_category_id': ticket_category_id,
+      'assigned_to':assigned_to,
+      'user_id': user_id,
+      'key': key,
+      'customer_id':customer_id
+    };
+
+ if (fromDate == '' || toDate == '') {
+      delete params['fromDate'];
+      delete params['toDate'];
+    }
+    if (department_id == '' || department_id == 'null') {
+      delete params['department_id'];
+    }
+    if (priority_id == '' || priority_id == 'null') {
+      delete params['priority_id'];
+    }
+    if (key === '' || key === 'null') delete params.key;
+      if (ticket_category_id == '' || ticket_category_id == 'null') {
+      delete params['ticket_category_id'];
+    }
+     if (assigned_to == '' || assigned_to == 'null') {
+      delete params['assigned_to'];
+    }
+     if (user_id == '' || user_id == 'null') {
+      delete params['user_id'];
+    }if (customer_id == '' || customer_id == 'null') {
+      delete params['customer_id'];
+    }
+    return this.http.get(this.baseUrl + 'api/ticket/dowmload-report', {
+      responseType: 'blob',
+      params: params
+    })
+  }
    //all Company list wma ..............................................................
   getAllCompanyListWma(): Observable<any> {
     return this.http.get(this.baseUrl + 'api/user/customer-wma');
   }
+   //all technician Company list wma ..............................................................
+  getAllTechnicianCompanyListWma(user_id:any): Observable<any> {
+      let params = {
+      'user_id': user_id
+    };
+     if (user_id == '' || user_id == 'null') {
+      delete params['user_id'];
+    }
+    return this.http.get(this.baseUrl + 'api/user/technician-company',{
+      params: params
+    });
+  }
+  
   //all service list wma ..............................................................
   getAllServiceListWma(customer_id:any): Observable<any> {
       let params: any = {
@@ -296,4 +354,94 @@ export class CustomerService {
       params:params
     });
   }
+    //get all log report list  ...............................................................
+  getAllLogsListReport(page: any, perPage: any, fromDate: any, toDate: any, key: any, user_id: any,customer_id: any): Observable<any> {
+    let params = {
+      'page': page,
+      'perPage': perPage,
+      'fromDate': fromDate,
+      'toDate': toDate,
+      'key': key,
+      'user_id': user_id,
+      'customer_id':customer_id
+    };
+    // Check if page or perPage is empty and remove them from params if so
+    if (page === '' || perPage === '') {
+      delete params.page;
+      delete params.perPage;
+    }
+
+    if (fromDate == '' || toDate == '') {
+      delete params['fromDate'];
+      delete params['toDate'];
+    }
+    if (key === '' || key === 'null') delete params.key;
+    if (user_id == '' || user_id == 'null') {
+      delete params['user_id'];
+    }
+    if(customer_id== '' || customer_id == 'null') {
+      delete params['customer_id'];
+    }
+    return this.http.get(this.baseUrl + 'api/user/log-report', {
+      params: params
+    })
+  }
+     // Log report download
+   downloadAllLogReportList(fromDate: any, toDate: any, key: any,user_id:any,customer_id:any): Observable<any> {
+    let params = {
+       'fromDate': fromDate,
+      'toDate': toDate,
+      'user_id': user_id,
+      'key': key,
+      'customer_id':customer_id
+    };
+
+ if (fromDate == '' || toDate == '') {
+      delete params['fromDate'];
+      delete params['toDate'];
+    }
+    if (key === '' || key === 'null') delete params.key;
+   
+     if (user_id == '' || user_id == 'null') {
+      delete params['user_id'];
+    }if (customer_id == '' || customer_id == 'null') {
+      delete params['customer_id'];
+    }
+    return this.http.get(this.baseUrl + 'api/log/download', {
+      responseType: 'blob',
+      params: params
+    })
+  }
+   //user wma 
+  getAllUserListWma(customer_id: any): Observable<any> {
+    let params: any = {
+      customer_id: customer_id
+    };
+  //  if (customer_id === '' || customer_id === 'null') delete params.customer_id;
+    return this.http.get(this.baseUrl + 'api/user', {
+      params: params
+    })
+  }
+    //Technician wma assign to
+  getAllTechniciansListWma(customer_id: any): Observable<any> {
+    let params: any = {
+      customer_id: customer_id
+    };
+  //  if (user_id === '' || user_id === 'null') delete params.user_id;
+    return this.http.get(this.baseUrl + 'api/user/technician-wma', {
+      params: params
+    })
+  }
+   getAllTechnicianBYCompanyListWma(customer_id:any): Observable<any> {
+       let params: any = {
+      customer_id: customer_id
+    };
+     if (customer_id == '' || customer_id == 'null') {
+      delete params['customer_id'];
+    }
+    return this.http.get(this.baseUrl + 'api/user/technician-company',{
+      params: params
+    });
+  }
+  
 }

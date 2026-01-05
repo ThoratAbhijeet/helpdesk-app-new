@@ -49,7 +49,7 @@ export class TicketsComponent implements OnInit {
     this.expandedRowIndex = this.expandedRowIndex === index ? null : index;
   }
   getTicketList() {
-    this._customerService.getTicketList(this.searchKey, this.page, this.perPage,this.user_id,this.customer_id ).subscribe({
+    this._customerService.getTicketList(this.searchKey, this.page, this.perPage,this.user_id,'').subscribe({
       next: (res: any) => {
         if (res.data.length > 0) {
           this.allTicketList = res.data;
@@ -93,7 +93,7 @@ export class TicketsComponent implements OnInit {
 
   //download  Ticket list
    downloadTicketList() {
-    this._customerService.downloadTikitList('', this.searchKey,'' ).subscribe({
+    this._customerService.downloadTikitList(this.user_id, this.searchKey,'' ).subscribe({
       next: (blob: Blob) => {
         const url = window.URL.createObjectURL(blob);
         const link = document.createElement('a');

@@ -1,16 +1,17 @@
 import { Component, ElementRef, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { PageEvent } from '@angular/material/paginator';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { CustomerService } from '../../../customer/customer.service';
 import { ToastrService } from 'ngx-toastr';
 import { debounceTime } from 'rxjs';
-import { CustomerService } from '../customer.service';
+import { MatSelectChange } from '@angular/material/select';
+import { PageEvent } from '@angular/material/paginator';
 
 @Component({
-  selector: 'app-reports',
-  templateUrl: './reports.component.html',
-  styleUrl: './reports.component.scss'
+  selector: 'app-log-reports',
+  templateUrl: './log-reports.component.html',
+  styleUrl: './log-reports.component.scss'
 })
-export class ReportsComponent implements OnInit {
+export class LogReportsComponent implements OnInit {
   form!: FormGroup;
   allReportList: Array<any> = [];
  allDepartmentList: Array<any> = [];
@@ -18,9 +19,12 @@ export class ReportsComponent implements OnInit {
  allTicketEmployeeStatusList: Array<any> = [];
   searchTicketEmployeeValue: string = '';
   filteredTicketEmployeeList: any[] = [];
-  allCategoryList: Array<any> = [];
-  searchCategoryValue: string = '';
-  filteredCategoryList: any[] = [];
+   allTicketAgentCompanyStatusList: Array<any> = [];
+  searchTicketAgentCompanyValue: string = '';
+   filteredTicketAgentCompanyList: any[] = [];
+   allTicketEmployeeCompanyStatusList: Array<any> = [];
+  searchTicketEmployeeCompanyValue: string = '';
+   filteredTicketEmployeeCompanyList: any[] = [];
   page = 1;
   perPage = 50;
   total = 0;
@@ -33,20 +37,17 @@ export class ReportsComponent implements OnInit {
   ticket_category_id = '';
   searchControl: any;
   searchKey: any = '';
-  customer_id:any;
-  ticket_status = '';
-  
+  customer_id = '';
+  ticket_status ='';
   constructor(private _customerService: CustomerService, private fb: FormBuilder, private elRef: ElementRef, private _toastrService: ToastrService,) { }
 
   ngOnInit(): void {
     let userData = localStorage.getItem('data');
     this.user_id = userData ? JSON.parse(userData).user_id : null;
-    this.customer_id = userData ? JSON.parse(userData).sign_customer_id : null;
     this.createForm();
     this.getAllPriorityListWma()
     this.getAllDepartmentListWma();
-    // this.getAllCategoryListWma();
-    this.getTicketAssignToById(this.user_id);
+    this.getTicketAssignToById();
     this.searchControl.valueChanges.pipe(debounceTime(550)).subscribe((searchKey: any) => {
       this.getSearchInput(searchKey);
     });
@@ -55,25 +56,17 @@ export class ReportsComponent implements OnInit {
     this.form = this.fb.group({
       fromDate: [''],  // No validation for unrestricted date selection
       toDate: [''],
-      department_id: [''],
-      company_name: [''],
-      priority_id: [''],
-      ticket_category_id: [''],
-      assigned_to: [''],
-      ticket_status: [''],
+      user_id: [''],
+      customer_id: [''],
     });
   }
  
   getAllMeetingReportList() {
     this.fromDate = this.form.value.fromDate;
     this.toDate = this.form.value.toDate;
-    this.department_id = this.form.value.department_id;
-    this.priority_id = this.form.value.priority_id;
-    this.ticket_category_id = this.form.value.ticket_category_id;
-    this.assigned_to = this.form.value.assigned_to;
-    this.ticket_status = this.form.value.ticket_status
-    
-    this._customerService.getAllTicketsListReport(this.page, this.perPage, this.fromDate, this.toDate, this.department_id, this.priority_id, this.ticket_category_id, this.assigned_to, this.searchKey,this.user_id,this.customer_id,this.ticket_status).subscribe({
+    this.assigned_to = this.form.value.user_id;
+        this.customer_id = this.form.value.customer_id;
+    this._customerService.getAllLogsListReport(this.page, this.perPage, this.fromDate, this.toDate, '', this.searchKey, this.customer_id).subscribe({
       next: (res: any) => {
         if (res.data.length > 0) {
           this.allReportList = res.data;
@@ -85,13 +78,15 @@ export class ReportsComponent implements OnInit {
       }
     });
   }
-onDepartmentAgentChange(event: Event) {
-  const departmentId = (event.target as HTMLSelectElement).value; 
-  if (departmentId) {
-    this.getAllCategoryListWma(departmentId);
+
+onCompanyChange(event: MatSelectChange) {
+  const customerId = event.value;
+  this.customer_id = customerId;
+  if (customerId) {
+    this.getTicketEmployeeById(customerId);
+    this.getAgentById(customerId);
   }
 }
-
   getSearchInput(searchKey: any) {
     this.searchKey = searchKey;
     this.getAllMeetingReportList();
@@ -112,11 +107,8 @@ onDepartmentAgentChange(event: Event) {
   downloadAllMeetingReportList() {
 this.fromDate = this.form.value.fromDate;
     this.toDate = this.form.value.toDate;
-    this.department_id = this.form.value.department_id;
-    this.priority_id = this.form.value.priority_id;
-    this.ticket_category_id = this.form.value.ticket_category_id;
-    this.assigned_to = this.form.value.assigned_to;
-    this._customerService.downloadAllTikitsReportList(this.fromDate, this.toDate, this.department_id, this.priority_id,this.ticket_category_id,this.assigned_to, this.searchKey,this.user_id,this.customer_id ).subscribe({
+    this.customer_id = this.form.value.customer_id;
+    this._customerService.downloadAllLogReportList(this.fromDate, this.toDate, this.searchKey,'' ,this.customer_id).subscribe({
       next: (blob: Blob) => {
         const url = window.URL.createObjectURL(blob);
         const link = document.createElement('a');
@@ -192,28 +184,30 @@ getAllDepartmentListWma() {
     // });
   }
    //Category list wma
-  getAllCategoryListWma(id:any) {
-    this._customerService.getAllCategoriesListWma(id).subscribe({
+    getAgentById(id:any) {
+   this._customerService.getAllTechnicianBYCompanyListWma(id).subscribe({
       next: (res: any) => {
         if (res.data.length > 0) {
-          this.allCategoryList = res.data;
-          this.filteredCategoryList = this.allCategoryList;
+          this.allTicketAgentCompanyStatusList = res.data;
+          this.filteredTicketAgentCompanyList = this.allTicketAgentCompanyStatusList;
+        }else{
+          this.filteredTicketAgentCompanyList = [];
         }
       }
     });
   }
-
-  filterCategory() {
-    if (this.searchCategoryValue !== '') {
-      this.filteredCategoryList = this.allCategoryList.filter(project =>
-        project.name.toLowerCase().includes(this.searchCategoryValue.toLowerCase())
+    filterAgent() {
+    if (this.searchTicketAgentCompanyValue !== '') {
+      this.filteredTicketAgentCompanyList = this.allTicketAgentCompanyStatusList.filter(project =>
+        project.user_name.toLowerCase().includes(this.searchTicketAgentCompanyValue.toLowerCase())
       );
     } else {
-      this.filteredCategoryList = this.allCategoryList;
+      this.filteredTicketAgentCompanyList = this.allTicketAgentCompanyStatusList;
     }
   }
-   getTicketAssignToById(id: any) {
-   this._customerService.getAllCustomerListWma(id).subscribe({
+ //get Ticket assign to by id
+  getTicketAssignToById() {
+   this._customerService.getAllCustomerListWma('').subscribe({
       next: (res: any) => {
         if (res.data.length > 0) {
           this.allTicketEmployeeStatusList = res.data;
@@ -225,10 +219,31 @@ getAllDepartmentListWma() {
     filterAssignTo() {
     if (this.searchTicketEmployeeValue !== '') {
       this.filteredTicketEmployeeList = this.allTicketEmployeeStatusList.filter(project =>
-        project.user_name.toLowerCase().includes(this.searchTicketEmployeeValue.toLowerCase())
+        project.company_name.toLowerCase().includes(this.searchTicketEmployeeValue.toLowerCase())
       );
     } else {
       this.filteredTicketEmployeeList = this.allTicketEmployeeStatusList;
+    }
+  }
+   getTicketEmployeeById(id:any) {
+   this._customerService.getAllCustomerCompnaywiseListWma(id).subscribe({
+      next: (res: any) => {
+        if (res.data.length > 0) {
+          this.allTicketEmployeeCompanyStatusList = res.data;
+          this.filteredTicketEmployeeCompanyList = this.allTicketEmployeeCompanyStatusList;
+        }else{
+           this.filteredTicketEmployeeCompanyList = []
+        }
+      }
+    });
+  }
+    filterEmployee() {
+    if (this.searchTicketEmployeeCompanyValue !== '') {
+      this.filteredTicketEmployeeCompanyList = this.allTicketEmployeeCompanyStatusList.filter(project =>
+        project.user_name.toLowerCase().includes(this.searchTicketEmployeeCompanyValue.toLowerCase())
+      );
+    } else {
+      this.filteredTicketEmployeeCompanyList = this.allTicketEmployeeCompanyStatusList;
     }
   }
 

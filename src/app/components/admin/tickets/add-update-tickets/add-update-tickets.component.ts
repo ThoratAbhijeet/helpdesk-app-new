@@ -32,6 +32,7 @@ export class AddUpdateTicketsComponent  implements OnInit {
   searchServiceValue: string = '';
   filteredServiceList: any[] = [];
   userId: any;
+  customer_id: any;
   constructor(
     private fb: FormBuilder,
     private _toastrService: ToastrService,
@@ -44,6 +45,7 @@ export class AddUpdateTicketsComponent  implements OnInit {
   ngOnInit(): void {
     const data = localStorage.getItem('data');
     this.userId = data ? JSON.parse(data)?.user_id : null;
+    this.customer_id  = data ? JSON.parse(data)?.customer_id : null;
     this.createForm();
     this.getAllPriorityListWma();
     this.getAllDepartmentListWma()
@@ -61,8 +63,8 @@ export class AddUpdateTicketsComponent  implements OnInit {
   //Ticket form
   createForm() {
     this.TicketForm = this.fb.group({
-      //  customer_id: ['',Validators.required],
-      // service_id: ['',Validators.required],
+       customer_id: [this.customer_id],
+      service_id: [null],
       ticket_category_id: ['',Validators.required],
       department_id: ['',Validators.required],
       priority_id: ['',Validators.required],
@@ -146,8 +148,6 @@ onCompanyChange(event: Event) {
   //add Ticket
   addTicket() {
     const data = this.TicketForm.getRawValue();
-  console.log('haa',data);
-  
     if (this.TicketForm.valid) {
       Swal.fire({
         title: 'Do you want to create this Ticket?',
@@ -193,7 +193,7 @@ onCompanyChange(event: Event) {
     this._customerService.getTicketById(id).subscribe({
       next: (result: any) => {
         const customerData = result.data;
-        // this.controls['customer_id'].patchValue(customerData.customer_id)
+        this.controls['customer_id'].patchValue(customerData.customer_id)
         // this.controls['service_id'].patchValue(customerData.service_id)
         this.controls['ticket_category_id'].patchValue(customerData.ticket_category_id)
         this.controls['department_id'].patchValue(customerData.department_id)

@@ -22,6 +22,7 @@ import { ViewServiceComponent } from './services/view-service/view-service.compo
 import { AddUpdateServiceComponent } from './services/add-update-service/add-update-service.component';
 import { AddUpdateEmployeeComponent } from './employee/add-update-employee/add-update-employee.component';
 import { ViewEmployeeComponent } from './employee/view-employee/view-employee.component';
+import { LogReportsComponent } from './reports/log-reports/log-reports.component';
 
 const routes: Routes = [
   { path: "", redirectTo: "super", pathMatch: "full" },
@@ -208,6 +209,13 @@ const routes: Routes = [
   {
     path: "report",
     component: ReportsComponent,
+    pathMatch: "full",
+    outlet: "super_menu",
+    canActivate: [AuthGuard]
+  },
+    {
+    path: "log-report",
+    component: LogReportsComponent,
     pathMatch: "full",
     outlet: "super_menu",
     canActivate: [AuthGuard]

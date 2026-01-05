@@ -55,6 +55,7 @@ export class AddUpdateTicketComponent implements OnInit {
     this.getTicketAssignToById(this.userId);
     this.getTicketTechnicianAssignToById(this.userId);
     this.TicketId = this.url.snapshot.params['id'];
+     this.controls['assigned_to'].patchValue(this.userId);
     //activate route get employee id
     if (this.TicketId) {
       this.getTicketById(this.TicketId);
@@ -72,8 +73,8 @@ export class AddUpdateTicketComponent implements OnInit {
   //Ticket form
   createForm() {
     this.TicketForm = this.fb.group({
-      // customer_id: ['',Validators.required],
-      // service_id: ['',Validators.required],
+      customer_id: ['',Validators.required],
+      service_id: [null],
       ticket_category_id: ['',Validators.required],
       department_id: ['',Validators.required],
       priority_id: ['',Validators.required],
@@ -158,7 +159,6 @@ onCompanyChange(event: Event) {
   //add Ticket
   addTicket() {
     const data = this.TicketForm.getRawValue();
-  console.log('haa',data);
   
     if (this.TicketForm.valid) {
       Swal.fire({
@@ -243,7 +243,7 @@ onFileSelected(event: any) {
 
   //get Ticket assign to by id
   getTicketAssignToById(id: any) {
-   this._customerService.getAllCustomerListWma(id).subscribe({
+   this._customerService.getAllTechnicianCompanyListWma(id).subscribe({
       next: (res: any) => {
         if (res.data.length > 0) {
           this.allTicketEmployeeStatusList = res.data;

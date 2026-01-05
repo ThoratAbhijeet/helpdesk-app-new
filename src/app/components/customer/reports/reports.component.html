@@ -110,7 +110,7 @@
          
 
             <!-- Priority -->
-            <div class="col-md-3">
+            <div class="col-md-2">
               <label class=""
                 >Priority </label
               >
@@ -150,6 +150,25 @@
                 </mat-option>
               </mat-select>
             </div>
+                <!-- status -->
+            <div class="col-md-3">
+              <label class=""
+                >Ticket Status </label
+              >
+              <select class="form-control" formControlName="ticket_status">
+                <option value="" disabled selected hidden>
+                  Ticket Status
+                </option>
+                <option value="">All</option>
+                  <option value="" disabled hidden>Select Status</option>
+    <option value="Accepted">Accepted</option>
+    <option value="Open">Open</option>
+    <option value="In Progress">In Progress</option>
+    <option value="On Hold">On Hold</option>
+    <option value="Resolved">Resolved</option>
+    <option value="Closed">Closed</option>
+              </select>
+            </div>
             <div class="col-md-3 d-flex align-items-center mt-3">
               <button
                 type="button"
@@ -177,6 +196,7 @@
                     <th scope="col">Options</th>
                     <!-- <th scope="col">Status</th> -->
                     <th scope="col">Created Date</th>
+                    <th scope="col">Updated Date</th>
                     <th scope="col">Created By</th>
                     <!-- <th scope="col">Assigned To</th> -->
                     <th scope="col">Ticket No</th>
@@ -248,8 +268,11 @@
                       >
                       </mat-slide-toggle>
                     </td> -->
+                     <td class="wrap-text">
+                      {{ (item.created_at | date : "dd-MM-yyyy") || "--" }}
+                    </td>
                     <td class="wrap-text">
-                      {{ (item.created_at | date) || "--" }}
+                     {{ item.ticketStatus?.[0]?.changed_at ? (item.ticketStatus[0].changed_at | date : "dd-MM-yyyy") : "--" }}
                     </td>
                      <td class="wrap-text">
                       {{ (item.user_name | titlecase) || "--" }}

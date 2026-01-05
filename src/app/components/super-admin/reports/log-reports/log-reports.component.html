@@ -4,7 +4,7 @@
       <div class="card my-3">
         <div class="d-flex align-items-center justify-content-between p-2">
           <h3 class="m-0 fw-bold fs-4 d-flex align-items-center">
-            <i class="fa fas fs-2 fa-scroll mx-3 text-primary"></i> Ticket
+            <i class="fa fas fs-2 fa-scroll mx-3 text-primary"></i> Log
             Report
           </h3>
           <div class="col-md-9 d-flex align-items-center justify-content-end">
@@ -61,71 +61,7 @@
                 />
               </div>
             </div>
-               <div class="col-md-3">
-              <label class=""
-                >Department</label
-              >
-              <select class="form-control" formControlName="department_id" (change)="onDepartmentAgentChange($event)">
-                <option value="" disabled selected hidden>
-                  Select Department
-                </option>
-                <option value="">All</option>
-                <option
-                  *ngFor="let item of allDepartmentList"
-                  [value]="item.department_id"
-                >
-                  {{ item.department_name | titlecase }}
-                </option>
-              </select>
-            </div>
-            <div class="col-md-3">
-              <label
-                class=" d-flex justify-content-between align-items-center"
-              >
-                <span>Category </span>
-              </label>
-              <mat-select
-                formControlName="ticket_category_id"
-                placeholder="Select category"
-                class="form-control theme-input"
-              >
-                <mat-option>
-                  <ngx-mat-select-search
-                    [(ngModel)]="searchCategoryValue"
-                    [ngModelOptions]="{ standalone: true }"
-                    (input)="filterCategory()"
-                    placeholderLabel="Search Category"
-                    noEntriesFoundLabel="No result found"
-                  ></ngx-mat-select-search>
-                </mat-option>
-                <mat-option value="null">All Category</mat-option>
-                <mat-option
-                  *ngFor="let source of filteredCategoryList"
-                  [value]="source.ticket_category_id"
-                >
-                  {{ source.name | titlecase }}
-                </mat-option>
-              </mat-select>
-            </div>
-         
-            <!-- Priority -->
-            <div class="col-md-2">
-              <label class=""
-                >Priority </label
-              >
-              <select class="form-control" formControlName="priority_id">
-                <option value="" disabled selected hidden>
-                  Select Priority
-                </option>
-                <option value="">All</option>
-                <option
-                  *ngFor="let item of allPriorityList"
-                  [value]="item.priority_id"
-                >
-                  {{ item.name | titlecase }}
-                </option>
-              </select>
-            </div>
+           
                <!-- <div class="col-md-3">
                 <label class="mb-2"
                   >Company <span class="text-danger">*</span></label
@@ -171,7 +107,7 @@
               </mat-select>
             </div>
             <div class="col-md-3">
-              <label for=" ">Employee</label>
+              <label for=" ">Users</label>
               <mat-select
                 placeholder="Select Employee"
                 formControlName="user_id"
@@ -193,25 +129,30 @@
                 </mat-option>
               </mat-select>
             </div>
-              <!-- status -->
-            <div class="col-md-3">
-              <label class=""
-                >Ticket Status </label
+               <div class="col-md-3">
+              <label for=" ">Agent</label>
+              <mat-select
+                placeholder="Select Agent"
+                formControlName="user_id"
+                class="form-control w-100"
               >
-              <select class="form-control" formControlName="ticket_status">
-                <option value="" disabled selected hidden>
-                  Ticket Status
-                </option>
-                <option value="">All</option>
-                  <option value="" disabled hidden>Select Status</option>
-    <option value="Accepted">Accepted</option>
-    <option value="Open">Open</option>
-    <option value="In Progress">In Progress</option>
-    <option value="On Hold">On Hold</option>
-    <option value="Resolved">Resolved</option>
-    <option value="Closed">Closed</option>
-              </select>
+                <ngx-mat-select-search
+                  [(ngModel)]="searchTicketAgentCompanyValue"
+                  [ngModelOptions]="{ standalone: true }"
+                  (input)="filterAgent()"
+                  placeholderLabel="Search Agent"
+                  noEntriesFoundLabel="No Agent found"
+                ></ngx-mat-select-search>
+                <mat-option value="null">All Employee</mat-option>
+                <mat-option
+                  *ngFor="let user of filteredTicketAgentCompanyList"
+                  [value]="user.user_id"
+                >
+                  {{ user.user_name | titlecase }}
+                </mat-option>
+              </mat-select>
             </div>
+             
             <div class="col-md-3 d-flex align-items-center mt-3">
               <button
                 type="button"
@@ -236,19 +177,14 @@
                 <thead class="table-light">
                   <tr>
                     <th scope="col">Sr.No</th>
-                    <th scope="col">Options</th>
-                    <th scope="col">Created Date</th>
-                    <th scope="col">Updated Date</th>
-                    <th scope="col">Company</th>
-                    <th scope="col">Created By</th>
-                    <th scope="col">Assigned To</th>
-                    <th scope="col">Ticket No</th>
-                    <!-- <th scope="col">Designation</th> -->
-                    <th scope="col">Subject</th>
-                    <!-- <th scope="col">Emergency  Id</th> -->
-                    <th scope="col">Category</th>
-                    <th scope="col">Ticket Status</th>
-                    <!-- <th scope="col">Address</th> -->
+                    <!-- <th scope="col">Options</th> -->
+                    <th scope="col"> Login Date Time</th>
+                    <th scope="col">Logout Date Time</th>
+                    <!-- <th scope="col">Company</th> -->
+                    <th scope="col">User Name</th>
+                    <th scope="col">Address</th>
+                    <th scope="col">Session Id</th>
+                    <th scope="col"> Status</th>
                     <!-- <th scope="col">City</th> -->
                     <!-- <th scope="col">Country</th> -->
                   </tr>
@@ -256,52 +192,7 @@
                 <tbody class="body-data">
                   <tr *ngFor="let item of allReportList; let i = index">
                     <td>{{ i + 1 }}</td>
-                    <td>
-                      <div class="btn-group dropend">
-                        <button
-                          type="button"
-                          class="btn btn-link p-0 border-0 bg-transparent"
-                          data-bs-toggle="dropdown"
-                          aria-expanded="false"
-                        >
-                          <i class="fa fa-ellipsis-v fs-5 ms-3"></i>
-                        </button>
-                        <ul class="dropdown-menu">
-                          <li>
-                            <a
-                              class="dropdown-item"
-                              [routerLink]="[
-                                '/super',
-                                {
-                                  outlets: {
-                                    super_menu:
-                                      'view-tickets/' + item.ticket_id
-                                  }
-                                }
-                              ]"
-                            >
-                              <i class="fa fa-eye me-2"></i> View
-                            </a>
-                          </li>
-                          <!-- <li>
-                            <a
-                              class="dropdown-item"
-                              [routerLink]="[
-                                '/super',
-                                {
-                                  outlets: {
-                                    super_menu:
-                                      'update-tickets/' + item.ticket_id
-                                  }
-                                }
-                              ]"
-                            >
-                              <i class="fa fa-pencil-alt me-2"></i> Edit
-                            </a>
-                          </li> -->
-                        </ul>
-                      </div>
-                    </td>
+                
 
                     <!-- <td class="">
                       <mat-slide-toggle
@@ -312,33 +203,23 @@
                       </mat-slide-toggle>
                     </td> -->
                     <td class="wrap-text">
-                      {{ (item.created_at | date : "dd-MM-yyyy") || "--" }}
+                      {{ (item.login_time | date : "dd-MM-yyyy hh:mm a") || "--" }}
                     </td>
                     <td class="wrap-text">
-                     {{ item.ticketStatus?.[0]?.changed_at ? (item.ticketStatus[0].changed_at | date : "dd-MM-yyyy") : "--" }}
+                      {{ (item.logout_time | date : "dd-MM-yyyy hh:mm a") || "--" }}
                     </td>
-                    <td class="wrap-text">{{( item.company_name | titlecase) || "--" }}</td>
+                    <!-- <td class="wrap-text">{{( item.company_name | titlecase) || "--" }}</td> -->
                      <td class="wrap-text">
                       {{ (item.user_name | titlecase) || "--" }}
                     </td>
-                    <td class="wrap-text">
-                      {{ (item.assigned_to_name | titlecase) || "--" }}
+                     <td class="wrap-text">
+                      {{ (item.device_info | titlecase) || "--" }}
                     </td>
                     <td class="wrap-text">
-                      {{ (item.ticket_no | uppercase) || "--" }}
+                      {{ (item.session_id) || "--" }}
                     </td>
-                    <td class="wrap-text">
-                      {{ (item.subject | titlecase) || "--" }}
-                    </td>
-                    <td class="wrap-text">{{ item.name || "--" }}</td>
-                    <td class="text-center">
-                      <label
-                        [ngClass]="
-                          getStatusColor(item.ticket_status) + ' status-label'
-                        "
-                      >
-                        {{ item.ticket_status | titlecase }}
-                      </label>
+                    <td class="">
+                        {{ item.status | titlecase }}
                     </td>
                   </tr>
                   <tr

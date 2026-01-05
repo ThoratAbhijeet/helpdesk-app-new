@@ -38,6 +38,7 @@ export class ReportsComponent implements OnInit {
   searchControl: any;
   searchKey: any = '';
   customer_id = '';
+  ticket_status ='';
   constructor(private _customerService: CustomerService, private fb: FormBuilder, private elRef: ElementRef, private _toastrService: ToastrService,) { }
 
   ngOnInit(): void {
@@ -61,6 +62,7 @@ export class ReportsComponent implements OnInit {
       ticket_category_id: [''],
       user_id: [''],
       customer_id: [''],
+      ticket_status: [''],
     });
   }
  
@@ -72,7 +74,8 @@ export class ReportsComponent implements OnInit {
     this.ticket_category_id = this.form.value.ticket_category_id;
     this.assigned_to = this.form.value.user_id;
         this.customer_id = this.form.value.customer_id;
-    this._customerService.getAllTicketsListReport(this.page, this.perPage, this.fromDate, this.toDate, this.department_id, this.priority_id, this.ticket_category_id, '', this.searchKey,this.assigned_to, this.customer_id).subscribe({
+        this.ticket_status = this.form.value.ticket_status;
+    this._customerService.getAllTicketsListReport(this.page, this.perPage, this.fromDate, this.toDate, this.department_id, this.priority_id, this.ticket_category_id, '', this.searchKey,this.assigned_to, this.customer_id,this.ticket_status).subscribe({
       next: (res: any) => {
         if (res.data.length > 0) {
           this.allReportList = res.data;

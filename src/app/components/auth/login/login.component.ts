@@ -54,12 +54,11 @@ export class LoginComponent implements OnInit {
         next: (res: any) => {
           localStorage.setItem('accessToken', res.token);
           localStorage.setItem("user_id", res.data.user_id);
-          localStorage.setItem("first_name", res.data.first_name);
-          localStorage.setItem("last_name", res.data.last_name);
-          localStorage.setItem("mobile_number", (res.data.mobile_number));
+          localStorage.setItem("user_name", res.data.user_name);
+          localStorage.setItem("mobile_number", (res.data.phone_number));
           localStorage.setItem("designation_id", res.data.designation_id);
           localStorage.setItem("email_id", res.data.email_id);
-          // localStorage.setItem("role_name", res.data.role_name);
+          localStorage.setItem("session_id", res.session_id);
           localStorage.setItem('expiresIn', res.expiresIn);
           localStorage.setItem('isLogin', 'true');
           if (res.status == 200 || res.status == 201) {

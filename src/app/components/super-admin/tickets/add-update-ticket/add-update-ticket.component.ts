@@ -73,7 +73,7 @@ export class AddUpdateTicketComponent  implements OnInit {
   createForm() {
     this.TicketForm = this.fb.group({
       // customer_id: ['',Validators.required],
-      // service_id: ['',Validators.required],
+      service_id: [null],
       ticket_category_id: ['',Validators.required],
       department_id: ['',Validators.required],
       priority_id: ['',Validators.required],
