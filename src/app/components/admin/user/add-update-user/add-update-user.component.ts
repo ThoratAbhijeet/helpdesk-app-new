@@ -19,6 +19,7 @@ export class AddUpdateUserComponent implements OnInit {
   UserForm!: FormGroup;
   User_Id: any;
   user_ID :any;
+  customer_id:any;
   countryCode: string = '';
   allRoleList: Array<any> = [];
   allDepartmentList: any[] = [];
@@ -37,6 +38,7 @@ export class AddUpdateUserComponent implements OnInit {
   ) { }
   ngOnInit(): void {
         const data = localStorage.getItem('data');
+        this.customer_id = data ? JSON.parse(data)?.customer_id : null;
     this.user_ID = data ? JSON.parse(data)?.user_id : null;
     this.createForm();
     this.getAllDepartmentListWma();
@@ -60,8 +62,9 @@ export class AddUpdateUserComponent implements OnInit {
       user_name: ['', Validators.required],
       email_id: ['', [Validators.required, Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.(com|in|org|net|edu|gov)$/)]],
       phone_number: ['', [Validators.required, Validators.pattern('^((\\+91-?)|0)?[0-9]{10}$')]],
-      // role_id: ['', Validators.required],
-      // department_id: ['', Validators.required],
+      role_id: [3],
+      department_id: [0],
+       customer_id: this.customer_id
       // customerAgent: this.fb.array([]),
     })
     // this.addCustomerAssigned();
