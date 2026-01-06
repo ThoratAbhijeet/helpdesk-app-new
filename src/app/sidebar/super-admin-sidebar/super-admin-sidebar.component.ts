@@ -100,7 +100,6 @@ session_id:any;
       session_id: this.session_id,
         status: 'logout'
     };
-    console.log('hioi', data);
     if (data) {
       this._authService.Logout(data).subscribe({
         next: (res: any) => {

@@ -18,6 +18,7 @@ import { ReportsComponent } from './reports/reports.component';
 import { ViewUserComponent } from './user/view-user/view-user.component';
 import { AddUpdateUserComponent } from './user/add-update-user/add-update-user.component';
 import { UserComponent } from './user/user.component';
+import { LogReportsComponent } from './reports/log-reports/log-reports.component';
 
 const routes: Routes = [
   { path: "", redirectTo: "customer", pathMatch: "full" },
@@ -166,6 +167,13 @@ const routes: Routes = [
   {
     path: "report",
     component: ReportsComponent,
+    pathMatch: "full",
+    outlet: "customer_menu",
+    canActivate: [AuthGuard]
+  },
+    {
+    path: "log-report",
+    component: LogReportsComponent,
     pathMatch: "full",
     outlet: "customer_menu",
     canActivate: [AuthGuard]

@@ -32,6 +32,7 @@ export class AddUpdateTicketsComponent implements OnInit {
   searchServiceValue: string = '';
   filteredServiceList: any[] = [];
   userId: any;
+  customer_id : any;
   constructor(
     private fb: FormBuilder,
     private _toastrService: ToastrService,
@@ -44,6 +45,7 @@ export class AddUpdateTicketsComponent implements OnInit {
   ngOnInit(): void {
     const data = localStorage.getItem('data');
     this.userId = data ? JSON.parse(data)?.user_id : null;
+    this.customer_id = data ? JSON.parse(data)?.sign_customer_id : null;
     this.createForm();
     this.getAllPriorityListWma();
     this.getAllDepartmentListWma()
@@ -61,7 +63,7 @@ export class AddUpdateTicketsComponent implements OnInit {
   //Ticket form
   createForm() {
     this.TicketForm = this.fb.group({
-      //  customer_id: ['',Validators.required],
+       customer_id: [this.customer_id],
       service_id: [null],
       ticket_category_id: ['',Validators.required],
       department_id: ['',Validators.required],

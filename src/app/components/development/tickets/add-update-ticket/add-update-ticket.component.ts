@@ -205,7 +205,7 @@ onCompanyChange(event: Event) {
     this._customerService.getTicketById(id).subscribe({
       next: (result: any) => {
         const customerData = result.data;
-        // this.controls['customer_id'].patchValue(customerData.customer_id)
+        this.controls['customer_id'].patchValue(customerData.customer_id)
         // this.controls['service_id'].patchValue(customerData.service_id)
         this.controls['department_id'].patchValue(customerData.department_id)
         this.controls['ticket_category_id'].patchValue(customerData.ticket_category_id)

@@ -27,6 +27,7 @@ import { ViewServiceComponent } from './services/view-service/view-service.compo
 import { UserComponent } from './user/user.component';
 import { AddUpdateUserComponent } from './user/add-update-user/add-update-user.component';
 import { ViewUserComponent } from './user/view-user/view-user.component';
+import { LogReportsComponent } from './reports/log-reports/log-reports.component';
 
 
 @NgModule({
@@ -54,7 +55,8 @@ import { ViewUserComponent } from './user/view-user/view-user.component';
     ViewServiceComponent,
     UserComponent,
     AddUpdateUserComponent,
-    ViewUserComponent
+    ViewUserComponent,
+    LogReportsComponent
   ],
   imports: [
     CommonModule,
