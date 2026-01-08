@@ -306,7 +306,7 @@ onFileSelected(event: any) {
 }
   //get status  list...
  getAllDepartmentListWma() {
-    this._customerService.getAllDepartmentListWma().subscribe({
+    this._customerService.getAllDepartmentListWma(this.userId).subscribe({
       next: (res: any) => {
         if (res.data.length > 0) {
            // Hide or exclude "Customer" department

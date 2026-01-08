@@ -60,6 +60,40 @@ session_id:any;
          
           });
         }
+          toggleAccordion(targetId: string) {
+    const target = document.getElementById(targetId);
+    const button = document.querySelector(`[aria-controls="${targetId}"]`);
+
+    if (!target || !button) return;
+
+    // Close all other accordions
+    const allAccordions = document.querySelectorAll('.accordion-collapse');
+    const allButtons = document.querySelectorAll('.accordion-button');
+
+    allAccordions.forEach((el) => {
+      if (el.id !== targetId) {
+        el.classList.remove('show');
+      }
+    });
+
+    allButtons.forEach((btn) => {
+      if ((btn as HTMLElement).getAttribute('aria-controls') !== targetId) {
+        btn.classList.add('collapsed');
+        btn.setAttribute('aria-expanded', 'false');
+      }
+    });
+
+    // Toggle clicked one
+    const isOpen = target.classList.toggle('show');
+
+    if (isOpen) {
+      button.classList.remove('collapsed');
+      button.setAttribute('aria-expanded', 'true');
+    } else {
+      button.classList.add('collapsed');
+      button.setAttribute('aria-expanded', 'false');
+    }
+  }
                 Logout() {
     const data = {
       user_id: this.user_id,

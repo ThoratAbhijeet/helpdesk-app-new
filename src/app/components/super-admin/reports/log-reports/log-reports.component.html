@@ -106,7 +106,7 @@
                 </mat-option>
               </mat-select>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-2">
               <label for=" ">Users</label>
               <mat-select
                 placeholder="Select Employee"
@@ -153,7 +153,7 @@
               </mat-select>
             </div>
              
-            <div class="col-md-3 d-flex align-items-center mt-3">
+            <div class="col-md-3 d-flex align-items-center ">
               <button
                 type="button"
                 class="fw-bold btn btn-outline-primary btn-primary text-white px-4 btn-md"
@@ -177,12 +177,12 @@
                 <thead class="table-light">
                   <tr>
                     <th scope="col">Sr.No</th>
-                    <!-- <th scope="col">Options</th> -->
+                    <th scope="col">Total Time</th>
                     <th scope="col"> Login Date Time</th>
                     <th scope="col">Logout Date Time</th>
                     <!-- <th scope="col">Company</th> -->
                     <th scope="col">User Name</th>
-                    <th scope="col">Address</th>
+                    <!-- <th scope="col">Address</th> -->
                     <th scope="col">Session Id</th>
                     <th scope="col"> Status</th>
                     <!-- <th scope="col">City</th> -->
@@ -202,6 +202,9 @@
                       >
                       </mat-slide-toggle>
                     </td> -->
+                    <td>
+                      {{ item.total_time || "--" }}
+                    </td>
                     <td class="wrap-text">
                       {{ (item.login_time | date : "dd-MM-yyyy hh:mm a") || "--" }}
                     </td>
@@ -212,9 +215,9 @@
                      <td class="wrap-text">
                       {{ (item.user_name | titlecase) || "--" }}
                     </td>
-                     <td class="wrap-text">
+                     <!-- <td class="wrap-text">
                       {{ (item.device_info | titlecase) || "--" }}
-                    </td>
+                    </td> -->
                     <td class="wrap-text">
                       {{ (item.session_id) || "--" }}
                     </td>

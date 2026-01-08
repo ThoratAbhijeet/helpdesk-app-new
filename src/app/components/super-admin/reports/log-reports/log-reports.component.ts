@@ -60,16 +60,77 @@ export class LogReportsComponent implements OnInit {
       customer_id: [''],
     });
   }
- 
+    formatDuration(hours: number, minutes: number, seconds: number): string {
+    let result = '';
+
+    if (hours > 0) {
+      result += `${hours} hr `;
+    }
+
+    if (minutes > 0 || hours > 0) {
+      result += `${minutes} min `;
+    }
+
+    result += `${seconds} sec`;
+
+    return result.trim();
+  }
+
+
+  formatAMPM(dateStr: string): string {
+    const date = new Date(dateStr);
+    let hours = date.getHours();
+    let minutes = date.getMinutes();
+    const ampm = hours >= 12 ? 'PM' : 'AM';
+
+    hours = hours % 12 || 12;
+    const h = hours.toString().padStart(2, '0');
+    const m = minutes.toString().padStart(2, '0');
+
+    return `${h}:${m} ${ampm}`;
+  }
   getAllMeetingReportList() {
     this.fromDate = this.form.value.fromDate;
     this.toDate = this.form.value.toDate;
     this.assigned_to = this.form.value.user_id;
         this.customer_id = this.form.value.customer_id;
-    this._customerService.getAllLogsListReport(this.page, this.perPage, this.fromDate, this.toDate, '', this.searchKey, this.customer_id).subscribe({
+    this._customerService.getAllLogsListReport(this.page, this.perPage, this.fromDate, this.toDate, this.searchKey, this.assigned_to,this.customer_id).subscribe({
       next: (res: any) => {
         if (res.data.length > 0) {
-          this.allReportList = res.data;
+          this.allReportList = res.data.map((item: any) => {
+
+              item.login_display = item.login_time
+                ? this.formatAMPM(item.login_time)
+                : '--';
+
+              item.logout_display = item.logout_time
+                ? this.formatAMPM(item.logout_time)
+                : 'On Working';
+
+              if (item.login_time && item.logout_time) {
+                const login = new Date(item.login_time).getTime();
+                const logout = new Date(item.logout_time).getTime();
+
+                const diffMs = Math.abs(logout - login);
+
+                if (diffMs > 0) {
+                  const totalSeconds = Math.floor(diffMs / 1000);
+
+                  const hours = Math.floor(totalSeconds / 3600);
+                  const minutes = Math.floor((totalSeconds % 3600) / 60);
+                  const seconds = totalSeconds % 60;
+
+                  item.total_time = this.formatDuration(hours, minutes, seconds);
+                } else {
+                  item.total_time = '00:00:00';
+                }
+
+              } else {
+                item.total_time = 'On Working';
+              }
+
+              return item;
+            });
           this.total = res.pagination.total;
         } else {
           this.allReportList = [];
@@ -138,7 +199,7 @@ this.fromDate = this.form.value.fromDate;
   }
 // get Department list...
 getAllDepartmentListWma() {
-  this._customerService.getAllDepartmentListWma().subscribe({
+  this._customerService.getAllDepartmentListWma('').subscribe({
     next: (res: any) => {
       if (res.data.length > 0) {
         // Hide or exclude "Customer" department

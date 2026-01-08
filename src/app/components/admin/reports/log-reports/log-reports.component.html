@@ -1,1 +1,254 @@
-<p>log-reports works!</p>
+<div class="container-fluid p-0">
+  <div class="row justify-content-center mx-3">
+    <div class="col-md-12 m-3">
+      <div class="card my-3">
+        <div class="d-flex align-items-center justify-content-between p-2">
+          <h3 class="m-0 fw-bold fs-4 d-flex align-items-center">
+            <i class="fa fas fs-2 fa-scroll mx-3 text-primary"></i> Log
+            Report
+          </h3>
+          <div class="col-md-9 d-flex align-items-center justify-content-end">
+            <i class="fa-solid fa-magnifying-glass searching-icon"></i>
+            <input
+              type="search"
+              placeholder="Search here..."
+              aria-label="Search"
+              class="search-input"
+              #searchInput
+              (input)="getSearchInput(searchInput.value)"
+            />
+          </div>
+        </div>
+      </div>
+      <div class="card px-3">
+        <div class="col-md-12">
+          <mat-paginator
+            [length]="total"
+            [pageSize]="perPage"
+            [pageSizeOptions]="[10, 25, 50, 100]"
+            [showFirstLastButtons]="true"
+            (page)="onPageChange($event)"
+          >
+          </mat-paginator>
+        </div>
+
+        <hr class="m-0" />
+        <div class="card-header bg-white px-3">
+          <div class="row h-100 d-flex" [formGroup]="form">
+            <div class="col-md-2 mb-3">
+              <div class="form-group">
+                <label for="fromDate">From Date</label>
+                <input
+                  class="form-control"
+                  id="fromDate"
+                  name="fromDate"
+                  sizing="md"
+                  type="date"
+                  formControlName="fromDate"
+                />
+              </div>
+            </div>
+            <div class="col-md-2">
+              <div class="form-group">
+                <label for="toDate">To Date</label>
+                <input
+                  class="form-control"
+                  id="toDate"
+                  name="toDate"
+                  sizing="md"
+                  type="date"
+                  formControlName="toDate"
+                />
+              </div>
+            </div>
+           
+               <!-- <div class="col-md-3">
+                <label class="mb-2"
+                  >Company <span class="text-danger">*</span></label
+                >
+                <select
+                  class="form-control"
+                  formControlName="customer_id"
+                  (change)="onCompanyChange($event)"
+                >
+                  <option value="" disabled selected hidden>
+                    Select Company
+                  </option>
+                  <option
+                    *ngFor="let item of allTicketEmployeeStatusList"
+                    [value]="item.customer_id"
+                  >
+                    {{ item.company_name | titlecase }}
+                  </option>
+                </select>
+              </div> -->
+                 <!-- <div class="col-md-3">
+              <label for=" ">Company</label>
+              <mat-select
+                placeholder="Select Company"
+                formControlName="customer_id"
+                class="form-control w-100"      
+  (selectionChange)="onCompanyChange($event)"
+              >
+                <ngx-mat-select-search
+                  [(ngModel)]="searchTicketEmployeeValue"
+                  [ngModelOptions]="{ standalone: true }"
+                  (input)="filterAssignTo()"
+                  placeholderLabel="Search Company"
+                  noEntriesFoundLabel="No Company found"
+                ></ngx-mat-select-search>
+                <mat-option value="null">All Company</mat-option>
+                <mat-option
+                  *ngFor="let user of allTicketEmployeeStatusList"
+                  [value]="user.customer_id"
+                >
+                  {{ user.company_name | titlecase }}
+                </mat-option>
+              </mat-select>
+            </div> -->
+            <div class="col-md-2">
+              <label for=" ">Users</label>
+              <mat-select
+                placeholder="Select Employee"
+                formControlName="user_id"
+                class="form-control w-100"
+              >
+                <ngx-mat-select-search
+                  [(ngModel)]="searchTicketEmployeeCompanyValue"
+                  [ngModelOptions]="{ standalone: true }"
+                  (input)="filterEmployee()"
+                  placeholderLabel="Search Employee"
+                  noEntriesFoundLabel="No employees found"
+                ></ngx-mat-select-search>
+                <mat-option value="null">All Employee</mat-option>
+                <mat-option
+                  *ngFor="let user of filteredTicketEmployeeCompanyList"
+                  [value]="user.user_id"
+                >
+                  {{ user.user_name | titlecase }}
+                </mat-option>
+              </mat-select>
+            </div>
+               <div class="col-md-2">
+              <label for=" ">Agent</label>
+              <mat-select
+                placeholder="Select Agent"
+                formControlName="user_id"
+                class="form-control w-100"
+              >
+                <ngx-mat-select-search
+                  [(ngModel)]="searchTicketAgentCompanyValue"
+                  [ngModelOptions]="{ standalone: true }"
+                  (input)="filterAgent()"
+                  placeholderLabel="Search Agent"
+                  noEntriesFoundLabel="No Agent found"
+                ></ngx-mat-select-search>
+                <mat-option value="null">All Employee</mat-option>
+                <mat-option
+                  *ngFor="let user of filteredTicketAgentCompanyList"
+                  [value]="user.user_id"
+                >
+                  {{ user.user_name | titlecase }}
+                </mat-option>
+              </mat-select>
+            </div>
+             
+            <div class="col-md-3 d-flex align-items-center ">
+              <button
+                type="button"
+                class="fw-bold btn btn-outline-primary btn-primary text-white px-4 btn-md"
+                (click)="getAllMeetingReportList()"
+              >
+                Submit
+              </button>
+              <button
+                class="btn btn-success fw-bold text-white px-4 btn-md ms-2"
+                (click)="downloadAllMeetingReportList()"
+              >
+                Download
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="col-md-12">
+            <div class="table-responsive">
+              <table class="table table-hover">
+                <thead class="table-light">
+                  <tr>
+                    <th scope="col">Sr.No</th>
+                    <th scope="col">Total Time</th>
+                    <th scope="col"> Login Date Time</th>
+                    <th scope="col">Logout Date Time</th>
+                    <!-- <th scope="col">Company</th> -->
+                    <th scope="col">User Name</th>
+                    <!-- <th scope="col">Address</th> -->
+                    <th scope="col">Session Id</th>
+                    <th scope="col"> Status</th>
+                    <!-- <th scope="col">City</th> -->
+                    <!-- <th scope="col">Country</th> -->
+                  </tr>
+                </thead>
+                <tbody class="body-data">
+                  <tr *ngFor="let item of allReportList; let i = index">
+                    <td>{{ i + 1 }}</td>
+                
+
+                    <!-- <td class="">
+                      <mat-slide-toggle
+                        (change)="changeEvent($event, item.Ticket_id)"
+                        class="example-margin small-toggle cursor-pointer"
+                        [checked]="item.status == true"
+                      >
+                      </mat-slide-toggle>
+                    </td> -->
+                          <td>
+                      {{ item.total_time || "--" }}
+                    </td>
+                    <td class="wrap-text">
+                      {{ (item.login_time | date : "dd-MM-yyyy hh:mm a") || "--" }}
+                    </td>
+                    <td class="wrap-text">
+                      {{ (item.logout_time | date : "dd-MM-yyyy hh:mm a") || "--" }}
+                    </td>
+                    <!-- <td class="wrap-text">{{( item.company_name | titlecase) || "--" }}</td> -->
+                     <td class="wrap-text">
+                      {{ (item.user_name | titlecase) || "--" }}
+                    </td>
+                     <!-- <td class="wrap-text">
+                      {{ (item.device_info | titlecase) || "--" }}
+                    </td> -->
+                    <td class="wrap-text">
+                      {{ (item.session_id) || "--" }}
+                    </td>
+                    <td class="">
+                        {{ item.status | titlecase }}
+                    </td>
+                  </tr>
+                  <tr
+                    class="fw-bold text-center"
+                    *ngIf="allReportList.length === 0"
+                  >
+                    <td colspan="10" class="text-danger">No Data Available</td>
+                  </tr>
+                </tbody>
+              </table>
+
+              <div class="col-md-12">
+                <mat-paginator
+                  [length]="total"
+                  [pageSize]="perPage"
+                  [pageSizeOptions]="[5, 10, 25, 100]"
+                  aria-label="Select page"
+                  [showFirstLastButtons]="true"
+                  (page)="onPageChange($event)"
+                >
+                </mat-paginator>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

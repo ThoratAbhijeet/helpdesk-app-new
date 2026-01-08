@@ -46,10 +46,17 @@ export class LoginComponent implements OnInit {
 
   login() {
     this.isSubmitted = true;// Set isSubmitted to true when the login process starts.
-    let data = this.LoginForm.value;
     localStorage.clear();
+   let data: any = {}
+    data = this.LoginForm.value;
     if (this.LoginForm.valid) {
       this._sharedService.setLoading(true)
+      let email_id = data.email_id;
+      let password = data.password;
+      const base64Email = btoa(email_id);
+      const base64Password = btoa(password);
+      data['email_id'] = base64Email
+      data['password'] = base64Password
       this._authService.login(data).subscribe({
         next: (res: any) => {
           localStorage.setItem('accessToken', res.token);

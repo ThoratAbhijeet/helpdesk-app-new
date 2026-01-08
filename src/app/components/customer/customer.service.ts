@@ -12,8 +12,12 @@ export class CustomerService {
   constructor(private http: HttpClient) { }
 
   //all department list wma ..............................................................
-  getAllDepartmentListWma(): Observable<any> {
-    return this.http.get(this.baseUrl + 'api/department/wma');
+  getAllDepartmentListWma(user_id:any): Observable<any> {
+      let params: any = {
+      user_id: user_id
+    };
+    if (user_id === '' || user_id === 'null') delete params.user_id;
+    return this.http.get(this.baseUrl + 'api/department/wma',{params:params});
   }
   //all priority list wma ..............................................................
   getAllPriorityListWma(): Observable<any> {
