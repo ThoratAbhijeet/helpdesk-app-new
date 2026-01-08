@@ -75,7 +75,7 @@ export class AddUpdateTicketsComponent implements OnInit {
       base64PDF: [null],
       assigned_to: [null],
       remarks: [null],
-      message: ['',Validators.required],
+      // message: ['',Validators.required],
     });
   }
 
@@ -96,7 +96,7 @@ onCompanyChange(event: Event) {
 }
  submit() {
   // Patch 'description' with the current 'message' value before submission
-  const messageValue = this.TicketForm.get('message')?.value;
+  const messageValue = this.TicketForm.get('description')?.value;
   this.TicketForm.patchValue({ description: messageValue });
 
   this.isEdit ? this.editTicket() : this.addTicket();
@@ -201,7 +201,7 @@ onCompanyChange(event: Event) {
         this.controls['priority_id'].patchValue(customerData.priority_id)
         this.controls['subject'].patchValue(customerData.subject)
         this.controls['ticket_status'].patchValue(customerData.ticket_status)
-        this.controls['message'].patchValue(customerData.description)
+        this.controls['description'].patchValue(customerData.description)
         this.controls['assigned_to'].patchValue(customerData.assigned_to)
         this.controls['remarks'].patchValue(customerData.ticketStatusHistory[0].remarks)
           //  this.getAllServiceListWma(customerData.customer_id);
@@ -259,7 +259,7 @@ onFileSelected(event: any) {
   }
 // get Department list...
 getAllDepartmentListWma() {
-  this._customerService.getAllDepartmentListWma(this.userId).subscribe({
+  this._customerService.getAllDepartmentListWma('').subscribe({
     next: (res: any) => {
       if (res.data.length > 0) {
         // Hide or exclude "Customer" department

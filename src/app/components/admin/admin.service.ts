@@ -417,7 +417,7 @@ export class AdminService {
  customerEnableDisable(id: any, status: any,): Observable<any> {
     const body = { status: status };
     let params = new HttpParams().set('status', status);
-    return this.http.patch(this.baseUrl + 'api/user/customer' + id, body, {
+    return this.http.patch(this.baseUrl + 'api/user/customer/' + id, body, {
       params: params
     });
   }

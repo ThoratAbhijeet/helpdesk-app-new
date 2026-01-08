@@ -84,7 +84,7 @@ export class AddUpdateTicketComponent  implements OnInit {
       base64PDF: [null],
       assigned_to: [null],
       remarks: [null],
-      message: ['',Validators.required],
+      // description: ['',Validators.required],
     });
     
   }
@@ -107,7 +107,7 @@ onCompanyChange(event: Event) {
 }
  submit() {
   // Patch 'description' with the current 'message' value before submission
-  const messageValue = this.TicketForm.get('message')?.value;
+  const messageValue = this.TicketForm.get('description')?.value;
   this.TicketForm.patchValue({ description: messageValue });
 
   this.isEdit ? this.editTicket() : this.addTicket();
@@ -211,7 +211,7 @@ onCompanyChange(event: Event) {
         this.controls['ticket_category_id'].patchValue(customerData.ticket_category_id)
         this.controls['priority_id'].patchValue(customerData.priority_id)
         this.controls['subject'].patchValue(customerData.subject)
-        this.controls['message'].patchValue(customerData.description)
+        this.controls['description'].patchValue(customerData.description)
         this.controls['ticket_status'].patchValue(customerData.ticket_status)
         // this.getAllServiceListWma(customerData.customer_id);
         this.getAllCategoryListWma(customerData.department_id);
