@@ -72,45 +72,49 @@
           </div>
         </div>
         <hr />
-<div class="row">
-  <h6 class="fw-bold fs-6">📎 Attachment</h6>
+<div class="attachment-scroll">
+  <div class="row">
+    <h6 class="fw-bold fs-6">📎 Attachment</h6>
 
-  <div
-    class="mb-2"
-    *ngFor="let file of allTicketDetails?.ticketAttachHistory; let i = index"
-  >
-    <span class="fw-bold me-2">{{ i + 1 }}.</span>
-
-    <ng-container *ngIf="isPdf(file.file_path); else otherFile">
-      <p class="d-inline-block mb-1">
-        <i class="fa fa-file-pdf-o text-danger"></i>
-        Ticket PDF
-      </p>
-    </ng-container>
-
-    <ng-template #otherFile>
-      <p class="d-inline-block mb-1">
-        <i class="fa fa-paperclip"></i>
-        {{ file.file_path }}
-      </p>
-    </ng-template>
-
-    <br />
-
-    <a
-      class="btn btn-outline-success btn-sm"
-      (click)="downloadTicketTicketAttachmentDocument(file.ticket_attachment_id)"
-    >
-      Download
-    </a>
-  </div>
     <div
-                    class="fw-bold text-center"
-                    *ngIf="allTicketDetails?.ticketAttachHistory.length === 0"
-                  >
-                    <strong colspan="10" class="text-danger">No Data Available</strong>
+      class="mb-2"
+      *ngFor="let file of allTicketDetails?.ticketAttachHistory; let i = index"
+    >
+      <span class="fw-bold me-2">{{ i + 1 }}.</span>
+
+      <ng-container *ngIf="isPdf(file.file_path); else otherFile">
+        <p class="d-inline-block mb-1">
+          <i class="fa fa-file-pdf-o text-danger"></i>
+          Ticket PDF
+        </p>
+      </ng-container>
+
+      <ng-template #otherFile>
+        <p class="d-inline-block mb-1">
+          <i class="fa fa-paperclip"></i>
+          {{ file.file_path }}
+        </p>
+      </ng-template>
+
+      <br />
+
+      <a
+        class="btn btn-outline-success btn-sm"
+        (click)="downloadTicketTicketAttachmentDocument(file.ticket_attachment_id)"
+      >
+        Download
+      </a>
+    </div>
+
+    <div
+      class="fw-bold text-center"
+      *ngIf="allTicketDetails?.ticketAttachHistory.length === 0"
+    >
+      <strong class="text-danger">No Data Available</strong>
+    </div>
+  </div>
 </div>
-</div>
+
 
         
 

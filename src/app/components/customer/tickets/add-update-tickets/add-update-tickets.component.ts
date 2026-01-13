@@ -214,13 +214,21 @@ onFileSelected(event: any) {
   const file = event.target.files[0];
   if (file) {
     const reader = new FileReader();
-    reader.onload = () => {
-      const base64String = (reader.result as string).split(',')[1];
-      this.TicketForm.patchValue({
-        base64PDF: base64String
-      });
-      console.log("Base64 ready to send:", base64String.substring(0, 100) + "...");
-    };
+reader.onload = () => {
+  this.TicketForm.patchValue({
+    base64PDF: reader.result   // 👈 split mat karo
+  });
+  //  console.log("Base64 ready to send:", base64String.substring(0, 100) + "...");
+}
+// reader.readAsDataURL(file);
+//     const reader = new FileReader();
+//     reader.onload = () => {
+//       const base64String = (reader.result as string).split(',')[1];
+//       this.TicketForm.patchValue({
+//         base64PDF: base64String
+//       });
+//       console.log("Base64 ready to send:", base64String.substring(0, 100) + "...");
+//     };
     reader.readAsDataURL(file);
   }
 }
