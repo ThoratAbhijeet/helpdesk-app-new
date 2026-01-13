@@ -238,11 +238,11 @@ export class CustomerService {
     })
   }
      //download  Tikit attachment  document file
-    downloadCustomerTicketAttachmentDocument(ticket_id:any): Observable<any> {
+    downloadCustomerTicketAttachmentDocument(ticket_attachment_id:any): Observable<any> {
       let params: any = {
-  ticket_id:ticket_id,
+  ticketticket_attachment_id_id:ticket_attachment_id,
   };
-   if (ticket_id === '' || ticket_id === 'null') delete params.ticket_id;
+   if (ticket_attachment_id === '' || ticket_attachment_id === 'null') delete params.ticket_attachment_id;
  
     return this.http.get(this.baseUrl + 'api/ticket/doc-download', {
       responseType: 'blob',
