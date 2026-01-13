@@ -36,6 +36,7 @@ export class AddUpdateTicketComponent implements OnInit {
   allTicketTechnicianList: Array<any> = [];
   searchTicketTechnicianValue: string = '';
   filteredTicketTechnicianList: any[] = [];
+    allTicketDetails: any = {};
   constructor(
     private fb: FormBuilder,
     private _toastrService: ToastrService,
@@ -66,6 +67,7 @@ export class AddUpdateTicketComponent implements OnInit {
       this.TicketForm.get('department_id')?.disable();
        this.TicketForm.get('priority_id')?.disable();
        this.TicketForm.get('subject')?.disable();
+       this.TicketForm.get('description')?.disable();
     }
 
   }
@@ -115,7 +117,17 @@ onCompanyChange(event: Event) {
 }
   //update Ticket
   editTicket() {
+   if (
+  this.TicketForm.value.ticket_status === 'Re-assign' &&
+  this.isEdit === true
+) {
+  this.controls['assigned_to'].patchValue(null);
+} else {
+  this.controls['assigned_to'].patchValue(this.userId);
+}
+
     const data = this.TicketForm.getRawValue();
+    
 
     if (this.TicketForm.valid) {
       Swal.fire({
@@ -204,6 +216,7 @@ onCompanyChange(event: Event) {
   getTicketById(id: any) {
     this._customerService.getTicketById(id).subscribe({
       next: (result: any) => {
+        this.allTicketDetails = result.data;
         const customerData = result.data;
         this.controls['customer_id'].patchValue(customerData.customer_id)
         // this.controls['service_id'].patchValue(customerData.service_id)
@@ -220,7 +233,7 @@ onCompanyChange(event: Event) {
       } else {
         this.controls['assigned_to'].patchValue(customerData.assigned_to);
       }
-       this.controls['remarks'].patchValue(customerData.ticketStatusHistory[0].remarks)
+      //  this.controls['remarks'].patchValue(customerData.ticketStatusHistory[0].remarks)
       }
     })
   }
@@ -367,7 +380,38 @@ getAllServiceListWma(id:any) {
     }
   }
 
+     //download Ticket card Details pdf
+  downloadTicketTicketAttachmentDocument(id: any) {
+    this._customerService.downloadCustomerTicketAttachmentDocument(id).subscribe({
+      next: (response: any) => {
+        const blob = new Blob([response], { type: response.type });
 
+        // Try to get the file name from headers, fallback to default name
+        const contentDisposition = response.headers?.get('content-disposition');
+        let fileName = 'Ticket-Attachment-Document';
+        if (contentDisposition) {
+          const match = contentDisposition.match(/filename="?([^"]+)"?/);
+          if (match && match[1]) {
+            fileName = match[1];
+          }
+        }
+
+        const url = window.URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = fileName;
+        link.click();
+        window.URL.revokeObjectURL(url);
+      },
+      error: (err: any) => {
+        if (err.status === 401 || err.status === 422) {
+          this._toastrService.warning(err.error.message);
+        } else {
+          this._toastrService.warning('No Data Found');
+        }
+      }
+    });
+  }
 
   // cancel route location service
   goToback() {

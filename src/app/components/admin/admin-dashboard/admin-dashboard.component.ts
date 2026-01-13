@@ -29,7 +29,7 @@ export class AdminDashboardComponent implements OnInit {
   selectedStatus: string = 'open';
   selectedTabIndex: number = 0;
 
-  tabLabels = ['open', 'in progress', 'on hold', 'resolved', 'closed'];
+  tabLabels = ['open', 'in progress', 'on hold', 'accepted', 'closed'];
   @ViewChild('ticketTabs') ticketTabs!: ElementRef;
   constructor(
     private _adminService: AdminService,
@@ -88,7 +88,7 @@ export class AdminDashboardComponent implements OnInit {
       'open': 'bg-primary text-white',
       'in progress': 'bg-info text-dark',
       'on hold': 'bg-danger text-white',
-      'resolved': 'bg-success text-white',
+     're assign': 'bg-orange text-white',
       'closed': 'bg-secondary text-white',
       'accepted': 'bg-warning text-dark',
     };

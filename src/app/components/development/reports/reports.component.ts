@@ -235,7 +235,7 @@ getAllDepartmentListWma() {
     'open': 'bg-primary text-white',
     'in progress': 'bg-info text-dark',
     'on hold': 'bg-danger text-white',
-    'resolved': 'bg-success text-white',
+     're assign': 'bg-orange text-white',
     'closed': 'bg-secondary text-white',
     'accepted': 'bg-warning text-dark',
   };

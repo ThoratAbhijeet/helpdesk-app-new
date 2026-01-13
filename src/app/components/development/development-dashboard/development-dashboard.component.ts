@@ -27,7 +27,7 @@ export class DevelopmentDashboardComponent implements OnInit {
   todayTaskStatusCount: any[] = [];
   selectedStatus: string = 'open';
 selectedTabIndex: number = 0;
-tabLabels = ['open', 'in progress', 'on hold', 'resolved', 'closed'];
+tabLabels = ['open', 'in progress', 'on hold', 'accepted', 'closed'];
   @ViewChild('ticketTabs') ticketTabs!: ElementRef;
   @ViewChildren('myChart') chartCanvases!: QueryList<ElementRef>;
   charts: Chart[] = [];
@@ -87,7 +87,7 @@ tabLabels = ['open', 'in progress', 'on hold', 'resolved', 'closed'];
     'open': 'bg-primary text-white',
     'in progress': 'bg-info text-dark',
     'on hold': 'bg-danger text-white',
-    'resolved': 'bg-success text-white',
+    're assign': 'bg-orange text-white',
     'closed': 'bg-secondary text-white',
     'accepted': 'bg-warning text-dark',
   };

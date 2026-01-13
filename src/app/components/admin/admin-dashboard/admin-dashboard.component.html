@@ -122,8 +122,8 @@
                 </mat-tab>
 
                 <!-- RESOLVED TAB -->
-                <mat-tab label="Resolved">
-                  <ng-container *ngIf="selectedStatus === 'resolved'">
+                <mat-tab label="Accepted">
+                  <ng-container *ngIf="selectedStatus === 'accepted'">
                     <ng-container
                       *ngTemplateOutlet="ticketTable"
                     ></ng-container>

@@ -1,117 +1,181 @@
 <div class="container-fluid mt-3">
   <div class="row">
-
     <!-- LEFT CARD : TICKET DETAILS -->
     <div class="col-md-6 mb-3">
       <div class="modern-card">
-
         <h5 class="section-head">🎫 Ticket Details</h5>
         <hr />
 
         <div class="row">
-
           <div class="col-md-6 mb-3">
             <label class="nice-label">Department</label>
-            <input class="form-control modern-input" [value]="allTicketDetails.department_name || '--'" disabled />
+            <input
+              class="form-control modern-input"
+              [value]="allTicketDetails.department_name || '--'"
+              disabled
+            />
           </div>
 
           <div class="col-md-6 mb-3">
             <label class="nice-label">Priority</label>
-            <input class="form-control modern-input" [value]="allTicketDetails.priority_name || '--'" disabled />
+            <input
+              class="form-control modern-input"
+              [value]="allTicketDetails.priority_name || '--'"
+              disabled
+            />
           </div>
 
           <div class="col-md-6 mb-3">
             <label class="nice-label">Subject</label>
-            <input class="form-control modern-input" [value]="allTicketDetails.subject || '--'" disabled />
+            <input
+              class="form-control modern-input"
+              [value]="allTicketDetails.subject || '--'"
+              disabled
+            />
           </div>
 
           <div class="col-md-6 mb-3">
             <label class="nice-label">Ticket Status</label>
-            <input class="form-control modern-input" [value]="allTicketDetails.ticket_status || '--'" disabled />
+            <input
+              class="form-control modern-input"
+              [value]="allTicketDetails.ticket_status || '--'"
+              disabled
+            />
           </div>
- <div class="col-md-6 mb-3">
-            <label class="nice-label">Remarks</label>
-            <input class="form-control modern-input" [value]="allTicketDetails.remarks || '--'" disabled />
-          </div>
+
           <div class="col-md-12 mb-3">
             <label class="nice-label">Message</label>
-            <textarea class="form-control modern-input" rows="4" disabled>{{ allTicketDetails.description || '--' }}</textarea>
+            <textarea class="form-control modern-input" rows="4" disabled>{{
+              allTicketDetails.description || "--"
+            }}</textarea>
           </div>
-
         </div>
 
         <hr />
 
-        <h6 class="fw-bold fs-6">👤 Assigned To</h6>
-        <div class="mb-3">
-          <input class="form-control modern-input" [value]="allTicketDetails.assigned_to_name || '--'" disabled />
+        <div class="d-flex row">
+          <div class="mb-3 col-md-6">
+            <h6 class="fw-bold fs-6">👤 Assigned To</h6>
+            <input
+              class="form-control modern-input"
+              [value]="allTicketDetails.assigned_to_name || '--'"
+              disabled
+            />
+          </div>
+          <div class="mb-3 col-md-6">
+            <h6 class="fw-bold fs-6">Remark</h6>
+            <input
+              class="form-control modern-input"
+              [value]="allTicketDetails.remarks || '--'"
+              disabled
+            />
+          </div>
         </div>
+        <hr />
+<div class="row">
+  <h6 class="fw-bold fs-6">📎 Attachment</h6>
+
+  <div
+    class="mb-2"
+    *ngFor="let file of allTicketDetails?.ticketAttachHistory; let i = index"
+  >
+    <span class="fw-bold me-2">{{ i + 1 }}.</span>
+
+    <ng-container *ngIf="isPdf(file.file_path); else otherFile">
+      <p class="d-inline-block mb-1">
+        <i class="fa fa-file-pdf-o text-danger"></i>
+        Ticket PDF
+      </p>
+    </ng-container>
+
+    <ng-template #otherFile>
+      <p class="d-inline-block mb-1">
+        <i class="fa fa-paperclip"></i>
+        {{ file.file_path }}
+      </p>
+    </ng-template>
+
+    <br />
+
+    <a
+      class="btn btn-outline-success btn-sm"
+      (click)="downloadTicketTicketAttachmentDocument(file.ticket_attachment_id)"
+    >
+      Download
+    </a>
+  </div>
+    <div
+                    class="fw-bold text-center"
+                    *ngIf="allTicketDetails?.ticketAttachHistory.length === 0"
+                  >
+                    <strong colspan="10" class="text-danger">No Data Available</strong>
+</div>
+</div>
+
+        
 
         <hr />
 
-        <h6 class="fw-bold fs-6">📎 Attachment</h6>
-        <div class="mb-2">
-
-          <ng-container *ngIf="isPdf(allTicketDetails.file_path); else otherFile">
-            <p><i class="fa fa-file-pdf-o text-danger"></i> Ticket PDF</p>
-            <a class="btn btn-outline-success btn-sm"
-              (click)="downloadTicketTicketAttachmentDocument(allTicketDetails.ticket_id)">Download</a>
-          </ng-container>
-
-          <ng-template #otherFile>
-            <p><i class="fa fa-paperclip"></i> {{ allTicketDetails.file_path }}</p>
-            <a class="btn btn-outline-success btn-sm"
-              (click)="downloadTicketTicketAttachmentDocument(allTicketDetails.ticket_id)">Download</a>
-          </ng-template>
-
-        </div>
-
-        <hr />
-
-        <button class="btn btn-secondary btn-sm fw-bold px-4" (click)="goToback()">Cancel</button>
-
+        <button
+          class="btn btn-secondary btn-sm fw-bold px-4"
+          (click)="goToback()"
+        >
+          Cancel
+        </button>
       </div>
     </div>
 
     <!-- RIGHT CARD : HISTORY -->
     <div class="col-md-6 mb-3">
-      <div class="modern-card" style="height: 100%;">
-         <h5 class="section-head">📜 Ticket Status History</h5>
+      <div class="modern-card" style="height: 100%">
+        <h5 class="section-head">📜 Ticket Status History</h5>
         <hr />
-<div class="history-timeline">
+        <div class="history-timeline">
+          <div
+            class="timeline-item"
+            *ngFor="
+              let c of allTicketDetails.ticketStatusHistory;
+              let i = index
+            "
+          >
+            <div class="timeline-dot"></div>
 
-  <div class="timeline-item" *ngFor="let c of allTicketDetails.ticketStatusHistory; let i = index">
-    
-    <div class="timeline-dot"></div>
-
-    <div class="timeline-content">
-      <div class="d-flex justify-content-between">
-        <h6 class="status-title gradient-text">
-  {{ c.new_status | titlecase }}
-</h6>
-        <small class="text-muted">
-          {{ c.cts | date : "dd-MM-yyyy hh:mm a" }}
-        </small>
+            <div class="timeline-content">
+              <div class="d-flex justify-content-between">
+                <h6 class="status-title gradient-text">
+                  {{ c.new_status | titlecase }}
+                </h6>
+                <small class="text-muted">
+                  {{ c.cts | date : "dd-MM-yyyy hh:mm a" }}
+                </small>
+              </div>
+              <div class="row">
+                <div class="col-md-5">
+                  <p class="mb-1">
+                    <strong>Old Status:</strong> {{ c.old_status || "--" }}
+                  </p>
+                </div>
+                <div class="col-md-6">
+                  <p class="mb-1">
+                    <strong>New Status:</strong> {{ c.new_status || "--" }}
+                  </p>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-5">
+                  <p class="mb-1">
+                    <strong>Created By :</strong> {{ c.user_name || "--" }}
+                  </p>
+                </div>
+                <div class="col-md-7">
+                  <strong> Agent Remark:</strong>
+                  <p class="text-secondary" [innerHTML]="c.remarks || '--'"></p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-
-      <p class="mb-1">
-        <strong>Old:</strong> {{ c.old_status || '--' }}
-      </p>
-
-      <p class="mb-1">
-        <strong>New:</strong> {{ c.new_status || '--' }}
-      </p>
-
-      <strong>Remark:</strong> <p class="text-secondary" [innerHTML]="c.remarks || '--'"></p>
     </div>
-
-  </div>
-
-</div>
-
-
-      </div>
-    </div>
-
   </div>
 </div>
