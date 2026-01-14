@@ -212,8 +212,8 @@ onCompanyChange(event: Event) {
 
 onFileSelected(event: any) {
   const file = event.target.files[0];
+  const control = this.TicketForm.get('base64PDF');
 
-  // Allowed file types
   const allowedTypes = [
     'application/pdf',
     'image/jpeg',
@@ -221,18 +221,28 @@ onFileSelected(event: any) {
     'image/jpg'
   ];
 
+  const maxSize = 5 * 1024 * 1024; // ✅ 5 MB
+
   if (!file) {
-    this.TicketForm.get('base64PDF')?.setErrors({ required: true });
+    control?.setErrors({ required: true });
     return;
   }
 
+  // ❌ File type validation
   if (!allowedTypes.includes(file.type)) {
-    this.TicketForm.get('base64PDF')?.setErrors({ invalidType: true });
-    event.target.value = ''; // reset input
+    control?.setErrors({ invalidType: true });
+    event.target.value = '';
     return;
   }
 
-  // ✅ Valid file → convert to base64
+  // ❌ File size validation ( > 5 MB )
+  if (file.size > maxSize) {
+    control?.setErrors({ fileSizeExceeded: true });
+    event.target.value = '';
+    return;
+  }
+
+  // ✅ Valid file → convert to Base64
   const reader = new FileReader();
   reader.onload = () => {
     const base64String = (reader.result as string).split(',')[1];
@@ -241,7 +251,7 @@ onFileSelected(event: any) {
       base64PDF: base64String
     });
 
-    this.TicketForm.get('base64PDF')?.updateValueAndValidity();
+    control?.updateValueAndValidity();
 
     console.log(
       'Base64 ready to send:',
@@ -251,6 +261,7 @@ onFileSelected(event: any) {
 
   reader.readAsDataURL(file);
 }
+
 
 
   //get Ticket assign to by id

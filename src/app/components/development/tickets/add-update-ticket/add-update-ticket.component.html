@@ -373,7 +373,7 @@
                         <input
                           type="file"
                           class="form-control"
-                          formControlName="base64PDF"
+                       formControlName="base64PDF"
                           (change)="onFileSelected($event)"
                           accept=".pdf,.jpg,.png,.jpeg"
                         />
@@ -385,6 +385,9 @@
                       controls['base64PDF'].dirty)
                   "
                 >
+                  <small *ngIf="controls['base64PDF'].errors?.['fileSizeExceeded']">
+    File size must be less than 5 MB.
+  </small>
                   <small *ngIf="controls['base64PDF'].errors?.['invalidType']">
                     Only PDF, JPG, JPEG, PNG files are allowed.
                   </small>

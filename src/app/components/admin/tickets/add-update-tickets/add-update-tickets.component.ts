@@ -208,20 +208,56 @@ onCompanyChange(event: Event) {
       }
     })
   }
-
 onFileSelected(event: any) {
   const file = event.target.files[0];
-  if (file) {
-    const reader = new FileReader();
-    reader.onload = () => {
-      const base64String = (reader.result as string).split(',')[1];
-      this.TicketForm.patchValue({
-        base64PDF: base64String
-      });
-      console.log("Base64 ready to send:", base64String.substring(0, 100) + "...");
-    };
-    reader.readAsDataURL(file);
+  const control = this.TicketForm.get('base64PDF');
+
+  const allowedTypes = [
+    'application/pdf',
+    'image/jpeg',
+    'image/png',
+    'image/jpg'
+  ];
+
+  const maxSize = 5 * 1024 * 1024; // ✅ 5 MB
+
+  if (!file) {
+    control?.setErrors({ required: true });
+    return;
   }
+
+  // ❌ File type validation
+  if (!allowedTypes.includes(file.type)) {
+    control?.setErrors({ invalidType: true });
+    event.target.value = '';
+    return;
+  }
+
+  // ❌ File size validation ( > 5 MB )
+  if (file.size > maxSize) {
+    control?.setErrors({ fileSizeExceeded: true });
+    event.target.value = '';
+    return;
+  }
+
+  // ✅ Valid file → convert to Base64
+  const reader = new FileReader();
+  reader.onload = () => {
+    const base64String = (reader.result as string).split(',')[1];
+
+    this.TicketForm.patchValue({
+      base64PDF: base64String
+    });
+
+    control?.updateValueAndValidity();
+
+    console.log(
+      'Base64 ready to send:',
+      base64String.substring(0, 100) + '...'
+    );
+  };
+
+  reader.readAsDataURL(file);
 }
 
 
