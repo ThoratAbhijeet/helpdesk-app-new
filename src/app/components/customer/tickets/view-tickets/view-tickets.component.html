@@ -90,16 +90,13 @@
       </ng-container>
 
       <ng-template #otherFile>
-        <p class="d-inline-block mb-1">
+        <p class="d-inline-block mb-1 me-2">
           <i class="fa fa-paperclip"></i>
           {{ file.file_path }}
         </p>
       </ng-template>
-
-      <br />
-
       <a
-        class="btn btn-outline-success btn-sm"
+        class="btn btn-outline-success btn-sm ms-2"
         (click)="downloadTicketTicketAttachmentDocument(file.ticket_attachment_id)"
       >
         Download

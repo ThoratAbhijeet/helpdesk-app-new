@@ -227,17 +227,44 @@ onCompanyChange(event: Event) {
 
 onFileSelected(event: any) {
   const file = event.target.files[0];
-  if (file) {
-    const reader = new FileReader();
-    reader.onload = () => {
-      const base64String = (reader.result as string).split(',')[1];
-      this.TicketForm.patchValue({
-        base64PDF: base64String
-      });
-      console.log("Base64 ready to send:", base64String.substring(0, 100) + "...");
-    };
-    reader.readAsDataURL(file);
+
+  // Allowed file types
+  const allowedTypes = [
+    'application/pdf',
+    'image/jpeg',
+    'image/png',
+    'image/jpg'
+  ];
+
+  if (!file) {
+    this.TicketForm.get('base64PDF')?.setErrors({ required: true });
+    return;
   }
+
+  if (!allowedTypes.includes(file.type)) {
+    this.TicketForm.get('base64PDF')?.setErrors({ invalidType: true });
+    event.target.value = ''; // reset input
+    return;
+  }
+
+  // ✅ Valid file → convert to base64
+  const reader = new FileReader();
+  reader.onload = () => {
+    const base64String = (reader.result as string).split(',')[1];
+
+    this.TicketForm.patchValue({
+      base64PDF: base64String
+    });
+
+    this.TicketForm.get('base64PDF')?.updateValueAndValidity();
+
+    console.log(
+      'Base64 ready to send:',
+      base64String.substring(0, 100) + '...'
+    );
+  };
+
+  reader.readAsDataURL(file);
 }
 
 

@@ -370,9 +370,22 @@
                         <input
                           type="file"
                           class="form-control"
+                          formControlName="base64PDF"
                           (change)="onFileSelected($event)"
                           accept=".pdf,.jpg,.png,.jpeg"
                         />
+                        <div
+                  class="text-danger"
+                  *ngIf="
+                    controls['base64PDF'].invalid &&
+                    (controls['base64PDF'].touched ||
+                      controls['base64PDF'].dirty)
+                  "
+                >
+                  <small *ngIf="controls['base64PDF'].errors?.['invalidType']">
+                    Only PDF, JPG, JPEG, PNG files are allowed.
+                  </small>
+                </div>
                       </div>
                     </div>
                   </div>
