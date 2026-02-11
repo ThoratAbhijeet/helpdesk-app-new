@@ -11,6 +11,41 @@
           <form [formGroup]="UserForm">
             <div class="row">
               <div class="mb-3 col-md-4">
+                <label class="mb-2"
+                  >Company <span class="text-danger">*</span></label
+                >
+                <select
+                  class="form-control"
+                  formControlName="customer_id"
+                  [ngClass]="{
+                    'is-invalid':
+                      controls['customer_id'].invalid &&
+                      (controls['customer_id'].dirty ||
+                        controls['customer_id'].touched),
+                  }"
+                >
+                  <option value="" disabled selected hidden>
+                    Select Company
+                  </option>
+                  <option
+                    *ngFor="let item of allTicketEmployeeStatusList"
+                    [value]="item.customer_id"
+                  >
+                    {{ item.company_name | titlecase }}
+                  </option>
+                </select>
+                <div
+                  class="text-danger"
+                  *ngIf="
+                    controls['customer_id'].invalid &&
+                    (controls['customer_id'].touched ||
+                      controls['customer_id'].dirty)
+                  "
+                >
+                  <small>Please select a Company.</small>
+                </div>
+              </div>
+              <div class="mb-3 col-md-4">
                 <label for="user_name" class="mb-1"
                   >User Name <span class="text-danger">*</span>
                 </label>

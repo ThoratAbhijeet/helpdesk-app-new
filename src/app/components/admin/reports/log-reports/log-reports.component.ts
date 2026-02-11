@@ -59,7 +59,7 @@ export class LogReportsComponent implements OnInit {
     this.form = this.fb.group({
       fromDate: [''],  // No validation for unrestricted date selection
       toDate: [''],
-      user_id: [''],
+      user_id: [this.user_id],
       customer_id: [this.customer_id ],
     });
   }
@@ -97,7 +97,7 @@ export class LogReportsComponent implements OnInit {
     this.toDate = this.form.value.toDate;
     this.assigned_to = this.form.value.user_id;
         this.customer_id = this.form.value.customer_id;
-    this._customerService.getAllLogsListReport(this.page, this.perPage, this.fromDate, this.toDate, this.searchKey, this.assigned_to,this.customer_id).subscribe({
+    this._customerService.getAllLogsListReport(this.page, this.perPage, this.fromDate, this.toDate, this.searchKey, this.assigned_to,'').subscribe({
       next: (res: any) => {
         if (res.data.length > 0) {
           this.allReportList = res.data.map((item: any) => {

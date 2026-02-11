@@ -39,7 +39,7 @@
               <div class="form-group">
                 <label for="fromDate">From Date</label>
                 <input
-                  class="form-control"
+                  class="form-control form-control-md"
                   id="fromDate"
                   name="fromDate"
                   sizing="md"
@@ -52,7 +52,7 @@
               <div class="form-group">
                 <label for="toDate">To Date</label>
                 <input
-                  class="form-control"
+                  class="form-control form-control-md"
                   id="toDate"
                   name="toDate"
                   sizing="md"
@@ -62,10 +62,33 @@
               </div>
             </div>
              <div class="col-md-3">
+              <label for=" ">Company</label>
+              <mat-select
+                placeholder="Select Company"
+                formControlName="customer_id"
+                class="form-control form-control-sm w-100"  
+              >
+                <ngx-mat-select-search
+                  [(ngModel)]="searchTicketCompanyValue"
+                  [ngModelOptions]="{ standalone: true }"
+                  (input)="filterCompany()"
+                  placeholderLabel="Search Company"
+                  noEntriesFoundLabel="No Company found"
+                ></ngx-mat-select-search>
+                <mat-option value="null">All Company</mat-option>
+                <mat-option
+                  *ngFor="let user of allTicketCompanyStatusList"
+                  [value]="user.customer_id"
+                >
+                  {{ user.company_name | titlecase }}
+                </mat-option>
+              </mat-select>
+            </div>
+             <div class="col-md-3">
               <label class=""
                 >Department</label
               >
-              <select class="form-control" formControlName="department_id" (change)="onDepartmentAgentChange($event)">
+              <select class="form-control form-control-md " formControlName="department_id" (change)="onDepartmentAgentChange($event)">
                 <option value="" disabled selected hidden>
                   Select Department
                 </option>
@@ -87,7 +110,7 @@
               <mat-select
                 formControlName="ticket_category_id"
                 placeholder="Select category"
-                class="form-control theme-input"
+                class="form-control form-control-sm theme-input"
               >
                 <mat-option>
                   <ngx-mat-select-search
@@ -114,7 +137,7 @@
               <label class=""
                 >Priority </label
               >
-              <select class="form-control" formControlName="priority_id">
+              <select class="form-control form-control-md" formControlName="priority_id">
                 <option value="" disabled selected hidden>
                   Select Priority
                 </option>
@@ -132,7 +155,7 @@
               <mat-select
                 placeholder="Select Employee"
                 formControlName="user_id"
-                class="form-control w-100"
+                class="form-control form-control-sm w-100"
               >
                 <ngx-mat-select-search
                   [(ngModel)]="searchTicketEmployeeValue"
@@ -155,7 +178,7 @@
               <label class=""
                 >Ticket Status </label
               >
-              <select class="form-control" formControlName="ticket_status">
+              <select class="form-control form-control-md " formControlName="ticket_status">
                 <option value="" disabled selected hidden>
                   Ticket Status
                 </option>

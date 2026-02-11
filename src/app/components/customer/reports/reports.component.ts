@@ -146,7 +146,7 @@ this.fromDate = this.form.value.fromDate;
   }
 // get Department list...
 getAllDepartmentListWma() {
-  this._customerService.getAllDepartmentListWma(this.user_id).subscribe({
+  this._customerService.getAllDepartmentListWma('').subscribe({
     next: (res: any) => {
       if (res.data.length > 0) {
         // Hide or exclude "Customer" department

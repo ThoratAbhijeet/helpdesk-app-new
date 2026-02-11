@@ -53,7 +53,7 @@ tabLabels = ['open', 'in progress', 'on hold', 'accepted', 'closed'];
     this.customer_id = parsedData.sign_customer_id;
     
   this.getTaskStatusCount(this.user_id);
-    this.getTicketList(this.user_id);
+    // this.getTicketList(this.user_id);
     this.getAdminTaskStatusCount(this.user_id);
 }
  this.getStatusWiseTicketList(this.selectedStatus);

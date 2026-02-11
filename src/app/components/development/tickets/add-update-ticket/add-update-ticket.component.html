@@ -30,7 +30,7 @@
                     'is-invalid':
                       controls['customer_id'].invalid &&
                       (controls['customer_id'].dirty ||
-                        controls['customer_id'].touched)
+                        controls['customer_id'].touched),
                   }"
                 >
                   <option value="" disabled selected hidden>
@@ -111,7 +111,7 @@
                     'is-invalid':
                       controls['department_id'].invalid &&
                       (controls['department_id'].dirty ||
-                        controls['department_id'].touched)
+                        controls['department_id'].touched),
                   }"
                 >
                   <option value="" disabled selected hidden>
@@ -150,7 +150,7 @@
                     'is-invalid':
                       controls['ticket_category_id'].invalid &&
                       (controls['ticket_category_id'].dirty ||
-                        controls['ticket_category_id'].touched)
+                        controls['ticket_category_id'].touched),
                   }"
                 >
                   <mat-option>
@@ -230,7 +230,7 @@
                     'is-invalid':
                       controls['priority_id'].invalid &&
                       (controls['priority_id'].dirty ||
-                        controls['priority_id'].touched)
+                        controls['priority_id'].touched),
                   }"
                 >
                   <option value="" disabled selected hidden>
@@ -268,7 +268,8 @@
                   [ngClass]="{
                     'is-invalid':
                       controls['subject'].invalid &&
-                      (controls['subject'].dirty || controls['subject'].touched)
+                      (controls['subject'].dirty ||
+                        controls['subject'].touched),
                   }"
                 />
                 <div
@@ -292,7 +293,7 @@
                     'is-invalid':
                       controls['ticket_status'].invalid &&
                       (controls['ticket_status'].dirty ||
-                        controls['ticket_status'].touched)
+                        controls['ticket_status'].touched),
                   }"
                 >
                   <option value="" disabled hidden>Select Status</option>
@@ -368,32 +369,40 @@
                     <div class="row">
                       <div
                         class=""
-                        [ngClass]="isEdit ? 'col-md-4' : 'col-md-8'"
+                        [ngClass]="isEdit ? 'col-md-6' : 'col-md-8'"
                       >
                         <input
                           type="file"
                           class="form-control"
-                       formControlName="base64PDF"
+                          formControlName="base64PDF"
                           (change)="onFileSelected($event)"
                           accept=".pdf,.jpg,.png,.jpeg"
                         />
                         <div
-                  class="text-danger"
-                  *ngIf="
-                    controls['base64PDF'].invalid &&
-                    (controls['base64PDF'].touched ||
-                      controls['base64PDF'].dirty)
-                  "
-                >
-                  <small *ngIf="controls['base64PDF'].errors?.['fileSizeExceeded']">
-    File size must be less than 5 MB.
-  </small>
-                  <small *ngIf="controls['base64PDF'].errors?.['invalidType']">
-                    Only PDF, JPG, JPEG, PNG files are allowed.
-                  </small>
-                </div>
+                          class="text-danger"
+                          *ngIf="
+                            controls['base64PDF'].invalid &&
+                            (controls['base64PDF'].touched ||
+                              controls['base64PDF'].dirty)
+                          "
+                        >
+                          <small
+                            *ngIf="
+                              controls['base64PDF'].errors?.['fileSizeExceeded']
+                            "
+                          >
+                            File size must be less than 5 MB.
+                          </small>
+                          <small
+                            *ngIf="
+                              controls['base64PDF'].errors?.['invalidType']
+                            "
+                          >
+                            Only PDF, JPG, JPEG, PNG files are allowed.
+                          </small>
+                        </div>
                       </div>
-                      <div class="col-md-8" *ngIf="isEdit">
+                      <div class="col-md-6" *ngIf="isEdit">
                         <table
                           class="table table-bordered table-sm align-middle"
                         >
@@ -418,7 +427,7 @@
                               </td>
                               <td style="width: 160px">
                                 {{
-                                  file.uploaded_at | date : "dd-MM-yyyy hh:mm a"
+                                  file.uploaded_at | date: "dd-MM-yyyy hh:mm a"
                                 }}
                               </td>
                               <td>
@@ -517,7 +526,7 @@
                             'is-invalid':
                               controls['remarks'].invalid &&
                               (controls['remarks'].dirty ||
-                                controls['remarks'].touched)
+                                controls['remarks'].touched),
                           }"
                         />
                         <div
@@ -557,7 +566,7 @@
                                 {{ i + 1 }}
                               </td>
                               <td style="width: 160px">
-                                {{ member.cts | date : "dd-MM-yyyy hh:mm a" }}
+                                {{ member.cts | date: "dd-MM-yyyy hh:mm a" }}
                               </td>
                               <td>
                                 {{ member.user_name }}

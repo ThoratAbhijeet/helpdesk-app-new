@@ -51,7 +51,7 @@ export class AdminDashboardComponent implements OnInit {
       this.user_id = parsedData.user_id;
       this.customer_id = parsedData.customer_id;
       this.getTaskStatusCount(this.user_id);
-      this.getTicketList(this.user_id);
+      // this.getTicketList(this.user_id);
       this.getAdminTaskStatusCount(this.user_id);
     }
     this.getStatusWiseTicketList(this.selectedStatus);
@@ -77,7 +77,7 @@ export class AdminDashboardComponent implements OnInit {
 
 
   getAdminTaskStatusCount(id: any) {
-    this._customerService.getDashBoardTicketStatusCount('',this.customer_id).subscribe({
+    this._customerService.getDashBoardTicketStatusCount(id,'').subscribe({
       next: (res: any) => {
         this.taskStatusCount = res.ticket_status_counts;
       }
@@ -98,7 +98,7 @@ export class AdminDashboardComponent implements OnInit {
   }
 
   getTaskStatusCount(id: any) {
-    this._customerService.getTicketStatusCount('',this.customer_id).subscribe({
+    this._customerService.getTicketStatusCount(this.user_id,'').subscribe({
       next: (res: any) => {
         if (res.data) {
           this.todayTaskStatusCount = res.data;
@@ -174,7 +174,7 @@ export class AdminDashboardComponent implements OnInit {
     });
   }
   getTicketList(id: any) {
-    this._customerService.getOpenTicketList(this.searchKey, this.page, this.perPage, '').subscribe({
+    this._customerService.getOpenTicketList(this.searchKey, this.page, this.perPage,id).subscribe({
       next: (res: any) => {
         if (res.data.length > 0) {
           this.allOpenTicketList = res.data;
@@ -234,7 +234,7 @@ export class AdminDashboardComponent implements OnInit {
   }
 
   getStatusWiseTicketList(status: string) {
-    this._customerService.getStatusWiseTicketList(this.searchKey, this.page, this.perPage, status, '', this.customer_id)
+    this._customerService.getStatusWiseTicketList(this.searchKey, this.page, this.perPage, status,this.user_id, '')
       .subscribe({
         next: (res: any) => {
           if (res.data.length > 0) {

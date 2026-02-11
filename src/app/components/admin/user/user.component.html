@@ -60,8 +60,8 @@
                     <th scope="col">Options</th>
                     <th scope="col">Status</th>
                     <th scope="col">Created Date</th>
+                    <th scope="col">Company</th>
                     <th scope="col">User Name</th>
-                    <!-- <th scope="col">Designation</th> -->
                     <th scope="col">Email Id</th>
                     <!-- <th scope="col">Emergency  Id</th> -->
                     <th scope="col">Mobile No</th>
@@ -134,9 +134,12 @@
                     </td>
                     <td class="wrap-text">
                       {{
-                        (item.created_at| date) ||
+                        (item.cts| date) ||
                           "--"
                       }}
+                    </td>
+                      <td class="wrap-text">
+                      {{ (item.company_name | titlecase) || "--" }}
                     </td>
                     <td class="wrap-text">
                       {{ (item.user_name | titlecase) || "--" }}

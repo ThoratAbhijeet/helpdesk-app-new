@@ -7,6 +7,14 @@
         <hr />
 
         <div class="row">
+           <div class="col-md-12 mb-3">
+            <label class="nice-label">Company Name</label>
+            <input
+              class="form-control modern-input"
+              [value]="allTicketDetails.company_name || '--'"
+              disabled
+            />
+          </div>
           <div class="col-md-6 mb-3">
             <label class="nice-label">Department</label>
             <input

@@ -49,7 +49,7 @@ export class TicketsComponent implements OnInit {
     this.expandedRowIndex = this.expandedRowIndex === index ? null : index;
   }
   getTicketList() {
-    this._customerService.getTicketList(this.searchKey, this.page, this.perPage, '',this.customer_id).subscribe({
+    this._customerService.getTicketList(this.searchKey, this.page, this.perPage,this.user_id,'').subscribe({
       next: (res: any) => {
         if (res.data.length > 0) {
           this.allTicketList = res.data;

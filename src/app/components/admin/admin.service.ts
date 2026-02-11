@@ -185,13 +185,14 @@ export class AdminService {
     })
   }
      // User list
-    getUsersList(key: any, page: any, perPage: any,role_id:any,customer_id:any): Observable<any> {
+    getUsersList(key: any, page: any, perPage: any,role_id:any,customer_id:any,user_id:any): Observable<any> {
       let params: any = {
         page: page,
         perPage: perPage,
         key: key,
         role_id: role_id,
-        customer_id:customer_id
+        customer_id:customer_id,
+        user_id : user_id
       };
       // Check if page or perPage is empty and remove them from params if so
       if (page === '' || perPage === '') {
@@ -201,6 +202,7 @@ export class AdminService {
       if (key === '' || key === 'null') delete params.key;
       if(role_id === '' || role_id ==='null')delete params.role_id;
       if(customer_id === '' || customer_id ==='null')delete params.customer_id;
+      if(user_id === '' || user_id === 'null' )delete params.user_id;
       // Make the HTTP GET request
       return this.http.get(this.baseUrl + 'api/user', {
         params: params

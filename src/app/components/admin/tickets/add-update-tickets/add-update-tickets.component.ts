@@ -50,7 +50,7 @@ export class AddUpdateTicketsComponent  implements OnInit {
     this.getAllPriorityListWma();
     this.getAllDepartmentListWma()
     //  this.getAllCompanyListWma()
-    // this.getTicketAssignToById(this.userId);
+    this.getTicketAssignToById();
     this.TicketId = this.url.snapshot.params['id'];
     //activate route get employee id
     if (this.TicketId) {
@@ -63,7 +63,7 @@ export class AddUpdateTicketsComponent  implements OnInit {
   //Ticket form
   createForm() {
     this.TicketForm = this.fb.group({
-       customer_id: [this.customer_id],
+       customer_id: [''],
       service_id: [null],
       ticket_category_id: ['',Validators.required],
       department_id: ['',Validators.required],
@@ -262,25 +262,25 @@ onFileSelected(event: any) {
 
 
   //get Ticket assign to by id
-  // getTicketAssignToById(id: any) {
-  //  this._customerService.getAllCustomerListWma(id).subscribe({
-  //     next: (res: any) => {
-  //       if (res.data.length > 0) {
-  //         this.allTicketEmployeeStatusList = res.data;
-  //         this.filteredTicketEmployeeList = this.allTicketEmployeeStatusList;
-  //       }
-  //     }
-  //   });
-  // }
-  //   filterAssignTo() {
-  //   if (this.searchTicketEmployeeValue !== '') {
-  //     this.filteredTicketEmployeeList = this.allTicketEmployeeStatusList.filter(project =>
-  //       project.user_name.toLowerCase().includes(this.searchTicketEmployeeValue.toLowerCase())
-  //     );
-  //   } else {
-  //     this.filteredTicketEmployeeList = this.allTicketEmployeeStatusList;
-  //   }
-  // }
+  getTicketAssignToById() {
+   this._customerService.getAllCustomerwiseCompanyListWma(this.userId).subscribe({
+      next: (res: any) => {
+        if (res.data.length > 0) {
+          this.allTicketEmployeeStatusList = res.data;
+          this.filteredTicketEmployeeList = this.allTicketEmployeeStatusList;
+        }
+      }
+    });
+  }
+    filterAssignTo() {
+    if (this.searchTicketEmployeeValue !== '') {
+      this.filteredTicketEmployeeList = this.allTicketEmployeeStatusList.filter(project =>
+        project.user_name.toLowerCase().includes(this.searchTicketEmployeeValue.toLowerCase())
+      );
+    } else {
+      this.filteredTicketEmployeeList = this.allTicketEmployeeStatusList;
+    }
+  }
 
   //get status  list...
   getAllPriorityListWma() {

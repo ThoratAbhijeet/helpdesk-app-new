@@ -35,6 +35,9 @@ export class ReportsComponent implements OnInit {
   searchKey: any = '';
   customer_id:any;
   ticket_status='';
+   allTicketCompanyStatusList: Array<any> = [];
+  searchTicketCompanyValue: string = '';
+  filteredTicketCompanyList: any[] = [];
   constructor(private _customerService: CustomerService, private fb: FormBuilder, private elRef: ElementRef, private _toastrService: ToastrService,) { }
 
   ngOnInit(): void {
@@ -45,6 +48,7 @@ export class ReportsComponent implements OnInit {
     this.getAllPriorityListWma()
     this.getAllDepartmentListWma();
     // this.getAllCategoryListWma();
+    this.getTicketCompanyById(this.user_id);
     this.getTicketAssignToById(this.customer_id);
     this.searchControl.valueChanges.pipe(debounceTime(550)).subscribe((searchKey: any) => {
       this.getSearchInput(searchKey);
@@ -54,6 +58,7 @@ export class ReportsComponent implements OnInit {
     this.form = this.fb.group({
       fromDate: [''],  // No validation for unrestricted date selection
       toDate: [''],
+      customer_id:[''],
       department_id: [''],
       company_name: [''],
       priority_id: [''],
@@ -67,11 +72,12 @@ export class ReportsComponent implements OnInit {
     this.fromDate = this.form.value.fromDate;
     this.toDate = this.form.value.toDate;
     this.department_id = this.form.value.department_id;
+    this.customer_id = this.form.value.customer_id;
     this.priority_id = this.form.value.priority_id;
     this.ticket_category_id = this.form.value.ticket_category_id;
     this.assigned_to = this.form.value.user_id;
     this.ticket_status = this.form.value.ticket_status;
-    this._customerService.getAllTicketsListReport(this.page, this.perPage, this.fromDate, this.toDate, this.department_id, this.priority_id, this.ticket_category_id, '', this.searchKey, this.assigned_to,this.customer_id,this.ticket_status).subscribe({
+    this._customerService.getAllTicketsListReport(this.page, this.perPage, this.fromDate, this.toDate, this.department_id, this.priority_id, this.ticket_category_id, this.assigned_to, this.searchKey, this.user_id,this.customer_id,this.ticket_status).subscribe({
       next: (res: any) => {
         if (res.data.length > 0) {
           this.allReportList = res.data;
@@ -110,11 +116,12 @@ onDepartmentAgentChange(event: Event) {
   downloadAllMeetingReportList() {
 this.fromDate = this.form.value.fromDate;
     this.toDate = this.form.value.toDate;
+     this.customer_id = this.form.value.customer_id;
     this.department_id = this.form.value.department_id;
     this.priority_id = this.form.value.priority_id;
     this.ticket_category_id = this.form.value.ticket_category_id;
     this.assigned_to = this.form.value.user_id;
-    this._customerService.downloadAllTikitsReportList(this.fromDate, this.toDate, this.department_id, this.priority_id,this.ticket_category_id,this.assigned_to, this.searchKey,'',this.customer_id ).subscribe({
+    this._customerService.downloadAllTikitsReportList(this.fromDate, this.toDate, this.department_id, this.priority_id,this.ticket_category_id,this.assigned_to, this.searchKey,this.user_id,this.customer_id ).subscribe({
       next: (blob: Blob) => {
         const url = window.URL.createObjectURL(blob);
         const link = document.createElement('a');
@@ -243,5 +250,23 @@ getAllDepartmentListWma() {
   const normalizedStatus = status?.trim().toLowerCase();
   return statusColors[normalizedStatus] || 'bg-light text-dark'; // fallback
 }
-
+getTicketCompanyById(id: any) {
+   this._customerService.getAllCustomerwiseCompanyListWma(id).subscribe({
+      next: (res: any) => {
+        if (res.data.length > 0) {
+          this.allTicketCompanyStatusList = res.data;
+          this.filteredTicketCompanyList = this.allTicketCompanyStatusList;
+        }
+      }
+    });
+  }
+    filterCompany() {
+    if (this.searchTicketCompanyValue !== '') {
+      this.filteredTicketCompanyList = this.allTicketCompanyStatusList.filter(project =>
+        project.company_name.toLowerCase().includes(this.searchTicketCompanyValue.toLowerCase())
+      );
+    } else {
+      this.filteredTicketCompanyList = this.allTicketCompanyStatusList;
+    }
+  }
 }

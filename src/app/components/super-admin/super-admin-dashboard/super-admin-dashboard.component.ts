@@ -50,7 +50,7 @@ export class SuperAdminDashboardComponent implements OnInit {
       this.user_id = parsedData.user_id;
 
       this.getTaskStatusCount(this.user_id);
-      this.getTicketList(this.user_id);
+      // this.getTicketList(this.user_id);
       this.getAdminTaskStatusCount(this.user_id);
     }
     this.getStatusWiseTicketList(this.selectedStatus);

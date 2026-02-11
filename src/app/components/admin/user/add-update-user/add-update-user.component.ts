@@ -7,6 +7,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { debounceTime } from 'rxjs';
 import Swal from 'sweetalert2';
+import { CustomerService } from '../../../customer/customer.service';
 
 @Component({
   selector: 'app-add-update-user',
@@ -28,6 +29,9 @@ export class AddUpdateUserComponent implements OnInit {
   filteredEmployeeList: any[] = [];
   agentDepartmentList: any[] = [];
   agentRoleList: Array<any> = [];
+    allTicketEmployeeStatusList: Array<any> = [];
+    searchTicketEmployeeValue: string = '';
+  filteredTicketEmployeeList: any[] = [];
   constructor(
     private fb: FormBuilder,
     private _toastrService: ToastrService,
@@ -35,6 +39,7 @@ export class AddUpdateUserComponent implements OnInit {
     private _sharedService: SharedService,
     private url: ActivatedRoute,
     private location: Location,
+     private _customerService: CustomerService,
   ) { }
   ngOnInit(): void {
         const data = localStorage.getItem('data');
@@ -44,6 +49,7 @@ export class AddUpdateUserComponent implements OnInit {
     this.getAllDepartmentListWma();
     this.getAllRoleListWma();
     this.getAllTechnicianEmployeeListWma();
+    this.getTicketAssignToById()
     this.User_Id = this.url.snapshot.params['id'];
     //activate route get employee id
     if (this.User_Id) {
@@ -64,7 +70,7 @@ export class AddUpdateUserComponent implements OnInit {
       phone_number: ['', [Validators.required, Validators.pattern('^((\\+91-?)|0)?[0-9]{10}$')]],
       role_id: [3],
       department_id: [0],
-       customer_id: this.customer_id
+       customer_id: ['']
       // customerAgent: this.fb.array([]),
     })
     // this.addCustomerAssigned();
@@ -228,10 +234,10 @@ getUserById(id: any) {
       const userData = result.data;
 
       // Patch main fields
+      this.controls['customer_id'].patchValue(userData.customer_id);
       this.controls['user_name'].patchValue(userData.user_name);
       this.controls['email_id'].patchValue(userData.email_id);
       this.controls['phone_number'].patchValue(userData.phone_number);
-      //  this.controls['department_id'].patchValue(userData.department_id);
       // this.controls['role_id'].patchValue(userData.role_id);
 
       // Patch FormArray (customerAgent)
@@ -354,5 +360,24 @@ filterEmployee(index: number) {
     this.location.back();
   }
 
-
+  //get Ticket assign to by id
+  getTicketAssignToById() {
+   this._customerService.getAllCustomerwiseCompanyListWma(this.user_ID).subscribe({
+      next: (res: any) => {
+        if (res.data.length > 0) {
+          this.allTicketEmployeeStatusList = res.data;
+          this.filteredTicketEmployeeList = this.allTicketEmployeeStatusList;
+        }
+      }
+    });
+  }
+    filterAssignTo() {
+    if (this.searchTicketEmployeeValue !== '') {
+      this.filteredTicketEmployeeList = this.allTicketEmployeeStatusList.filter(project =>
+        project.company_name.toLowerCase().includes(this.searchTicketEmployeeValue.toLowerCase())
+      );
+    } else {
+      this.filteredTicketEmployeeList = this.allTicketEmployeeStatusList;
+    }
+  }
 }

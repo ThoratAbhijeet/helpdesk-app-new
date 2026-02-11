@@ -16,6 +16,7 @@ export class UserComponent implements OnInit {
   perPage = 50;
   total = 0;
   role_id :any;
+  user_id : any;
   customer_id :any;
   searchKey: any = '';
   searchControl: FormControl = new FormControl('');
@@ -26,6 +27,7 @@ export class UserComponent implements OnInit {
 
   ngOnInit(): void {
      let userData = localStorage.getItem('data');
+     this.user_id = userData ? JSON.parse(userData).user_id : null;
     this.customer_id = userData ? JSON.parse(userData).customer_id : null;
     this.role_id = 3;
     this.getUsersList();
@@ -38,7 +40,7 @@ export class UserComponent implements OnInit {
     this.getUsersList();
   }
   getUsersList() {
-    this._adminService.getUsersList(this.searchKey, this.page, this.perPage,this.role_id,this.customer_id).subscribe({
+    this._adminService.getUsersList(this.searchKey, this.page, this.perPage,'','',this.user_id).subscribe({
       next: (res: any) => {
         if (res.data.length > 0) {
           this.allUserList = res.data
