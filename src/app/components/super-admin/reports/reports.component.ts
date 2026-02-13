@@ -124,7 +124,8 @@ this.fromDate = this.form.value.fromDate;
     this.ticket_category_id = this.form.value.ticket_category_id;
     this.assigned_to = this.form.value.assigned_to;
     this.customer_id = this.form.value.customer_id;
-    this._customerService.downloadAllTikitReportList(this.fromDate, this.toDate, this.department_id, this.priority_id,this.ticket_category_id,this.assigned_to, this.searchKey,'' ,this.customer_id).subscribe({
+    this.ticket_status = this.form.value.ticket_status;
+    this._customerService.downloadAllTikitReportList(this.fromDate, this.toDate, this.department_id, this.priority_id,this.ticket_category_id,this.assigned_to, this.searchKey,'',this.customer_id,this.ticket_status).subscribe({
       next: (blob: Blob) => {
         const url = window.URL.createObjectURL(blob);
         const link = document.createElement('a');

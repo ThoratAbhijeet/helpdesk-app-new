@@ -250,7 +250,7 @@ export class CustomerService {
     })
   }
     // Tikit report download
-   downloadAllTikitReportList(fromDate: any, toDate: any, department_id: any, priority_id: any, ticket_category_id:any, assigned_to:any, key: any,user_id:any,customer_id:any): Observable<any> {
+   downloadAllTikitReportList(fromDate: any, toDate: any, department_id: any, priority_id: any, ticket_category_id:any, assigned_to:any, key: any,user_id:any,customer_id:any,ticket_status:any): Observable<any> {
     let params = {
        'fromDate': fromDate,
       'toDate': toDate,
@@ -258,9 +258,10 @@ export class CustomerService {
       'priority_id': priority_id,
       'ticket_category_id': ticket_category_id,
       'assigned_to':assigned_to,
-      'user_id': user_id,
       'key': key,
-      'customer_id':customer_id
+      'user_id': user_id,
+      'customer_id':customer_id,
+      'ticket_status':ticket_status
     };
 
  if (fromDate == '' || toDate == '') {
@@ -284,6 +285,9 @@ export class CustomerService {
       delete params['user_id'];
     }if (customer_id == '' || customer_id == 'null') {
       delete params['customer_id'];
+    }
+    if(ticket_status == '' || ticket_status == 'null') {
+      delete params['ticket_status'];
     }
     return this.http.get(this.baseUrl + 'api/ticket/download', {
       responseType: 'blob',
@@ -291,7 +295,7 @@ export class CustomerService {
     })
   }
    // Tikit report download
-   downloadAllTikitsReportList(fromDate: any, toDate: any, department_id: any, priority_id: any, ticket_category_id:any, assigned_to:any, key: any,user_id:any,customer_id:any): Observable<any> {
+   downloadAllTikitsReportList(fromDate: any, toDate: any, department_id: any, priority_id: any, ticket_category_id:any, assigned_to:any, key: any,user_id:any,customer_id:any,ticket_status:any): Observable<any> {
     let params = {
        'fromDate': fromDate,
       'toDate': toDate,
@@ -299,9 +303,10 @@ export class CustomerService {
       'priority_id': priority_id,
       'ticket_category_id': ticket_category_id,
       'assigned_to':assigned_to,
-      'user_id': user_id,
       'key': key,
-      'customer_id':customer_id
+      'user_id': user_id,
+      'customer_id':customer_id,
+      'ticket_status':ticket_status
     };
 
  if (fromDate == '' || toDate == '') {
@@ -325,6 +330,9 @@ export class CustomerService {
       delete params['user_id'];
     }if (customer_id == '' || customer_id == 'null') {
       delete params['customer_id'];
+    }
+    if(ticket_status == '' || ticket_status == 'null') {
+      delete params['ticket_status'];
     }
     return this.http.get(this.baseUrl + 'api/ticket/dowmload-report', {
       responseType: 'blob',

@@ -60,7 +60,7 @@ user_id:any;
     this._sharedService.setLoading(false);
     if (err.error.status == 401) {
       this._router.navigate(['']);
-      this._toastrService.warning("Session Expries..!!!");
+      this._toastrService.warning("Session Expired..!!!");
       this.Logout();
       localStorage.setItem('isLogin', 'false');
       this._sharedService.setIsLogin(false);

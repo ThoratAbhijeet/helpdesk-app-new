@@ -245,11 +245,13 @@ export class AdminService {
     return this.http.get(this.baseUrl + 'api/user/technician-wma')
   }
      // download user  list
-  downloadUserList(key: any): Observable<any> {
+  downloadUserList(key: any,user_id:any): Observable<any> {
     let params: any = {
-      key: key
+      key: key,
+      user_id:user_id
     };
     if (key === ''|| key === 'null') delete params.key;
+    if(user_id === ''|| user_id === 'null') delete params.user_id;
     return this.http.get(this.baseUrl + 'api/user/download', {
       responseType: 'blob',
       params: params

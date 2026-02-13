@@ -83,7 +83,7 @@ export class UserComponent implements OnInit {
   }
   //download Customer list
   downloadCustomerList() {
-    this._adminService.downloadUserList(this.searchKey).subscribe({
+    this._adminService.downloadUserList(this.searchKey,this.user_id).subscribe({
       next: (blob: Blob) => {
         const url = window.URL.createObjectURL(blob);
         const link = document.createElement('a');

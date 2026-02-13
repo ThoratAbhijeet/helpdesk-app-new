@@ -93,7 +93,7 @@ export class TicketsComponent implements OnInit {
 
   //download  Ticket list
   downloadTicketList() {
-    this._customerService.downloadTikitList('', this.searchKey,this.customer_id ).subscribe({
+    this._customerService.downloadTikitList(this.user_id, this.searchKey,'' ).subscribe({
       next: (blob: Blob) => {
         const url = window.URL.createObjectURL(blob);
         const link = document.createElement('a');
