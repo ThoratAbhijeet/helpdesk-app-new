@@ -436,5 +436,9 @@ export class AdminService {
       params: params
     })
   }
+      //update customer...
+  editCustomer(id: any, data: any): Observable<any> {
+    return this.http.put(this.baseUrl + 'api/user/customer/' + id, data);
+  }
 }
 

@@ -120,7 +120,7 @@ get customerAgentArray(): FormArray {
       [
         Validators.required,
       ],
-    ],
+    ]
   });
 }
 
@@ -198,14 +198,14 @@ get customerAgentArray(): FormArray {
   }
   //update User
   editUser() {
-    // let data = this.UserForm.getRawValue();
-    let data = {
-      ...this.UserForm.value,
-      isPartner: this.UserForm.value.isPartner ? 'true' : 'false'
-    };
+    let data = this.UserForm.getRawValue();
+    // let data = {
+    //   ...this.UserForm.value,
+    //   isPartner: this.UserForm.value.isPartner ? 'true' : 'false'
+    // };
     if (this.UserForm.valid) {
       this._sharedService.setLoading(true);
-      this._adminService.editUser(this.User_Id, data).subscribe({
+      this._adminService.editCustomer(this.User_Id, data).subscribe({
         next: (res: any) => {
           if (res.status == 200) {
             this._toastrService.success(res.message);
@@ -296,25 +296,33 @@ if (userData.service && userData.service.length > 0) {
       const customerAgentArray = this.customerAgentArray;
       customerAgentArray.clear();
 
-      if (userData.agent && userData.agent.length > 0) {
-        userData.agent.forEach((agent: any, index: number) => {
-          const group = this.newCustomerAgent();
-          customerAgentArray.push(group);
+if (userData.agent && userData.agent.length > 0) {
+  userData.agent.forEach((agent: any, index: number) => {
 
-          // patch department first (so selection triggers proper load flow)
-          group.patchValue({ department_id: agent.department_id });
+    const group = this.newCustomerAgent();
+    
+    // ✅ normal fields patch
+    group.patchValue({
+      department_id: agent.department_id
+    });
 
-          // fetch userAgent list then patch user_id AFTER response
-          // normalize agent.user_id to number if possible to avoid type mismatch
-          const selectedUserId = agent.user_id !== null && agent.user_id !== undefined
-            ? (isNaN(+agent.user_id) ? agent.user_id : +agent.user_id)
-            : null;
+    // ✅ agents_id sirf edit case me add karo
+    if (agent.agents_id !== null && agent.agents_id !== undefined) {
+      group.addControl('agents_id', this.fb.control(agent.agents_id));
+    }
 
-          this.getUserAgentById(agent.department_id, index, selectedUserId);
-        });
-      } else {
-        customerAgentArray.push(this.newCustomerAgent());
-      }
+    customerAgentArray.push(group);
+
+    const selectedUserId = agent.user_id !== null && agent.user_id !== undefined
+      ? (isNaN(+agent.user_id) ? agent.user_id : +agent.user_id)
+      : null;
+
+    this.getUserAgentById(agent.department_id, index, selectedUserId);
+
+  });
+} else {
+  customerAgentArray.push(this.newCustomerAgent());
+}
 
 
 
