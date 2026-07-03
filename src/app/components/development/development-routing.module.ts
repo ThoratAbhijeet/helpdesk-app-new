@@ -6,6 +6,8 @@ import { ViewTicketComponent } from './tickets/view-ticket/view-ticket.component
 import { AddUpdateTicketComponent } from './tickets/add-update-ticket/add-update-ticket.component';
 import { TicketsComponent } from './tickets/tickets.component';
 import { ReportsComponent } from './reports/reports.component';
+import { AiSupportComponent } from './ai-support/ai-support.component';
+import { FaqComponent } from './faq/faq.component';
 
 
 const routes: Routes = [
@@ -46,6 +48,20 @@ const routes: Routes = [
    {
     path: "report",
     component: ReportsComponent,
+    pathMatch: "full",
+    outlet: "development_menu",
+    canActivate: [AuthGuard]
+  },
+   {
+    path: "ai-support",
+    component: AiSupportComponent,
+    pathMatch: "full",
+    outlet: "development_menu",
+    canActivate: [AuthGuard]
+  },
+    {
+    path: "ai-FAQ",
+    component: FaqComponent,
     pathMatch: "full",
     outlet: "development_menu",
     canActivate: [AuthGuard]
