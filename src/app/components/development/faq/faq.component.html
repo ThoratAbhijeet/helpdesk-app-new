@@ -1,0 +1,161 @@
+<div class="container-fluid p-0">
+  <div class="row justify-content-center mx-3">
+    <div class="col-md-12 m-4">
+      <div class="card p-3">
+        <div class="card-header d-flex justify-content-between p-3">
+          <strong class="text-dark fs-5"> FAQ</strong>
+          <button
+            type="button"
+            class="btn btn-secondary ms-3 px-4 btn-sm fw-bold"
+            (click)="goToback()"
+          >
+            Cancel
+          </button>
+        </div>
+        <!-- Updated Form UI for TicketForm -->
+        <div class="card-body">
+          <form [formGroup]="TicketForm">
+            <div class="row ">
+
+  <!-- Category -->
+  <div class="col-md-4 mb-3">
+    <label class="mb-2 fw-semibold">
+      Category 
+    </label>
+
+    <mat-select
+      formControlName="ticket_category_id"
+      placeholder="Select category"
+      class="form-control theme-input"
+      (selectionChange)="onCategoryChange($event.value)"
+    >
+      <mat-option>
+        <ngx-mat-select-search
+          [(ngModel)]="searchCategoryValue"
+          [ngModelOptions]="{ standalone: true }"
+          (input)="filterCategory()"
+          placeholderLabel="Search Category"
+          noEntriesFoundLabel="No result found"
+        >
+        </ngx-mat-select-search>
+      </mat-option>
+
+      <mat-option
+        *ngFor="let source of filteredCategoryList"
+        [value]="source.ticket_category_id"
+      >
+        {{ source.name | titlecase }}
+      </mat-option>
+    </mat-select>
+
+
+  </div>
+
+  <!-- Description -->
+  <div class="col-md-8 mb-3">
+
+    <label class="mb-2 fw-semibold">
+      Description 
+    </label>
+
+    <textarea
+      rows="3"
+      class="form-control"
+      formControlName="description"
+      placeholder="Describe your issue..."
+    >
+    </textarea>
+
+  </div>
+</div>
+            <hr />
+            <!-- Loading -->
+            <div *ngIf="isLoadingAi" class="ai-loading-card mt-4">
+              <div class="d-flex align-items-center">
+                <div class="spinner-border text-primary me-3"></div>
+                <div>
+                  <h6 class="mb-0">AI Assistant is thinking...</h6>
+                  <small class="text-muted">
+                    Please wait while we generate the best solution.
+                  </small>
+                </div>
+              </div>
+            </div>
+
+            <!-- all ready store Knowledge Base Result -->
+            <div
+              class="ai-result-card knowledge-card mt-4"
+              *ngFor="let item of AiSupportDetails; let i = index"
+            >
+              <!-- Header -->
+              <div
+                class="ai-header success-header cursor-pointer d-flex justify-content-between align-items-center"
+                (click)="toggleAccordion(i)"
+              >
+              <div>
+  <i class="fas fa-database me-2"></i>
+  Knowledge Base Result {{ i + 1 }}
+  <span class="text-light ms-2">
+    - {{ item.issue_text | slice:0:40 }}{{ item.issue_text?.length > 40 ? '...' : '' }}
+  </span>
+</div>
+
+                <div>
+                  <span class="badge bg-light text-success me-2">
+                    Cached Answer
+                  </span>
+
+                  <i
+                    class="fas"
+                    [ngClass]="
+                      openedIndex === i ? 'fa-chevron-up' : 'fa-chevron-down'
+                    "
+                  ></i>
+                </div>
+              </div>
+
+              <!-- Body -->
+              <div class="ai-body" *ngIf="openedIndex === i">
+                <div class="row mb-3">
+                  <div class="col-md-6">
+                    <strong>Category :</strong>
+                    {{ item.category_name }}
+                  </div>
+
+                  <div class="col-md-6">
+                    <strong>Description :</strong>
+                    {{ item.category_description }}
+                  </div>
+                </div>
+
+                <div class="row mb-3">
+                  <div class="col-md-6">
+                    <strong>Issue :</strong>
+                    {{ item.issue_text }}
+                  </div>
+
+                  <div class="col-md-6">
+                    <strong>Date :</strong>
+                    {{ item.created_at | date: "dd-MM-yyyy hh:mm a" }}
+                  </div>
+                </div>
+
+                <hr />
+
+                <div [innerHTML]="formatResponse(item.ai_response)"></div>
+              </div>
+            </div>
+        <!-- No data Found -->
+            <div
+  *ngIf="!AiSupportDetails || AiSupportDetails.length === 0"
+  class="text-center text-danger fw-bold fs-5 mt-4"
+>
+  <i class="fas fa-times-circle me-2"></i>
+  No Data Found
+</div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

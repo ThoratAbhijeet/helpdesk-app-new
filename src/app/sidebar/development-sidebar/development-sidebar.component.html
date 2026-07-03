@@ -32,6 +32,20 @@
            [routerLink]="['/developments', { outlets: { development_menu: 'tickets' } }]">
             <span><i class="fa fas fa-ticket me-2"></i></span> Tickets
           </li>
+           <li
+              class="nav-item"
+              routerLinkActive="active"
+               [routerLink]="[ '/developments', { outlets: { development_menu: 'ai-support' } } ]"
+            >
+            <span><i class="fa fas fa-robot me-2 "></i></span> Ai Support
+            </li>
+             <li
+              class="nav-item"
+              routerLinkActive="active"
+               [routerLink]="[ '/developments', { outlets: { development_menu: 'ai-FAQ' } } ]"
+            >
+            <span><i class="fas fa-info-circle me-2 "></i></span> FAQ
+            </li>
            <!-- Reports -->
              <li
               class="nav-item"

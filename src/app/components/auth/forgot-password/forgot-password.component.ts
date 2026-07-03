@@ -5,6 +5,7 @@ import { Observable, Subscription } from 'rxjs';
 import { AuthService } from '../auth.service';
 import { Router } from '@angular/router';
 import { SharedService } from '../../../shared/shared.service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-forgot-password',
@@ -25,7 +26,7 @@ export class ForgotPasswordComponent implements OnInit {
   timerSubscription: Subscription = new Subscription();;
   passwordVisible: boolean = false;
   confirmpasswordVisible: boolean = false;
-  constructor(private fb: FormBuilder, private _toastrService: ToastrService, private _authSerivce: AuthService, private router: Router, private _sharedService: SharedService
+  constructor(private fb: FormBuilder, private _toastrService: ToastrService, private _authSerivce: AuthService, private router: Router, private _sharedService: SharedService,private location: Location,
   ) { }
   ngOnInit(): void {
     this.createForm();
@@ -242,6 +243,8 @@ export class ForgotPasswordComponent implements OnInit {
     const seconds = this.remainingTime % 60;
     return `${minutes < 10 ? '0' + minutes : minutes}:${seconds < 10 ? '0' + seconds : seconds}`;
   }
-
+  goToback() {
+    this.location.back();
+  }
 }
 

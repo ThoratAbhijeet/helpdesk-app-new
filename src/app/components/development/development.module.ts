@@ -8,6 +8,8 @@ import { TicketsComponent } from './tickets/tickets.component';
 import { AddUpdateTicketComponent } from './tickets/add-update-ticket/add-update-ticket.component';
 import { ViewTicketComponent } from './tickets/view-ticket/view-ticket.component';
 import { SharedModule } from '../../shared/shared.module';
+import { AiSupportComponent } from './ai-support/ai-support.component';
+import { FaqComponent } from './faq/faq.component';
 
 
 @NgModule({
@@ -16,7 +18,9 @@ import { SharedModule } from '../../shared/shared.module';
     ReportsComponent,
     TicketsComponent,
     AddUpdateTicketComponent,
-    ViewTicketComponent
+    ViewTicketComponent,
+    AiSupportComponent,
+    FaqComponent
   ],
   imports: [
     CommonModule,

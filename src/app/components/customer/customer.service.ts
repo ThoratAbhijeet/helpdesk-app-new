@@ -467,5 +467,12 @@ export class CustomerService {
       params: params
     });
   }
-  
+  //AiSupport get by id ...
+   getAiSupportById (id: any) {
+    return this.http.get(this.baseUrl + 'api/user/gemini-chat/' + id)
+  }
+    //add new AiSupport...
+  addTicketAiSupport(data: any): Observable<any> {
+    return this.http.post(this.baseUrl + 'api/user/gemini-chat', data);
+  }
 }
