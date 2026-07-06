@@ -26,6 +26,8 @@ customerResponse: string = '';
 isLoadingAi: boolean = false;
 isKnowledgeOpen = true;
 openedIndex: number = 0; 
+  searchKey: any = '';
+  TicketcategoryId: any;
   constructor(
     private fb: FormBuilder,
     private _toastrService: ToastrService,
@@ -67,10 +69,14 @@ toggleAccordion(index: number) {
 
 
 
+ getSearchInput(searchKey: any) {
+    this.searchKey = searchKey;
+    this.getAiSupportById();
+  }
 
 
-getAiSupportById(id: any) {
-  this._customerService.getAiSupportById(id).subscribe({
+getAiSupportById() {
+  this._customerService.getAiSupportList('','',this.searchKey, this.TicketcategoryId ?? '').subscribe({
     next: (result: any) => {
 
       this.AiSupportDetails = result.data || [];
@@ -126,21 +132,36 @@ formatResponse(text: string): string {
       this.filteredCategoryList = this.allCategoryList;
     }
   }
-onCategoryChange(categoryId: number) {
-  this.getAiSupportById(categoryId)
+onCategoryChange(categoryId: any) {
+
+  // null ya undefined dono case handle
+  this.TicketcategoryId = categoryId ?? '';
+
   const selectedCategory = this.filteredCategoryList.find(
     (x: any) => x.ticket_category_id == categoryId
   );
 
   if (selectedCategory) {
+
     this.TicketForm.patchValue({
-      description: selectedCategory.description
-    });
-     this.TicketForm.patchValue({
+      description: selectedCategory.description,
       issue: ''
     });
-    this.TicketForm.get('issue')?.reset();
+
+  } else {
+
+    // All Category select hone par
+    this.TicketForm.patchValue({
+      description: '',
+      issue: ''
+    });
+
+    this.TicketcategoryId = '';
   }
+
+  this.TicketForm.get('issue')?.reset();
+
+  this.getAiSupportById();
 }
 
 

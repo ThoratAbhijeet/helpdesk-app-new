@@ -475,4 +475,25 @@ export class CustomerService {
   addTicketAiSupport(data: any): Observable<any> {
     return this.http.post(this.baseUrl + 'api/user/gemini-chat', data);
   }
+  //AiSupport all list
+      getAiSupportList(page: any, perPage: any, key: any, ticket_category_id: any): Observable<any> {
+    let params: any = {
+      page: page,
+      perPage: perPage,
+      key: key,
+      ticket_category_id: ticket_category_id
+    };
+    // Check if page or perPage is empty and remove them from params if so
+    if (page === '' || perPage === '') {
+      delete params.page;
+      delete params.perPage;
+    }
+    if (key === '' || key === 'null') delete params.key;
+    if (ticket_category_id === '' || ticket_category_id === 'null') delete params.ticket_category_id;
+    // Make the HTTP GET request
+    return this.http.get(this.baseUrl + 'api/user/gemini-chat', {
+      params: params
+    });
+
+  }
 }

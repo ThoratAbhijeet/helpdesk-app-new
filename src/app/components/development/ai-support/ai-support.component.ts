@@ -1,5 +1,5 @@
 import { Component, NgZone, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { CustomerService } from '../../customer/customer.service';
 import { SharedService } from '../../../shared/shared.service';
@@ -51,8 +51,8 @@ openedIndex: number = 0;
   //Ticket form
   createForm() {
     this.TicketForm = this.fb.group({
-      issue: [null],
-      ticket_category_id: ['',Validators.required],
+       issue: ['', [this.technicalQueryValidator()]],
+      ticket_category_id: [''],
       description: [''],
       user_id:[this.userId ]
     });
@@ -66,60 +66,24 @@ toggleAccordion(index: number) {
   this.openedIndex = this.openedIndex === index ? -1 : index;
 }
 
+submit() {
 
- submit() {
- this.addTicketAISupport();
+  if (this.TicketForm.get('issue')?.invalid) {
+    this.TicketForm.get('issue')?.markAsTouched();
+    return;
+  }
+
+  this.addTicketAISupport();
 }
 
   //add Ticket
 addTicketAISupport() {
 
-  if (this.TicketForm.invalid) {
-    this.TicketForm.markAllAsTouched();
-    this._toastrService.warning('Please fill all required fields.');
-    return;
-  }
-
-  // ✅ Agar Knowledge Base data already hai to Swal mat dikhao
-  if (this.AiSupportDetails && this.AiSupportDetails.length > 0) {
-    this.callAiSupportApi();
-    return;
-  }
-
-  // ✅ First time only Swal
-  Swal.fire({
-    title: 'Ask Gemini AI?',
-    html: `
-      <div style="font-size:15px">
-        <i class="fas fa-robot text-primary" style="font-size:50px;"></i>
-        <br><br>
-        Your issue will be analyzed by <b>Gemini AI Assistant</b>.
-        <br>
-        Do you want to continue?
-      </div>
-    `,
-    icon: 'question',
-    showCancelButton: true,
-    confirmButtonText: '<i class="fas fa-paper-plane"></i> Ask AI',
-    cancelButtonText: 'Cancel',
-    confirmButtonColor: '#4285F4',
-    cancelButtonColor: '#d33'
-  }).then((result) => {
-
-    if (result.isConfirmed) {
-      this.callAiSupportApi();
-    }
-
-  });
-
-}
-
-
-// Common API Function
-callAiSupportApi() {
-
   const data = this.TicketForm.getRawValue();
-localStorage.setItem('aiSupportForm', JSON.stringify(data));
+
+  // Form data save
+  localStorage.setItem('aiSupportForm', JSON.stringify(data));
+
   this.isLoadingAi = true;
 
   this._customerService.addTicketAiSupport(data).subscribe({
@@ -134,34 +98,22 @@ localStorage.setItem('aiSupportForm', JSON.stringify(data));
         this.customerResponse = '';
         this.openedIndex = -1;
 
-          // LocalStorage se ticket_category_id lo
-  const savedData = localStorage.getItem('aiSupportForm');
+        const savedData = localStorage.getItem('aiSupportForm');
 
-  if (savedData) {
-    const formData = JSON.parse(savedData);
+        if (savedData) {
+          const formData = JSON.parse(savedData);
+          this.getAiSupportById(formData.ticket_category_id);
+        }
 
-    this.getAiSupportById(formData.ticket_category_id);
-
-    // Optional
-    // localStorage.removeItem('aiSupportForm');
-  }
-
-  this.TicketForm.patchValue({
-    issue: ''
-  });
-
-        Swal.fire({
-          icon: 'success',
-          title: 'AI Analysis Completed',
-          text: res.message,
-          timer: 1500,
-          showConfirmButton: false
+        // Clear only issue field
+        this.TicketForm.patchValue({
+          issue: ''
         });
 
+        this._toastrService.success(res.message);
+
       } else {
-
         this._toastrService.warning(res.message);
-
       }
 
     },
@@ -263,6 +215,56 @@ onCategoryChange(categoryId: number) {
   goToback() {
     this.location.back();
   }
+technicalQueryValidator(): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
 
+    const value = (control.value || '').toLowerCase().trim();
+
+    if (!value) {
+      return null;
+    }
+
+   // Non Technical Keywords
+  const blockedKeywords = [
+    'distance',
+    'weather',
+    'temperature',
+    'train',
+    'flight',
+    'movie',
+    'cricket',
+    'ipl',
+    'football',
+    'recipe',
+    'hotel',
+    'restaurant',
+    'shopping',
+    'amazon',
+    'flipkart',
+    'salary',
+    'stock',
+    'bitcoin',
+    'news',
+    'pune',
+    'mumbai',
+    'delhi',
+    'goa',
+    'tour',
+    'travel',
+    'visa',
+    'google',
+    'youtube',
+    'instagram',
+    'facebook',
+    'whatsapp status'
+  ];
+
+    if (blockedKeywords.some(x => value.includes(x))) {
+      return { technicalQuery: true };
+    }
+
+    return null;
+  };
+}
 }
 
