@@ -1,273 +1,338 @@
-<div class="container-fluid p-0">
-  <div class="row justify-content-center mx-3">
-    <div class="col-md-12 m-4">
-      <div class="card p-3">
-        <div class="card-header d-flex justify-content-between p-3">
-          <strong class="text-dark fs-5"> AI Support</strong>
-          <button
-            type="button"
-            class="btn btn-secondary ms-3 px-4 btn-sm fw-bold"
-            (click)="goToback()"
-          >
-            Cancel
-          </button>
-        </div>
-        <!-- Updated Form UI for TicketForm -->
-        <div class="card-body">
-          <form [formGroup]="TicketForm">
-            <div class="row ">
+<div class="container-fluid py-2">
 
-  <!-- Category -->
-  <div class="col-md-4 mb-3">
-    <label class="mb-2 fw-semibold">
-      Category <span class="text-danger">*</span>
-    </label>
+  <div class="row justify-content-center">
 
-    <mat-select
-      formControlName="ticket_category_id"
-      placeholder="Select category"
-      class="form-control theme-input"
-      (selectionChange)="onCategoryChange($event.value)"
-    >
-      <mat-option>
-        <ngx-mat-select-search
-          [(ngModel)]="searchCategoryValue"
-          [ngModelOptions]="{ standalone: true }"
-          (input)="filterCategory()"
-          placeholderLabel="Search Category"
-          noEntriesFoundLabel="No result found"
-        >
-        </ngx-mat-select-search>
-      </mat-option>
+    <div class="col-xl-11 col-lg-12">
 
-      <mat-option
-        *ngFor="let source of filteredCategoryList"
-        [value]="source.ticket_category_id"
-      >
-        {{ source.name | titlecase }}
-      </mat-option>
-    </mat-select>
+      <div class="card ai-main-card">
 
-    <small
-      class="text-danger"
-      *ngIf="
-        controls['ticket_category_id'].invalid &&
-        (controls['ticket_category_id'].dirty ||
-          controls['ticket_category_id'].touched)
-      "
-    >
-      Please select Category
-    </small>
-  </div>
+        <!-- ================= HEADER ================= -->
 
-  <!-- Description -->
-  <div class="col-md-8 mb-3">
+        <div class="card-header ai-header-card">
 
-    <label class="mb-2 fw-semibold">
-      Description <span class="text-danger">*</span>
-    </label>
+          <div class="d-flex align-items-center">
 
-    <textarea
-      rows="3"
-      class="form-control"
-      formControlName="description"
-      placeholder="Describe your issue..."
-    >
-    </textarea>
+            <div class="header-icon">
 
-  </div>
+              <i class="fas fa-robot"></i>
 
-</div>
-
- 
-            <hr />
-            <!-- Loading -->
-            <div *ngIf="isLoadingAi" class="ai-loading-card mt-4">
-              <div class="d-flex align-items-center">
-                <div class="spinner-border text-primary me-3"></div>
-                <div>
-                  <h6 class="mb-0">AI Assistant is thinking...</h6>
-                  <small class="text-muted">
-                    Please wait while we generate the best solution.
-                  </small>
-                </div>
-              </div>
             </div>
 
-             <!-- ================= Empty State ================= -->
-  <div
-    class="ai-search-card"
-    *ngIf="!AiSupportDetails.length && !aiResponse && !isLoadingAi"
-  >
-    <div class="text-center">
+            <div class="ms-3">
 
-      <div class="ai-search-icon mb-3">
-        <i class="fas fa-robot"></i>
-      </div>
+              <h4 class="mb-0 fw-bold">
 
-      <h5 class="fw-bold">
-        Gemini AI Support Assistant
-      </h5>
+                Tecstaq AI Support
 
-      <p class="text-muted mb-0">
-        Describe your issue below and get an AI-generated solution instantly.
-      </p>
+              </h4>
 
-    </div>
-  </div>
-            <!-- all ready store Knowledge Base Result -->
+              <small>
+
+                Ask anything related to CRM, Tickets & Technical Issues
+
+              </small>
+
+            </div>
+
+          </div>
+
+          <button
+            class="btn btn-light px-4 fw-semibold"
+            (click)="goToback()">
+
+            <i class="fas fa-arrow-left me-2"></i>
+
+            Back
+
+          </button>
+
+        </div>
+
+        <!-- ================= BODY ================= -->
+
+        <div class="card-body ai-chat-wrapper">
+
+          <form [formGroup]="TicketForm">
+
+            <!-- TOP -->
+
+            <div class="row mb-4">
+
+              <div class="col-md-4">
+
+                <label class="fw-semibold mb-2">
+
+                  <i class="fas fa-layer-group me-2 text-primary"></i>
+
+                  Category
+
+                </label>
+
+                <mat-select
+                  formControlName="ticket_category_id"
+                  class="form-control theme-input"
+                  placeholder="Select Category"
+                  (selectionChange)="onCategoryChange($event.value)">
+
+                  <mat-option>
+
+                    <ngx-mat-select-search
+                      [(ngModel)]="searchCategoryValue"
+                      [ngModelOptions]="{standalone:true}"
+                      (input)="filterCategory()"
+                      placeholderLabel="Search Category"
+                      noEntriesFoundLabel="No Result Found">
+                    </ngx-mat-select-search>
+
+                  </mat-option>
+
+                  <mat-option
+                    *ngFor="let item of filteredCategoryList"
+                    [value]="item.ticket_category_id">
+
+                    {{item.name}}
+
+                  </mat-option>
+
+                </mat-select>
+
+              </div>
+
+              <div class="col-md-8">
+
+                <label class="fw-semibold mb-2">
+
+                  <i class="fas fa-file-alt me-2 text-success"></i>
+
+                  Description
+
+                </label>
+
+                <textarea
+                  rows="3"
+                  class="form-control"
+                  formControlName="description"
+                  placeholder="Describe your issue...">
+                </textarea>
+
+              </div>
+
+            </div>
+
+            <!-- Loading -->
+
+            <div *ngIf="isLoadingAi" class="thinking-card">
+
+              <div class="thinking-icon">
+
+                <i class="fas fa-robot"></i>
+
+              </div>
+
+              <div>
+
+                <h5 class="mb-1">
+
+                  AI is thinking...
+
+                </h5>
+
+                <small>
+
+                  Please wait while Tecstaq AI generates the best answer.
+
+                </small>
+
+              </div>
+
+            </div>
+
+            <!-- Welcome -->
+
             <div
-              class="ai-result-card knowledge-card mt-4"
-              *ngFor="let item of AiSupportDetails; let i = index"
-            >
-              <!-- Header -->
-              <div
-                class="ai-header success-header cursor-pointer d-flex justify-content-between align-items-center"
-                (click)="toggleAccordion(i)"
-              >
-               <div>
-  <i class="fas fa-database me-2"></i>
-  Knowledge Base Result {{ i + 1 }}
-  <span class="text-light ms-2">
-    - {{ item.issue_text | slice:0:40 }}{{ item.issue_text?.length > 40 ? '...' : '' }}
-  </span>
+              class="welcome-card"
+              *ngIf="!AiSupportDetails.length && !aiResponse && !isLoadingAi">
+
+          <div class="welcome-icon">
+  <img
+    src="assets/image/tecstaq-favicon_transparent-bg.png"
+    alt="Tecstaq AI"
+  />
 </div>
 
+              <h3>Tecstaq AI Assistant</h3>
+
+              <p>
+
+                Type your issue below and receive an instant AI-generated solution.
+
+              </p>
+
+            </div>
+
+            <!-- Knowledge Base -->
+
+            <div
+              *ngFor="let item of AiSupportDetails;let i=index"
+              class="knowledge-box mt-4">
+
+              <div
+                class="knowledge-header"
+                (click)="toggleAccordion(i)">
+
                 <div>
-                  <span class="badge bg-light text-success me-2">
-                    Cached Answer
+
+                  <i class="fas fa-database me-2"></i>
+
+                  Knowledge Base {{i+1}}
+
+                  <small class="ms-2">
+
+                    {{item.issue_text|slice:0:55}}{{item.issue_text.length>55?'...':''}}
+
+                  </small>
+
+                </div>
+
+                <div>
+
+                  <span class="badge bg-success">
+
+                    Cached
+
                   </span>
 
                   <i
-                    class="fas"
-                    [ngClass]="
-                      openedIndex === i ? 'fa-chevron-up' : 'fa-chevron-down'
-                    "
-                  ></i>
+                    class="fas ms-3"
+                    [ngClass]="openedIndex==i?'fa-chevron-up':'fa-chevron-down'">
+                  </i>
+
                 </div>
+
               </div>
 
-              <!-- Body -->
-              <div class="ai-body" *ngIf="openedIndex === i">
-                <div class="row mb-3">
+              <div
+                class="knowledge-body"
+                *ngIf="openedIndex==i">
+
+                <div class="row">
+
                   <div class="col-md-6">
-                    <strong>Category :</strong>
-                    {{ item.category_name }}
+
+                    <b>Category :</b>
+
+                    {{item.category_name}}
+
                   </div>
 
                   <div class="col-md-6">
-                    <strong>Description :</strong>
-                    {{ item.category_description }}
+
+                    <b>Date :</b>
+
+                    {{item.created_at | date:'dd-MM-yyyy hh:mm a'}}
+
                   </div>
+
                 </div>
 
-                <div class="row mb-3">
-                  <div class="col-md-6">
-                    <strong>Issue :</strong>
-                    {{ item.issue_text }}
-                  </div>
+                <hr>
 
-                  <div class="col-md-6">
-                    <strong>Date :</strong>
-                    {{ item.created_at | date: "dd-MM-yyyy hh:mm a" }}
-                  </div>
+                <div class="response-box">
+
+                  <div [innerHTML]="formatResponse(item.ai_response)"></div>
+
                 </div>
 
-                <hr />
-
-                <div class="ai-response-scroll">
-  <div [innerHTML]="formatResponse(item.ai_response)"></div>
-</div>
               </div>
+
             </div>
 
-            <!-- new Gemini Response -->
-         <div
-  class="ai-result-card gemini-card mt-4"
-  *ngIf="aiResponse && !isLoadingAi"
+            <!-- Gemini -->
+
+            <div
+              class="gemini-response mt-4"
+              *ngIf="aiResponse && !isLoadingAi">
+
+              <div class="response-top">
+
+                <div>
+
+                  <i class="fas fa-robot me-2"></i>
+
+                  Tecstaq AI Assistant
+
+                </div>
+
+                <span>
+
+                  AI Generated
+
+                </span>
+
+              </div>
+
+              <div class="response-body">
+
+                <div class="avatar">
+
+                  <i class="fas fa-robot"></i>
+
+                </div>
+
+                <div class="response-box">
+
+                  <div [innerHTML]="formatResponse(aiResponse)"></div>
+
+                </div>
+
+              </div>
+
+            </div>
+
+            <!-- Chat Input -->
+
+          <div class="chat-bottom">
+
+  <input
+    formControlName="issue"
+    class="chat-input"
+    placeholder="Message Tecstaq AI Assistant..."
+  />
+
+  <button
+    type="button"
+    class="send-btn"
+    (click)="submit()">
+
+    <i
+      class="fas"
+      [ngClass]="AiSupportDetails.length>0 || aiResponse ? 'fa-rotate-right':'fa-paper-plane'">
+    </i>
+
+  </button>
+
+</div>
+
+<!-- Validation Message -->
+<small
+  class="issue-error"
+  *ngIf="
+    TicketForm.get('issue')?.hasError('technicalQuery') &&
+    (TicketForm.get('issue')?.dirty || TicketForm.get('issue')?.touched)
+  "
 >
-  <div class="ai-header gemini-header">
-    <div>
-      <i class="fas fa-robot me-2"></i>
-      Gemini AI Assistant
-    </div>
+  <i class="fas fa-exclamation-circle me-1"></i>
+  Only technical support related queries are allowed.
+</small>
 
-    <span class="badge ai-badge">
-      ✨ AI Generated
-    </span>
-  </div>
-
-  <div class="ai-body">
-    <div class="ai-message">
-
-      <div class="ai-avatar">
-        <i class="fas fa-robot"></i>
-      </div>
-
-      <div class="ai-response-scroll">
-  <div [innerHTML]="formatResponse(aiResponse)"></div>
-</div>
-
-    </div>
-  </div>
-</div>
- <hr class="mt-4">
-
-  <div class="row">
-
-    <!-- Issue -->
-    <div class="col-md-10 mb-3">
-
-      <label class="mb-2 fw-semibold">
-        {{ AiSupportDetails.length > 0 || aiResponse
-            ? 'Need Another Solution?'
-            : 'Issue' }}
-
-        <span class="text-danger">*</span>
-      </label>
-
-      <input
-        rows="3"
-        class="form-control"
-        formControlName="issue"
-        [placeholder]="AiSupportDetails.length > 0 || aiResponse
-          ? 'Ask another question...'
-          : 'Enter issue...'"
-      />
-
-    </div>
-
-    <!-- Button -->
-    <div class="col-md-2 d-flex align-items-end mb-3">
-
-      <button
-        type="button"
-        class="btn btn-primary w-100 ai-btn"
-        (click)="submit()"
-      >
-
-        <i
-          class="fas me-2"
-          [ngClass]="
-            AiSupportDetails.length > 0 || aiResponse
-              ? 'fa-rotate-right'
-              : 'fa-paper-plane'
-          "
-        ></i>
-
-        {{
-          AiSupportDetails.length > 0 || aiResponse
-            ? 'New Answer'
-            : 'Ask AI'
-        }}
-
-      </button>
-
-    </div>
-</div>
           </form>
+
         </div>
+
       </div>
+
     </div>
+
   </div>
+
 </div>
