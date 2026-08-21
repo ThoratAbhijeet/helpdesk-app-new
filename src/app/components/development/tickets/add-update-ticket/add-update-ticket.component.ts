@@ -54,7 +54,7 @@ export class AddUpdateTicketComponent implements OnInit {
     this.getAllDepartmentListWma();
     //  this.getAllCompanyListWma()
     this.getTicketAssignToById(this.userId);
-    this.getTicketTechnicianAssignToById(this.userId);
+    this.getTicketTechnicianAssignToById('');
     this.TicketId = this.url.snapshot.params['id'];
      this.controls['assigned_to'].patchValue(this.userId);
     //activate route get employee id
