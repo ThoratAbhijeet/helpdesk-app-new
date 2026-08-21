@@ -117,17 +117,18 @@ onCompanyChange(event: Event) {
 }
   //update Ticket
   editTicket() {
-   if (
-  this.TicketForm.value.ticket_status === 'Re-assign' &&
-  this.isEdit === true
-) {
-  this.controls['assigned_to'].patchValue(null);
-} else {
-  this.controls['assigned_to'].patchValue(this.userId);
-}
-
-    const data = this.TicketForm.getRawValue();
+  const data = this.TicketForm.getRawValue();
     
+//    if (
+//   this.TicketForm.value.ticket_status === 'Re-assign' &&
+//   this.isEdit === true
+// ) {
+//   this.controls['assigned_to'].patchValue(null);
+// } else {
+//   this.controls['assigned_to'].patchValue(this.userId);
+// }
+
+  
 
     if (this.TicketForm.valid) {
       Swal.fire({
@@ -228,11 +229,11 @@ onCompanyChange(event: Event) {
         this.controls['ticket_status'].patchValue(customerData.ticket_status)
         this.getAllServiceListWma(customerData.customer_id);
         this.getAllCategoryListWma(customerData.department_id);
-         if (customerData.ticket_status?.trim().toLowerCase() === 'open') {
-        this.controls['assigned_to'].patchValue(this.userId);
-      } else {
-        this.controls['assigned_to'].patchValue(customerData.assigned_to);
-      }
+      //    if (customerData.ticket_status?.trim().toLowerCase() === 'open') {
+      //   this.controls['assigned_to'].patchValue(this.userId);
+      // } else {
+      // }
+      this.controls['assigned_to'].patchValue(customerData.assigned_to);
       //  this.controls['remarks'].patchValue(customerData.ticketStatusHistory[0].remarks)
       }
     })
